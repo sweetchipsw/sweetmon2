@@ -1,0 +1,282 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title> sweetmon </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+        <link rel="stylesheet" href="/static/css/vendor.css">
+        <!-- Theme initialization -->
+        <script>
+            var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
+            {};
+            var themeName = themeSettings.themeName || 'blue';
+            {
+                document.write('<link rel="stylesheet" id="theme-style" href="/static/css/app-blue.css">');
+            }
+        </script>
+    </head>
+    <body>
+        <div class="main-wrapper">
+            <div class="app" id="app">
+                <header class="header">
+                    <div class="header-block header-block-collapse d-lg-none d-xl-none">
+                        <button class="collapse-btn" id="sidebar-collapse-btn">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </div>
+                    <div class="header-block header-block-search">
+                        <form role="search">
+                            <div class="input-container">
+                                <i class="fa fa-search"></i>
+                                <input type="search" placeholder="Search">
+                                <div class="underline"></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="header-block header-block-nav">
+                        <ul class="nav-profile">
+                            <li class="profile dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <div class="img" style="background-image: url('https://avatars3.githubusercontent.com/u/3959008?v=3&s=40')"> </div>
+                                    <span class="name"> sweetchip </span>
+                                </a>
+                                <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fa fa-user icon"></i> Profile </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="login.html">
+                                        <i class="fa fa-power-off icon"></i> Logout </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </header>
+                <aside class="sidebar">
+                    <div class="sidebar-container">
+                        <div class="sidebar-header">
+                            <div class="brand">
+                                <div class="logo">
+                                    <span class="l l1"></span>
+                                    <span class="l l2"></span>
+                                    <span class="l l3"></span>
+                                    <span class="l l4"></span>
+                                    <span class="l l5"></span>
+                                </div> SWEETMON </div>
+                        </div>
+                        <nav class="menu">
+                            <ul class="sidebar-menu metismenu" id="sidebar-menu">
+                                <li>
+                                    <a href="/">
+                                        <i class="fa fa-home"></i> Home </a>
+                                </li>
+                                <li>
+                                    <a href="/fuzzer">
+                                        <i class="fa fa-desktop"></i> Fuzzer
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/crash">
+                                        <i class="fa fa-file-text-o"></i> Crash
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="fa fa-cogs"></i> API
+                                        <i class="fa arrow"></i>
+                                    </a>
+                                    <ul class="sidebar-nav">
+                                        <li>
+                                            <a href="/client"> Sweetmon-client </a>
+                                        </li>
+                                        <li>
+                                            <a href="/docs/api"> API Documentation </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                    <footer class="sidebar-footer">
+                        <ul class="sidebar-menu metismenu" id="customize-menu">
+                            <li>
+                                <ul>
+                                    <li class="customize">
+                                        <div class="customize-item">
+                                            <div class="row customize-header">
+                                                <div class="col-4"> </div>
+                                                <div class="col-4">
+                                                    <label class="title">fixed</label>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label class="title">static</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label class="title">Sidebar:</label>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label>
+                                                        <input class="radio" type="radio" name="sidebarPosition" value="sidebar-fixed">
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label>
+                                                        <input class="radio" type="radio" name="sidebarPosition" value="">
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label class="title">Header:</label>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label>
+                                                        <input class="radio" type="radio" name="headerPosition" value="header-fixed">
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label>
+                                                        <input class="radio" type="radio" name="headerPosition" value="">
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label class="title">Footer:</label>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label>
+                                                        <input class="radio" type="radio" name="footerPosition" value="footer-fixed">
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label>
+                                                        <input class="radio" type="radio" name="footerPosition" value="">
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="customize-item">
+                                            <ul class="customize-colors">
+                                                <li>
+                                                    <span class="color-item color-red" data-theme="red"></span>
+                                                </li>
+                                                <li>
+                                                    <span class="color-item color-orange" data-theme="orange"></span>
+                                                </li>
+                                                <li>
+                                                    <span class="color-item color-green active" data-theme=""></span>
+                                                </li>
+                                                <li>
+                                                    <span class="color-item color-seagreen" data-theme="seagreen"></span>
+                                                </li>
+                                                <li>
+                                                    <span class="color-item color-blue" data-theme="blue"></span>
+                                                </li>
+                                                <li>
+                                                    <span class="color-item color-purple" data-theme="purple"></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <a href="">
+                                    <i class="fa fa-cog"></i> Customize </a>
+                            </li>
+                        </ul>
+                    </footer>
+                </aside>
+                {% block content %}
+                {% endblock %}
+                <footer class="footer">
+                    <div class="footer-block buttons">
+                        <a class="github-button" href="https://github.com/modularcode/modular-admin-html" data-size="small" data-show-count="true" aria-label="Star sweetchipsw/sweetmon on GitHub">Star</a>
+                        <a class="github-button" href="https://github.com/sweetchipsw/sweetmon" data-size="small" data-show-count="true" aria-label="Star sweetchipsw/sweetmon on GitHub">Star</a>
+                    </div>
+                    <div class="footer-block author">
+                        <ul>
+                            <li> Created by
+                                <a href="https://github.com/modularcode">sweetchip</a>
+                            </li>
+                            <li> Template by
+                                <a href="https://github.com/modularcode/modular-admin-html">modularcode</a>
+                            </li>
+                        </ul>
+                    </div>
+                </footer>
+                <div class="modal fade" id="modal-media">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Media Library</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    <span class="sr-only">Close</span>
+                                </button>
+                            </div>
+                            <div class="modal-body modal-tab-container">
+                                <ul class="nav nav-tabs modal-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#gallery" data-toggle="tab" role="tab">Gallery</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#upload" data-toggle="tab" role="tab">Upload</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content modal-tab-content">
+                                    <div class="tab-pane fade" id="gallery" role="tabpanel">
+                                        <div class="images-container">
+                                            <div class="row"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade active in" id="upload" role="tabpanel">
+                                        <div class="upload-container">
+                                            <div id="dropzone">
+                                                <form action="/" method="POST" enctype="multipart/form-data" class="dropzone needsclick dz-clickable" id="demo-upload">
+                                                    <div class="dz-message-block">
+                                                        <div class="dz-message needsclick"> Drop files here or click to upload. </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Insert Selected</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </div>
+        </div>
+        <!-- Reference block for JS -->
+        <div class="ref" id="ref">
+            <div class="color-primary"></div>
+            <div class="chart">
+                <div class="color-primary"></div>
+                <div class="color-secondary"></div>
+            </div>
+        </div>
+        <!-- Place this tag in your head or just before your close body tag. -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <script src="/static/js/vendor.js"></script>
+        <script src="/static/js/app.js"></script>
+    </body>
+</html>

@@ -1,0 +1,218 @@
+                {% extends 'web/base.html' %}
+
+                {% block content %}
+                <div class="sidebar-overlay" id="sidebar-overlay"></div>
+                <div class="sidebar-mobile-menu-handle" id="sidebar-mobile-menu-handle"></div>
+                <div class="mobile-menu-handle"></div>
+                <article class="content responsive-tables-page">
+                    <section class="section">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-block sameheight-item">
+                                    <div class="title-block">
+                                        <h3 class="title"> Crash Report <a href="/crash/"><button type="button" class="btn btn-info-outline pull-right">Back to list</button></a> </h3>
+                                    <hr>
+                                    </div>
+                                    <form role="form">
+                                        <div class="row form-group">
+                                            <div class="col-2">
+                                                <label class="control-label">Crash Title</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="text-muted">AddressSanitizer: Heap-buffer-over-flow in ...</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-2">
+                                                <label class="control-label">Reported Date</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="text-muted">2 hours ago</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-2">
+                                                <label class="control-label">Target</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="text-muted">Safari JSC</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-2">
+                                                <label class="control-label">Fuzzer Name</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="text-muted">sweetfuzz-browser-jsc01</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-2">
+                                                <label class="control-label">Crash Log</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <textarea rows="3" class="form-control boxed" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>ERROR: AddressSanitizer: heap-use-after-free on address 0x61ebf1c0 at pc 0x6982ae0d bp 0x5d04bb38 sp 0x5d04bb30
+READ of size 4 at 0x61ebf1c0 thread T14 (Chrome_IOThread)
+    #0 0x6982ae0c in content::GpuChannelHost::MessageFilter::OnChannelError() ???:0
+    #1 0x6950ec0e in IPC::ChannelProxy::Context::OnChannelError() ???:0
+    #2 0x69512a5f in base::internal::Invoker<2, base::internal::BindState<base::internal::RunnableAdapter<void (IPC::ChannelProxy::Context::*)(scoped_ptr<IPC::Message, base::DefaultDeleter<IPC::Message> >)>, void ()(IPC::ChannelProxy::Context*, scoped_ptr<IPC::Message, base::DefaultDeleter<IPC::Message> >), void ()(scoped_refptr<IPC::ChannelProxy::Context>, base::internal::PassedWrapper<scoped_ptr<IPC::Message, base::DefaultDeleter<IPC::Message> > >)>, void ()(IPC::ChannelProxy::Context*, scoped_ptr<IPC::Message, base::DefaultDeleter<IPC::Message> >)>::Run(base::internal::BindStateBase*) ???:0
+    #3 0x68843db4 in MessageLoop::RunTask(base::PendingTask const&) ???:0
+    #4 0x688444a1 in MessageLoop::DeferOrRunPendingTask(base::PendingTask const&) ???:0
+    #5 0x68845404 in MessageLoop::DoWork() ???:0
+    #6 0x687d1acd in base::MessagePumpLibevent::Run(base::MessagePump::Delegate*) ???:0
+    #7 0x688429f7 in MessageLoop::RunInternal() ???:0
+    #8 0x688973a0 in base::RunLoop::Run() ???:0
+    #9 0x688408a6 in MessageLoop::Run() ???:0
+    #10 0x688efd3b in base::Thread::Run(MessageLoop*) ???:0
+    #11 0x6f897ab1 in content::BrowserThreadImpl::IOThreadRun(MessageLoop*) ???:0
+    #12 0x6f897d4e in .LBB14_12 content/browser/browser_thread_impl.cc:0
+    #13 0x688effe2 in base::Thread::ThreadMain() ???:0
+    #14 0x688df9f8 in base::(anonymous namespace)::ThreadFunc(void*) base/threading/platform_thread_posix.cc:0
+    #15 0x671d1e5c in __asan::AsanThread::ThreadStart() ??:0
+    #16 0x6614926d in ?? ??:0
+0x61ebf1c0 is located 0 bytes inside of 20-byte region [0x61ebf1c0,0x61ebf1d4)
+freed by thread T0 (chrome) here:
+    #0 0x671cd873 in operator delete(void*) ??:0
+    #1 0x6f982bed in content::BrowserGpuChannelHostFactory::Terminate() ???:0
+    #2 0x6f892eb7 in content::BrowserMainLoop::ShutdownThreadsAndCleanUp() ???:0
+    #3 0x6f88ddbb in content::BrowserShutdownImpl::ImmediateShutdownAndExitProcess() ???:0
+    #4 0x6f88dcea in content::ImmediateShutdownAndExitProcess() ???:0
+    #5 0x67ce2cd1 in browser::SessionEnding() ???:0
+    #6 0x7236a87f in (anonymous namespace)::BrowserX11IOErrorHandler(_XDisplay*) chrome/browser/chrome_browser_main_x11.cc:0
+    #7 0x66976de5 in ?? ??:0
+    #8 0x6697457e in ?? ??:0
+    #9 0x66964cf7 in ?? ??:0
+    #10 0x687ced8a in (anonymous namespace)::XSourcePrepare(_GSource*, int*) base/message_pump_aurax11.cc:0
+    #11 0x66810057 in ?? ??:0
+    #12 0x668107ec in ?? ??:0
+    #13 0x66810a6e in ?? ??:0
+    #14 0x68921fb6 in base::MessagePumpGlib::RunWithDispatcher(base::MessagePump::Delegate*, base::MessagePumpDispatcher*) ???:0
+    #15 0x68922f05 in base::MessagePumpGlib::Run(base::MessagePump::Delegate*) ???:0
+previously allocated by thread T0 (chrome) here:
+    #0 0x671cd6f3 in operator new(unsigned int) ??:0
+    #1 0x6f982a70 in content::BrowserGpuChannelHostFactory::Initialize() ???:0
+    #2 0x6f891a60 in content::BrowserMainLoop::BrowserThreadsStarted() ???:0
+    #3 0x6f891642 in .LBB11_63 content/browser/browser_main_loop.cc:0
+    #4 0x6f89506e in content::BrowserMainRunnerImpl::Initialize(content::MainFunctionParams const&) ???:0
+    #5 0x6f88db03 in content::BrowserMain(content::MainFunctionParams const&) ???:0
+    #6 0x6840d4d2 in content::RunNamedProcessTypeMain(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, content::MainFunctionParams const&, content::ContentMainDelegate*) ???:0
+    #7 0x6840f15a in content::ContentMainRunnerImpl::Run() ???:0
+    #8 0x6840b192 in content::ContentMain(int, char const**, content::ContentMainDelegate*) ???:0
+    #9 0x671d7d7a in ChromeMain ??:0
+    #10 0x6607a408 in ?? ??:0
+Thread T14 (Chrome_IOThread) created by T0 (chrome) here:
+    #0 0x671c92bc in pthread_create ??:0
+    #1 0x688df4e6 in base::(anonymous namespace)::CreateThread(unsigned int, bool, base::PlatformThread::Delegate*, unsigned long*, base::ThreadPriority) base/threading/platform_thread_posix.cc:0
+    #2 0x688df3a4 in base::PlatformThread::Create(unsigned int, base::PlatformThread::Delegate*, unsigned long*) ???:0
+    #3 0x688ef725 in base::Thread::StartWithOptions(base::Thread::Options const&) ???:0
+    #4 0x6f891622 in .LBB11_63 content/browser/browser_main_loop.cc:0
+    #5 0x6f89506e in content::BrowserMainRunnerImpl::Initialize(content::MainFunctionParams const&) ???:0
+    #6 0x6f88db03 in content::BrowserMain(content::MainFunctionParams const&) ???:0
+    #7 0x6840d4d2 in content::RunNamedProcessTypeMain(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, content::MainFunctionParams const&, content::ContentMainDelegate*) ???:0
+    #8 0x6840f15a in content::ContentMainRunnerImpl::Run() ???:0
+    #9 0x6840b192 in content::ContentMain(int, char const**, content::ContentMainDelegate*) ???:0
+    #10 0x671d7d7a in ChromeMain ??:0
+    #11 0x6607a408 in ?? ??:0
+    #12 0x671d7b2c in _start ??:0
+Shadow byte and word:
+  0x2c3d7e38: fd
+  0x2c3d7e38: fd fd fd fd
+More shadow bytes:
+  0x2c3d7e28: 00 00 fb fb
+  0x2c3d7e2c: fb fb fb fb
+  0x2c3d7e30: fa fa fa fa
+  0x2c3d7e34: fa fa fa fa
+=>0x2c3d7e38: fd fd fd fd
+  0x2c3d7e3c: fd fd fd fd
+  0x2c3d7e40: fa fa fa fa
+  0x2c3d7e44: fa fa fa fa
+  0x2c3d7e48: fd fd fd fd
+Stats: 34M malloced (36M for red zones) by 113342 calls
+Stats: 0M realloced by 428 calls
+Stats: 30M freed by 91085 calls
+Stats: 0M really freed by 0 calls
+Stats: 75M (19304 full pages) mmaped in 147 calls
+  mmaps   by size class: 7:106470; 8:10235; 9:3069; 10:2555; 11:1020; 12:384; 13:192; 14:352; 15:48; 16:152; 18:2; 19:61; 20:3;
+  mallocs by size class: 7:101701; 8:6231; 9:1912; 10:1722; 11:679; 12:326; 13:170; 14:341; 15:44; 16:151; 18:1; 19:61; 20:3;
+  frees   by size class: 7:81532; 8:5012; 9:1528; 10:1469; 11:615; 12:251; 13:155; 14:295; 15:33; 16:133; 19:60; 20:2;
+  rfrees  by size class:
+Stats: malloc large: 260 small slow: 912
+==11085== ABORTING</textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-2">
+                                                <label class="control-label">Download Testcase</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <input type="text" readonly="readonly" class="form-control boxed" value="https://sweetmon.zeroday.me/">
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-2">
+                                                <label class="control-label">File Size</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="text-muted">1742 bytes</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-2">
+                                                <label class="control-label">Crash Hash</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="text-muted">42875e6d454e2a6b38409ba6711c48c9</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-2">
+                                                <label class="control-label">Duplicate Crash</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="text-muted">42</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-2">
+                                                <label class="control-label">Comment</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <textarea rows="3" class="form-control boxed" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>What a beautiful crash!</textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-2">
+                                                <label class="control-label">Save</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <button type="submit" class="btn btn-info-outline btn-lg btn-block"> Submit </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-12">
+                                                <a href="/crash/">
+                                                    <button type="button" class="btn btn-warning-outline btn-lg btn-block"> Back to list </button>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </article>
+
+                {% endblock %}

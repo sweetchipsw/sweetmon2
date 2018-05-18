@@ -1,0 +1,92 @@
+                {% extends 'web/base.html' %}
+
+                {% block content %}
+                <div class="sidebar-overlay" id="sidebar-overlay"></div>
+                <div class="sidebar-mobile-menu-handle" id="sidebar-mobile-menu-handle"></div>
+                <div class="mobile-menu-handle"></div>
+                <article class="content responsive-tables-page">
+                    <div class="title-block">
+                        <h1 class="title"> Fuzzer </h1>
+                        <p class="title-description"> Manage your fuzzer and check their health. </p>
+                    </div>
+                    <section class="section">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-block">
+                                        <div class="card-title-block">
+                                            <h3 class="title"> Fuzzer List <a href="/admin/api/fuzzer/add/"><button type="button" class="btn btn-info-outline pull-right">Add New Fuzzer</button></a></h3>
+                                        </div>
+                                        <section class="example">
+                                            <div class="table-flip-scroll">
+                                                <table class="table table-striped table-bordered table-hover flip-content">
+                                                    <thead class="flip-header">
+                                                        <tr>
+                                                            <th>IDX</th>
+                                                            <th>Name</th>
+                                                            <th>Running</th>
+                                                            <th>Target</th>
+                                                            <th>Crashes</th>
+                                                            <th>Last report</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="odd gradeX">
+                                                            <td>1</td>
+                                                            <td>sweetfuzz-browser01</td>
+                                                            <td>True</td>
+                                                            <td class="center">V8 Engine</td>
+                                                            <td class="center">142</td>
+                                                            <td class="center">2 hours ago</td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td>2</td>
+                                                            <td>sweetfuzz-browser02</td>
+                                                            <td>True</td>
+                                                            <td class="center">V8 Engine</td>
+                                                            <td class="center">142</td>
+                                                            <td class="center">2 hours ago</td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td>3</td>
+                                                            <td>sweetfuzz-browser03</td>
+                                                            <td>False</td>
+                                                            <td class="center">JSCRIPT Engine</td>
+                                                            <td class="center">513</td>
+                                                            <td class="center">2 hours ago</td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td>4</td>
+                                                            <td>sweetfuzz-browser04</td>
+                                                            <td>True</td>
+                                                            <td class="center">JSC</td>
+                                                            <td class="center">122</td>
+                                                            <td class="center">2 hours ago</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </section>
+                                        <section>
+                                            <div class="btn-group btn-group-lg">
+                                                <button type="button" class="btn btn-secondary"> < </button>
+                                                <button type="button" class="btn btn-secondary">1</button>
+                                                <button type="button" class="btn btn-secondary">2</button>
+                                                <button type="button" class="btn btn-secondary">3</button>
+                                                <button type="button" class="btn btn-secondary">4</button>
+                                                <button type="button" class="btn btn-secondary">5</button>
+                                                <button type="button" class="btn btn-secondary">6</button>
+                                                <button type="button" class="btn btn-secondary">7</button>
+                                                <button type="button" class="btn btn-secondary">8</button>
+                                                <button type="button" class="btn btn-secondary">9</button>
+                                                <button type="button" class="btn btn-secondary">10</button>
+                                                <button type="button" class="btn btn-secondary"> > </button>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </article>
+                {% endblock %}

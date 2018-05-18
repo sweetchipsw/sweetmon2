@@ -1,0 +1,637 @@
+                {% extends 'web/base.html' %}
+
+                {% block content %}
+                <div class="sidebar-overlay" id="sidebar-overlay"></div>
+                <div class="sidebar-mobile-menu-handle" id="sidebar-mobile-menu-handle"></div>
+                <div class="mobile-menu-handle"></div>
+                <article class="content dashboard-page">
+                    <section class="section">
+                        <div class="row sameheight-container">
+                            <div class="col col-12 col-sm-12 col-md-6 col-xl-5 stats-col">
+                                <div class="card sameheight-item stats" data-exclude="xs">
+                                    <div class="card-block">
+                                        <div class="title-block">
+                                            <h4 class="title"> Stats </h4>
+                                            <p class="title-description"> Website metrics for
+                                                <a href="http://modularteam.github.io/modularity-free-admin-dashboard-theme-html/"> your awesome project </a>
+                                            </p>
+                                        </div>
+                                        <div class="row row-sm stats-container">
+                                            <div class="col-12 col-sm-6 stat-col">
+                                                <div class="stat-icon">
+                                                    <i class="fa fa-rocket"></i>
+                                                </div>
+                                                <div class="stat">
+                                                    <div class="value"> 5407 </div>
+                                                    <div class="name"> Active Fuzzers </div>
+                                                </div>
+                                                <div class="progress stat-progress">
+                                                    <div class="progress-bar" style="width: 75%;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6 stat-col">
+                                                <div class="stat-icon">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                </div>
+                                                <div class="stat">
+                                                    <div class="value"> 78464 </div>
+                                                    <div class="name"> Unique Crashes </div>
+                                                </div>
+                                                <div class="progress stat-progress">
+                                                    <div class="progress-bar" style="width: 25%;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6  stat-col">
+                                                <div class="stat-icon">
+                                                    <i class="fa fa-line-chart"></i>
+                                                </div>
+                                                <div class="stat">
+                                                    <div class="value"> $80.560 </div>
+                                                    <div class="name"> Bounty </div>
+                                                </div>
+                                                <div class="progress stat-progress">
+                                                    <div class="progress-bar" style="width: 60%;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6  stat-col">
+                                                <div class="stat-icon">
+                                                    <i class="fa fa-users"></i>
+                                                </div>
+                                                <div class="stat">
+                                                    <div class="value"> 359 </div>
+                                                    <div class="name"> Total users </div>
+                                                </div>
+                                                <div class="progress stat-progress">
+                                                    <div class="progress-bar" style="width: 34%;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6  stat-col">
+                                                <div class="stat-icon">
+                                                    <i class="fa fa-list-alt"></i>
+                                                </div>
+                                                <div class="stat">
+                                                    <div class="value"> 5912312 </div>
+                                                    <div class="name"> Total Testcases </div>
+                                                </div>
+                                                <div class="progress stat-progress">
+                                                    <div class="progress-bar" style="width: 49%;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6 stat-col">
+                                                <div class="stat-icon">
+                                                    <i class="fa fa-dollar"></i>
+                                                </div>
+                                                <div class="stat">
+                                                    <div class="value"> 780,064 </div>
+                                                    <div class="name"> Total Crashes </div>
+                                                </div>
+                                                <div class="progress stat-progress">
+                                                    <div class="progress-bar" style="width: 15%;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-12 col-sm-12 col-md-6 col-xl-7 history-col">
+                                <div class="card sameheight-item" data-exclude="xs" id="dashboard-history">
+                                    <div class="card-header card-header-sm bordered">
+                                        <div class="header-block">
+                                            <h3 class="title">History</h3>
+                                        </div>
+                                        <ul class="nav nav-tabs pull-right" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#visits" role="tab" data-toggle="tab">Crashes</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#downloads" role="tab" data-toggle="tab">Testcases</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane active fade show" id="visits">
+                                                <p class="title-description"> Number of unique crashes last 30 days </p>
+                                                <div id="dashboard-visits-chart"></div>
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="downloads">
+                                                <p class="title-description"> Number of testcases last 30 days </p>
+                                                <div id="dashboard-downloads-chart"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="row sameheight-container">
+                            <div class="col-xl-8">
+                                <div class="card sameheight-item items" data-exclude="xs,sm,lg">
+                                    <div class="card-header bordered">
+                                        <div class="header-block">
+                                            <h3 class="title"> Recent Crash Logs </h3>
+                                            <a href="/crash/" class="btn btn-primary btn-sm"> Go to list </a>
+                                        </div>
+                                    </div>
+                                    <ul class="item-list striped">
+                                        <li class="item item-list-header">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-header fixed item-col-img xs"></div>
+                                                <div class="item-col item-col-header item-col-title">
+                                                    <div>
+                                                        <span>Title</span>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-header item-col-sales">
+                                                    <div>
+                                                        <span>Fuzzer</span>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-header item-col-stats">
+                                                    <div class="no-overflow">
+                                                        <span>Crash Count</span>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-header item-col-date">
+                                                    <div>
+                                                        <span>Report date</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> AddressSanitizer: Heap-Buffer-Overflow... </h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> browser-01 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 52 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> AddressSanitizer: Heap-Buffer-Overflow... </h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> browser-01 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 52 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> AddressSanitizer: Heap-Buffer-Overflow... </h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> browser-01 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 52 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> AddressSanitizer: Heap-Buffer-Overflow... </h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> browser-01 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 52 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> AddressSanitizer: Heap-Buffer-Overflow... </h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> browser-01 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 52 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="card sameheight-item sales-breakdown" data-exclude="xs,sm,lg">
+                                    <div class="card-header">
+                                        <div class="header-block">
+                                            <h3 class="title"> Best Fuzzer </h3>
+                                        </div>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="dashboard-sales-breakdown-chart" id="dashboard-sales-breakdown-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section map-tasks">
+                        <div class="row sameheight-container">
+                            <div class="col-xl-8">
+                                <div class="card sameheight-item items" data-exclude="xs,sm,lg">
+                                    <div class="card-header bordered">
+                                        <div class="header-block">
+                                            <h3 class="title"> Fuzzer list </h3>
+                                            <a href="/fuzzer/" class="btn btn-primary btn-sm"> Go to list </a>
+                                        </div>
+                                    </div>
+                                    <ul class="item-list striped">
+                                        <li class="item item-list-header">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-header fixed item-col-img xs"></div>
+                                                <div class="item-col item-col-header item-col-title">
+                                                    <div>
+                                                        <span>Fuzzer Name</span>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-header item-col-sales">
+                                                    <div>
+                                                        <span>Target</span>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-header item-col-stats">
+                                                    <div class="no-overflow">
+                                                        <span>Crash Count</span>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-header item-col-date">
+                                                    <div>
+                                                        <span>Last Crash date</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> browser-01</h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> Chrome V8 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 5212 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> browser-01</h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> Chrome V8 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 5212 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> browser-01</h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> Chrome V8 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 5212 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> browser-01</h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> Chrome V8 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 5212 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> browser-01</h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> Chrome V8 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 5212 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> browser-01</h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> Chrome V8 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 5212 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> browser-01</h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> Chrome V8 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 5212 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> browser-01</h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> Chrome V8 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 5212 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="" class="">
+                                                            <h4 class="item-title no-wrap"> browser-01</h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> Chrome V8 </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> 5212 </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div class="item-heading">Published</div>
+                                                    <div> 14 MAY 10:45 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card tasks sameheight-item" data-exclude="xs,sm">
+                                    <div class="card-header bordered">
+                                        <div class="header-block">
+                                            <h3 class="title"> Server Stastics </h3>
+                                        </div>
+                                        <div class="header-block pull-right">
+                                            <a href="" class="btn btn-primary btn-sm rounded pull-right"> Add new </a>
+                                        </div>
+                                    </div>
+                                     <ul class="item-list striped">
+                                        <li class="item item-list-header">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-header item-col-title">
+                                                    <div>
+                                                        <span>Item</span>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-header item-col-sales">
+                                                    <div>
+                                                        <span>Value</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-stats">
+                                                    <div> Disk Space </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div> 10.53 G </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-stats">
+                                                    <div> Memory </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div> 1.3G / 2G </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-stats">
+                                                    <div> CPU Load </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div> 77% </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                     </ul>
+                                    <hr>
+                                    <div class="card-header bordered">
+                                        <div class="header-block">
+                                            <h3 class="title"> About SWEETMON2</h3>
+                                        </div>
+                                    </div>
+                                     <ul class="item-list striped">
+                                        <li class="item item-list-header">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-header item-col-title">
+                                                    <div>
+                                                        <span>Item</span>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-header item-col-sales">
+                                                    <div>
+                                                        <span>Value</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-stats">
+                                                    <div> Create By </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div> sweetchip </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-stats">
+                                                    <div> Github </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div> github.com/sweetchipsw </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-stats">
+                                                    <div> Bitcoin </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div> 1M7usjq5PNz7vjWz1oyyzj2VHwKC6EmSsi </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-stats">
+                                                    <div> Ethereum :  </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div> 0x93357b84488DDC8D52e2C6E51dF745B026F95B71 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                     </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                </article>
+                {% endblock %}
