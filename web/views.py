@@ -48,6 +48,16 @@ def sweetmon_client(request):
     return render(request, 'web/sweetmon_client.html', context)
 
 
+def storage(request):
+    context = {}
+    return render(request, 'web/storage.html', context)
+
+
+def storage_detail(request, idx):
+    context = {}
+    return render(request, 'web/storage_detail.html', context)
+
+
 def error_not_found(request):
     return render(request, 'common/404.html')
 

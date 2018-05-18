@@ -130,6 +130,7 @@ LOGIN_URL = "/account/login/"
 LOGIN_REDIRECT_URL = "/"
 
 CRASH_STORAGE_ROOT = os.path.join(BASE_DIR, 'file/crash/')
+USER_STORAGE_ROOT = os.path.join(BASE_DIR, 'file/users/')
 IMAGE_STORAGE_ROOT = os.path.join(BASE_DIR, 'file/image/')
 
 

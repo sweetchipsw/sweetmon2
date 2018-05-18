@@ -6,8 +6,8 @@
                 <div class="mobile-menu-handle"></div>
                 <article class="content responsive-tables-page">
                     <div class="title-block">
-                        <h1 class="title"> Crash </h1>
-                        <p class="title-description"> Manage your crashes!</p>
+                        <h1 class="title"> Storage </h1>
+                        <p class="title-description"> Distribute your fuzzer and testcase! </p>
                     </div>
                     <section class="section">
                         <div class="row">
@@ -15,7 +15,7 @@
                                 <div class="card">
                                     <div class="card-block">
                                         <div class="card-title-block">
-                                            <h3 class="title"> Crash List </h3>
+                                            <h3 class="title"> File List <a href="/admin/api/storage/add/"><button type="button" class="btn btn-info-outline pull-right">Upload New File</button></a></h3>
                                         </div>
                                         <section class="example">
                                             <div class="table-flip-scroll">
@@ -23,55 +23,38 @@
                                                     <thead class="flip-header">
                                                         <tr>
                                                             <th>IDX</th>
-                                                            <th>Fuzzer</th>
-                                                            <th>Target</th>
                                                             <th>Title</th>
-                                                            <th>Latest report</th>
-                                                            <th>Duplicated crashes</th>
+                                                            <th>File Name</th>
+                                                            <th>File Size</th>
+                                                            <th>Registration Date</th>
+                                                            <th>Download Count</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr class="odd gradeX">
                                                             <td>1</td>
-                                                            <td>sweetfuzz-browser01</td>
-                                                            <td>Internet Explorer</td>
-                                                            <td class="center"><a href="/crash/1">AddressSanitizer: Heap-Use-After-Free:...</a></td>
-                                                            <td class="center">1 hours ago</td>
-                                                            <td class="center">1540</td>
+                                                            <td><a href="/storage/1">jsc-asan-release01</a></td>
+                                                            <td>jsc_asan.zip</td>
+                                                            <td>36.7 MB</td>
+                                                            <td>2 hours ago</td>
+                                                            <td>44</td>
                                                         </tr>
                                                         <tr class="odd gradeX">
-                                                            <td>1</td>
-                                                            <td>sweetfuzz-browser02</td>
-                                                            <td>Internet Explorer</td>
-                                                            <td class="center">AddressSanitizer: Heap-Use-After-Free:...</td>
-                                                            <td class="center">1 hours ago</td>
-                                                            <td class="center">0</td>
+                                                            <td>2</td>
+                                                            <td><a href="/storage/1">jsc-asan-release01</a></td>
+                                                            <td>jsc_asan.zip</td>
+                                                            <td>36.7 MB</td>
+                                                            <td>2 hours ago</td>
+                                                            <td>44</td>
                                                         </tr>
                                                         <tr class="odd gradeX">
-                                                            <td>1</td>
-                                                            <td>sweetfuzz-browser01</td>
-                                                            <td>Internet Explorer</td>
-                                                            <td class="center">AddressSanitizer: Heap-Use-After-Free:...</td>
-                                                            <td class="center">12 hours ago</td>
-                                                            <td class="center">10</td>
+                                                            <td>3</td>
+                                                            <td><a href="/storage/1">jsc-asan-release01</a></td>
+                                                            <td>jsc_asan.zip</td>
+                                                            <td>36.7 MB</td>
+                                                            <td>2 hours ago</td>
+                                                            <td>44</td>
                                                         </tr>
-                                                        <tr class="odd gradeX">
-                                                            <td>1</td>
-                                                            <td>sweetfuzz-browser04</td>
-                                                            <td>Internet Explorer</td>
-                                                            <td class="center">AddressSanitizer: Heap-Use-After-Free:...</td>
-                                                            <td class="center">15 hours ago</td>
-                                                            <td class="center">70</td>
-                                                        </tr>
-                                                        <tr class="odd gradeX">
-                                                            <td>1</td>
-                                                            <td>sweetfuzz-browser03</td>
-                                                            <td>Internet Explorer</td>
-                                                            <td class="center">AddressSanitizer: Heap-Use-After-Free:...</td>
-                                                            <td class="center">41 days ago</td>
-                                                            <td class="center">51</td>
-                                                        </tr>
-
                                                     </tbody>
                                                 </table>
                                             </div>

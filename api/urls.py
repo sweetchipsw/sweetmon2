@@ -8,8 +8,12 @@ urlpatterns = [
 
     # API for interacting with clients.
     path('crash/upload', views.test1, name='crash-upload-crash'),
+
     path('fuzzer/update_info', views.test1, name='fuzzer-update-client'),
     path('fuzzer/ping', views.test1, name='fuzzer-ping'),
+
+    path('storage/list', views.test1, name='storage-list'),
+    path('storage/download', views.test1, name='storage-download'),
 
     # ETC
     path('health', views.test1, name='health-checker'),
