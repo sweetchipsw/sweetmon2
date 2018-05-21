@@ -1,3 +1,5 @@
+# Ignore user files
+file/*
 
 # Created by https://www.gitignore.io/api/vim,macos,django,python,pycharm,database,virtualenv,sublimetext
 
