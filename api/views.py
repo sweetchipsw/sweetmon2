@@ -7,17 +7,65 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 from django.utils.crypto import get_random_string
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 
 
-def index(request):
-    return HttpResponse("Hello world")
+def apikey_required_operator(request):
+    # Raise http404 exception if api key is not exists in HTTP header.
+    if "apikey" not in request.POST:
+        raise Http404
 
 
-def test(request):
-    return HttpResponse("Hello world Test")
+def apikey_required(operation):
+    def wrapper(*args, **kwargs):
+        request = args[0]
+        return apikey_required_operator(request)
+    return wrapper
 
 
-def test1(request):
+@apikey_required
+@require_http_methods(["GET"])
+def crash_download(request):
     return HttpResponse("Hello world Test1")
 
+
+@apikey_required
+@require_http_methods(["POST"])
+def crash_generate_url(request):
+    return HttpResponse("Hello world Test1")
+
+
+@apikey_required
+@require_http_methods(["POST"])
+def crash_upload(request):
+    return HttpResponse("Hello world Test1")
+
+
+@apikey_required
+@require_http_methods(["GET"])
+def fuzzer_update_info(request):
+    return HttpResponse("Hello world Test1")
+
+@apikey_required
+@require_http_methods(["GET"])
+def fuzzer_ping(request):
+    return HttpResponse("Hello world Test1")
+
+
+@apikey_required
+@require_http_methods(["GET"])
+def storage_list(request):
+    return HttpResponse("Hello world Test1")
+
+
+@apikey_required
+@require_http_methods(["GET"])
+def storage_download(request):
+    return HttpResponse("Hello world Test1")
+
+
+@apikey_required
+@require_http_methods(["GET"])
+def health(request):
+    result = {"result":True}
+    return JsonResponse(result)
