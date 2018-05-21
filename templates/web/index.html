@@ -20,8 +20,8 @@
                                                     <i class="fa fa-rocket"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> 5407 </div>
-                                                    <div class="name"> Active Fuzzers </div>
+                                                    <div class="value"> {{ fuzzer.count }} </div>
+                                                    <div class="name"> Fuzzers </div>
                                                 </div>
                                                 <div class="progress stat-progress">
                                                     <div class="progress-bar" style="width: 75%;"></div>
@@ -32,7 +32,7 @@
                                                     <i class="fa fa-shopping-cart"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> 78464 </div>
+                                                    <div class="value"> {{ crash.count }} </div>
                                                     <div class="name"> Unique Crashes </div>
                                                 </div>
                                                 <div class="progress stat-progress">
@@ -56,7 +56,7 @@
                                                     <i class="fa fa-users"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> 359 </div>
+                                                    <div class="value"> {{ user.count }} </div>
                                                     <div class="name"> Total users </div>
                                                 </div>
                                                 <div class="progress stat-progress">

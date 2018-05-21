@@ -19,7 +19,7 @@
                                                 <label class="control-label">Title</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">sweetfuzz-browser-jsc01</p>
+                                                <p class="text-muted">{{ storage.title }}/p>
                                             </div>
                                         </div>
                                         <div class="row form-group">
@@ -27,7 +27,7 @@
                                                 <label class="control-label">filename</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">jsc_release.zip</p>
+                                                <p class="text-muted">{{ storage.original_name }}</p>
                                             </div>
                                         </div>
                                         <div class="row form-group">
@@ -35,7 +35,7 @@
                                                 <label class="control-label">Hash</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">42875e6d454e2a6b38409ba6711c48c9</p>
+                                                <p class="text-muted">{{ storage.hash }}</p>
                                             </div>
                                         </div>
 
@@ -44,7 +44,7 @@
                                                 <label class="control-label">File Size</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">2.5 MB</p>
+                                                <p class="text-muted">{{ storage.file.size }}</p>
                                             </div>
                                         </div>
 
@@ -80,7 +80,7 @@
                                                 <label class="control-label">Registration Date</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">2 Days ago </p>
+                                                <p class="text-muted">{{ storage.reg_date|timesince }} ago </p>
                                             </div>
                                         </div>
 
@@ -89,7 +89,7 @@
                                                 <label class="control-label">Download Count</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">5521</p>
+                                                <p class="text-muted">{{ storage.download_count }}</p>
                                             </div>
                                         </div>
 
@@ -98,13 +98,13 @@
                                                 <label class="control-label">Comment</label>
                                             </div>
                                             <div class="col-10">
-                                                <textarea rows="3" class="form-control boxed" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>No dap</textarea>
+                                                <textarea rows="3" class="form-control boxed" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>No dap{{ storage.comment }}</textarea>
                                             </div>
                                         </div>
 
                                         <div class="row form-group">
                                             <div class="col-12">
-                                                <a href="/admin/api/fuzzer/1">
+                                                <a href="/admin/api/storage/{{ storage.id }}">
                                                     <button type="button" class="btn btn-info-outline btn-lg btn-block"> Go to preference </button>
                                                 </a>
                                             </div>

@@ -31,38 +31,18 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        {% if fuzzer_list %}
+                                                        {% for fuzzer in fuzzer_list %}
                                                         <tr class="odd gradeX">
-                                                            <td>1</td>
-                                                            <td><a href="/fuzzer/1">sweetfuzz-browser01</a></td>
-                                                            <td>True</td>
-                                                            <td class="center">V8 Engine</td>
-                                                            <td class="center">142</td>
-                                                            <td class="center">2 hours ago</td>
+                                                            <td>{{ fuzzer.id }}</td>
+                                                            <td><a href="/fuzzer/{{ fuzzer.id }}">{{ fuzzer.name }}</a></td>
+                                                            <td>{{ fuzzer.target }}</td>
+                                                            <td>{{ fuzzer.target|truncatechars:30 }}</td>
+                                                            <td>{{ fuzzer.crash_cnt }}</td>
+                                                            <td>{{ fuzzer.reg_date|timesince }} ago</td>
                                                         </tr>
-                                                        <tr class="odd gradeX">
-                                                            <td>2</td>
-                                                            <td>sweetfuzz-browser02</td>
-                                                            <td>True</td>
-                                                            <td class="center">V8 Engine</td>
-                                                            <td class="center">142</td>
-                                                            <td class="center">2 hours ago</td>
-                                                        </tr>
-                                                        <tr class="odd gradeX">
-                                                            <td>3</td>
-                                                            <td>sweetfuzz-browser03</td>
-                                                            <td>False</td>
-                                                            <td class="center">JSCRIPT Engine</td>
-                                                            <td class="center">513</td>
-                                                            <td class="center">2 hours ago</td>
-                                                        </tr>
-                                                        <tr class="odd gradeX">
-                                                            <td>4</td>
-                                                            <td>sweetfuzz-browser04</td>
-                                                            <td>True</td>
-                                                            <td class="center">JSC</td>
-                                                            <td class="center">122</td>
-                                                            <td class="center">2 hours ago</td>
-                                                        </tr>
+                                                        {% endfor %}
+                                                        {% endif %}
                                                     </tbody>
                                                 </table>
                                             </div>

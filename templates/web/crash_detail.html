@@ -19,7 +19,7 @@
                                                 <label class="control-label">Crash Title</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">AddressSanitizer: Heap-buffer-over-flow in ...</p>
+                                                <p class="text-muted">{{ crash.title }}</p>
                                             </div>
                                         </div>
 
@@ -28,7 +28,7 @@
                                                 <label class="control-label">Reported Date</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">2 hours ago</p>
+                                                <p class="text-muted">{{ crash.reg_date }} ago</p>
                                             </div>
 
                                         </div>
@@ -38,7 +38,7 @@
                                                 <label class="control-label">Target</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">Safari JSC</p>
+                                                <p class="text-muted">{{ crash.fuzzer.target }}</p>
                                             </div>
                                         </div>
 
@@ -47,7 +47,7 @@
                                                 <label class="control-label">Fuzzer Name</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">sweetfuzz-browser-jsc01</p>
+                                                <p class="text-muted">{{ crash.fuzzer.name }}</p>
                                             </div>
                                         </div>
 
@@ -142,7 +142,7 @@ Stats: 75M (19304 full pages) mmaped in 147 calls
   frees   by size class: 7:81532; 8:5012; 9:1528; 10:1469; 11:615; 12:251; 13:155; 14:295; 15:33; 16:133; 19:60; 20:2;
   rfrees  by size class:
 Stats: malloc large: 260 small slow: 912
-==11085== ABORTING</textarea>
+==11085== ABORTING{{ crash.crash_log }}</textarea>
                                             </div>
                                         </div>
 
@@ -162,7 +162,7 @@ Stats: malloc large: 260 small slow: 912
                                                 <label class="control-label">File Size</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">1742 bytes</p>
+                                                <p class="text-muted">{{ crash.crash_file.size }}</p>
                                             </div>
                                         </div>
 
@@ -171,7 +171,7 @@ Stats: malloc large: 260 small slow: 912
                                                 <label class="control-label">Crash Hash</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">42875e6d454e2a6b38409ba6711c48c9</p>
+                                                <p class="text-muted">{{ crash.crash_hash }}</p>
                                             </div>
                                         </div>
 
@@ -180,7 +180,7 @@ Stats: malloc large: 260 small slow: 912
                                                 <label class="control-label">Duplicate Crash</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">42</p>
+                                                <p class="text-muted">{{ crash.dup_crash_cnt }}</p>
                                             </div>
                                         </div>
 
@@ -189,7 +189,7 @@ Stats: malloc large: 260 small slow: 912
                                                 <label class="control-label">Comment</label>
                                             </div>
                                             <div class="col-10">
-                                                <textarea rows="3" class="form-control boxed" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>What a beautiful crash!</textarea>
+                                                <textarea rows="3" class="form-control boxed" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>{{ crash.comment }}</textarea>
                                             </div>
                                         </div>
 

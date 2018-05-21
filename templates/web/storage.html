@@ -31,30 +31,18 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        {% if storage_list %}
+                                                        {% for storage in storage_list %}
                                                         <tr class="odd gradeX">
-                                                            <td>1</td>
-                                                            <td><a href="/storage/1">jsc-asan-release01</a></td>
-                                                            <td>jsc_asan.zip</td>
-                                                            <td>36.7 MB</td>
-                                                            <td>2 hours ago</td>
-                                                            <td>44</td>
+                                                            <td>{{ storage.id }}</td>
+                                                            <td><a href="/storage/1">{{ storage.title }}</a></td>
+                                                            <td>{{ storage.original_name }}</td>
+                                                            <td>{{ storage.file.size|filesizeformat }}</td>
+                                                            <td>{{ storage.reg_date|timesince }} ago</td>
+                                                            <td>{{ storage.download_count }}</td>
                                                         </tr>
-                                                        <tr class="odd gradeX">
-                                                            <td>2</td>
-                                                            <td><a href="/storage/1">jsc-asan-release01</a></td>
-                                                            <td>jsc_asan.zip</td>
-                                                            <td>36.7 MB</td>
-                                                            <td>2 hours ago</td>
-                                                            <td>44</td>
-                                                        </tr>
-                                                        <tr class="odd gradeX">
-                                                            <td>3</td>
-                                                            <td><a href="/storage/1">jsc-asan-release01</a></td>
-                                                            <td>jsc_asan.zip</td>
-                                                            <td>36.7 MB</td>
-                                                            <td>2 hours ago</td>
-                                                            <td>44</td>
-                                                        </tr>
+                                                        {% endfor %}
+                                                        {% endif %}
                                                     </tbody>
                                                 </table>
                                             </div>

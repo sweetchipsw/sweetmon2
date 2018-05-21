@@ -36,7 +36,9 @@ class Fuzzer(models.Model):
     owner = models.ForeignKey(User, on_delete=None)
 
     name = models.CharField(max_length=32, null=True, blank=True)
+    target = models.CharField(max_length=256, null=True, blank=True)
     description = models.CharField(max_length=1024, null=True, blank=True)
+    crash_cnt = models.IntegerField(default=0)
 
     public_ip = models.CharField(max_length=16, blank=True)
     private_ip = models.CharField(max_length=16, blank=True)
@@ -47,7 +49,7 @@ class Fuzzer(models.Model):
     api_key = models.CharField(max_length=256, default=generate_api_key, help_text="", null=True, blank=True)
 
     def __str__(obj):
-        return "%s" % (obj.owner)
+        return "%s" % (obj.name)
 
 
 class Crash(models.Model):
