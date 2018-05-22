@@ -133,7 +133,7 @@ CRASH_STORAGE_ROOT = os.path.join(BASE_DIR, 'file/crash/')
 USER_STORAGE_ROOT = os.path.join(BASE_DIR, 'file/users/')
 IMAGE_STORAGE_ROOT = os.path.join(BASE_DIR, 'file/image/')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', "*"]
 
 if not DEBUG:
     SESSION_COOKIE_AGE = 60 * 30
