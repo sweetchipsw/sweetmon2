@@ -26,14 +26,7 @@ conditional_page = decorator_from_middleware(ConditionalGetMiddleware)
 
 def apikey_required_do(stub):
     """
-    Decorator to make a view only accept particular request methods.  Usage::
-
-        @require_http_methods(["GET", "POST"])
-        def my_view(request):
-            # I can assume now that only GET or POST requests make it this far
-            # ...
-
-    Note that request methods should be in uppercase.
+    Decorator to check 'api key' contains in HTTP Header.
     """
     def decorator(func):
         @wraps(func)
