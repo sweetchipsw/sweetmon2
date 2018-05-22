@@ -166,7 +166,6 @@ $(function() {
 	    rules: {
 	        username: {
 	            required: true,
-	            email: true
 	        },
 	        password: "required",
 	        agree: "required"
@@ -174,7 +173,6 @@ $(function() {
 	    messages: {
 	        username: {
 	            required: "Please enter username",
-	            email: "Please enter a valid email address"
 	        },
 	        password:  "Please enter password",
 	        agree: "Please accept our policy"
@@ -207,7 +205,6 @@ $(function() {
 	    	},
 	        email: {
 	            required: true,
-	            email: true
 	        },
 	        password: {
 				required: true,
@@ -255,7 +252,6 @@ $(function() {
 	    	lastname: "Please enter firstname and lastname",
 	        email: {
 	            required: "Please enter email",
-	            email: "Please enter a valid email address"
 	        },
 	        password: {
 	        	required: "Please enter password fields.",
@@ -289,13 +285,11 @@ $(function() {
 	    rules: {
 	        email1: {
 	            required: true,
-	            email: true
 	        }
 	    },
 	    messages: {
 	        email1: {
 	            required: "Please enter email address",
-	            email: "Please enter a valid email address"
 	        }
 	    },
 	    invalidHandler: function() {

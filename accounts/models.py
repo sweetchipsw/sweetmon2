@@ -30,8 +30,20 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     email = models.EmailField(max_length=256, null=True, blank=True)
+    telegram_userid = models.CharField(max_length=32)
+
+    use_telegram_alert = models.BooleanField(default=False, help_text="Use this feature if you want to subscribe crash.")
+    use_email_alert = models.BooleanField(default=False)
 
     profile_image = models.FileField(storage=image_storage, null=True, blank=True, upload_to=get_image_upload_path)
 
     def __str__(obj):
         return "%s" % (obj.owner)
+
+
+"""
+# TODO : Impl alertbot
+class AlertBot(models.Model):
+    owner = models.ForeignKey(User, on_delete=None)
+    title = models.CharField(max_length=1024)
+"""

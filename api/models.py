@@ -38,7 +38,7 @@ class Fuzzer(models.Model):
     name = models.CharField(max_length=32, null=True, blank=True)
     target = models.CharField(max_length=256, null=True, blank=True)
     description = models.CharField(max_length=1024, null=True, blank=True)
-    crash_cnt = models.IntegerField(default=0)
+    crash_cnt = models.IntegerField(default=0, blank=True, null=True)
 
     public_ip = models.CharField(max_length=16, blank=True)
     private_ip = models.CharField(max_length=16, blank=True)
@@ -53,12 +53,12 @@ class Fuzzer(models.Model):
 
 
 class Crash(models.Model):
-
     def __init__(self, *args, **kwargs):
         super(Crash, self).__init__(*args, **kwargs)
 
     owner = models.ForeignKey(User, on_delete=None)
     fuzzer = models.ForeignKey(Fuzzer, on_delete=None)
+    parent_idx = models.IntegerField(default=0)
 
     title = models.CharField(max_length=1024)
     crash_hash = models.CharField(max_length=256)
@@ -79,7 +79,6 @@ class Crash(models.Model):
 
 
 class Storage(models.Model):
-
     owner = models.ForeignKey(User, on_delete=None)
     title = models.CharField(max_length=1024)
     hash = models.CharField(max_length=256)

@@ -11,14 +11,11 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
-def index(request):
-    return HttpResponse("Hello world account")
+def login(request):
+    context = {}
+    return render(request, 'accounts/login.html', context)
 
 
-def test(request):
-    return HttpResponse("Hello world Test account")
-
-
-def test1(request):
-    return HttpResponse("Hello world Test1 account")
-
+def logout(request):
+    context = {}
+    return HttpResponseRedirect("/accounts/login")
