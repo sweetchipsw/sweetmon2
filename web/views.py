@@ -9,6 +9,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from api.models import Fuzzer, Crash, Storage
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import time
 
 
@@ -32,8 +33,27 @@ def fuzzer(request):
         fuzzer = Fuzzer.objects.filter(owner=request.user)
     except ObjectDoesNotExist:
         raise Http404
+
+    paginator = Paginator(fuzzer, 50)
+    page = request.GET.get('p', 1)
+    try:
+        fuzzer = paginator.page(page)
+    except PageNotAnInteger:
+        fuzzer = paginator.page(1)
+    except EmptyPage:
+        fuzzer = paginator.page(paginator.num_pages)
+
+    if page not in paginator.page_range:
+        paginator.page(1)
+
+    index = paginator.page_range.index(fuzzer.number)
+    max_index = len(paginator.page_range)
+    start_index = index - 5 if index >= 5 else 0
+    end_index = index + 5 if index <= max_index - 5 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+
     active_time = datetime.now() - timedelta(minutes=5)
-    context = {'fuzzer_list': fuzzer, 'active_time': active_time}
+    context = {'fuzzer_list': fuzzer, 'active_time': active_time, 'paginator': paginator, 'page_range': page_range}
     return render(request, 'web/fuzzer.html', context)
 
 
@@ -53,7 +73,26 @@ def crash(request):
         crash = Crash.objects.filter(owner=request.user, is_dup_crash=False, parent_idx=0)
     except ObjectDoesNotExist:
         raise Http404
-    context = {'crash_list':crash}
+
+    paginator = Paginator(crash, 100)
+    page = request.GET.get('p', 1)
+    try:
+        crash = paginator.page(page)
+    except PageNotAnInteger:
+        crash = paginator.page(1)
+    except EmptyPage:
+        crash = paginator.page(paginator.num_pages)
+
+    if page not in paginator.page_range:
+        paginator.page(1)
+
+    index = paginator.page_range.index(crash.number)
+    max_index = len(paginator.page_range)
+    start_index = index - 5 if index >= 5 else 0
+    end_index = index + 5 if index <= max_index - 5 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+
+    context = {'crash_list': crash, 'paginator': paginator, 'page_range': page_range}
     return render(request, 'web/crash.html', context)
 
 
@@ -63,7 +102,7 @@ def crash_detail(request, idx):
         crash = Crash.objects.get(owner=request.user, id=idx)
     except ObjectDoesNotExist:
         raise Http404
-    context = {'crash':crash}
+    context = {'crash': crash}
     return render(request, 'web/crash_detail.html', context)
 
 
@@ -73,7 +112,26 @@ def storage(request):
         storage = Storage.objects.filter(owner=request.user)
     except ObjectDoesNotExist:
         raise Http404
-    context = {'storage_list':storage}
+
+    paginator = Paginator(storage, 30)
+    page = request.GET.get('p', 1)
+    try:
+        storage = paginator.page(page)
+    except PageNotAnInteger:
+        storage = paginator.page(1)
+    except EmptyPage:
+        storage = paginator.page(paginator.num_pages)
+
+    if page not in paginator.page_range:
+        paginator.page(1)
+
+    index = paginator.page_range.index(storage.number)
+    max_index = len(paginator.page_range)
+    start_index = index - 5 if index >= 5 else 0
+    end_index = index + 5 if index <= max_index - 5 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+
+    context = {'storage_list': storage, 'paginator': paginator, 'page_range': page_range}
     return render(request, 'web/storage.html', context)
 
 

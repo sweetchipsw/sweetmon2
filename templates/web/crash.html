@@ -49,18 +49,19 @@
                                         </section>
                                         <section>
                                             <div class="btn-group btn-group-lg">
-                                                <button type="button" class="btn btn-secondary"> < </button>
-                                                <button type="button" class="btn btn-secondary">1</button>
-                                                <button type="button" class="btn btn-secondary">2</button>
-                                                <button type="button" class="btn btn-secondary">3</button>
-                                                <button type="button" class="btn btn-secondary">4</button>
-                                                <button type="button" class="btn btn-secondary">5</button>
-                                                <button type="button" class="btn btn-secondary">6</button>
-                                                <button type="button" class="btn btn-secondary">7</button>
-                                                <button type="button" class="btn btn-secondary">8</button>
-                                                <button type="button" class="btn btn-secondary">9</button>
-                                                <button type="button" class="btn btn-secondary">10</button>
-                                                <button type="button" class="btn btn-secondary"> > </button>
+                                                {% if crash_list.has_previous %}
+                                                <button type="button" class="btn btn-secondary" onclick="location.href='/crash?p={{ crash_list.previous_page_number }}';"> < </button>
+                                                {% endif %}
+                                                {% for index in page_range %}
+                                                {% if crash_list.number == index %}
+                                                <button type="button" class="btn btn-secondary active" onclick="location.href='/crash?p={{ index }}';"> {{ index }} </button>
+                                                {% else %}
+                                                <button type="button" class="btn btn-secondary" onclick="location.href='/crash?p={{ index }}';"> {{ index }} </button>
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% if crash_list.has_next %}
+                                                <button type="button" class="btn btn-secondary" onclick="location.href='/crash?p={{ crash_list.next_page_number }}';"> > </button>
+                                                {% endif %}
                                             </div>
                                         </section>
                                     </div>
