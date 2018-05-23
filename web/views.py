@@ -23,7 +23,7 @@ def index(request):
     except ObjectDoesNotExist:
         raise Http404
 
-    context = {'crash': crash, 'fuzzer': fuzzer, 'storage': storage, 'user': user}
+    context = {'crash': crash, 'fuzzer': fuzzer, 'storage':storage, 'crash_list': crash[:5], 'fuzzer_list': fuzzer, 'storage_list': storage, 'user': user}
     return render(request, 'web/index.html', context)
 
 
