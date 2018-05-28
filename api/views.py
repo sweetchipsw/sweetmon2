@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponseNotAllowed
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponseNotAllowed, FileResponse
 from django.http import Http404
 import hashlib
 from django.core.exceptions import ObjectDoesNotExist
@@ -8,18 +8,18 @@ from datetime import datetime
 from django.utils.crypto import get_random_string
 from django.conf import settings
 from django.views.decorators.http import require_http_methods, require_GET, require_POST
-from api.models import Crash, Storage, Fuzzer
+from api.models import Crash, Storage, Fuzzer, OnetimeUrl
 from functools import wraps
 from django.utils.decorators import decorator_from_middleware
 import logging
 from calendar import timegm
 from functools import wraps
-
 from django.http import HttpResponseNotAllowed
 from django.middleware.http import ConditionalGetMiddleware
 from django.utils.cache import get_conditional_response
 from django.utils.decorators import decorator_from_middleware
 from django.utils.http import http_date, quote_etag
+from django.contrib.auth.decorators import login_required
 
 conditional_page = decorator_from_middleware(ConditionalGetMiddleware)
 
@@ -56,28 +56,102 @@ def get_apikey(request):
 
 def get_error_msg(key):
     error_list = {"wrong_apikey": "Invalid API Key.",
-                  "wrong_param": "Invalid parameter."}
+                  "wrong_param": "Invalid parameter.",
+                  "expired_token": "Token expired."}
     return error_list[key]
 
 
 @require_GET
-@apikey_required
-def crash_download(request):
-    apikey = get_apikey(request)
-    return HttpResponse("Hello world Test1")
+@login_required
+def crash_download(request, idx):
+    result = {"result": False, "message": None}
+    try:
+        crash = Crash.objects.get(owner=request.user, id=idx)
+    except ObjectDoesNotExist:
+        crash = None
+
+    if not crash:
+        result['message'] = get_error_msg('wrong_param')
+        return JsonResponse(result)
+
+    f = crash.crash_file
+
+    response = FileResponse(f.file)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(f.name)
+
+    return response
 
 
-@require_POST
-@apikey_required
-def crash_generate_url(request):
-    apikey = get_apikey(request)
-    param_list = []
-    if not check_param(request.POST, param_list):
-        pass
+@require_GET
+@login_required
+def crash_generate_url(request, idx):
+    result = {"result": False, "message": None}
 
-    # test
+    try:
+        crash = Crash.objects.get(owner=request.user, id=idx)
+    except ObjectDoesNotExist:
+        crash = None
 
-    return HttpResponse("Hello world Test1")
+    if not crash:
+        result['message'] = get_error_msg('wrong_param')
+        return JsonResponse(result)
+
+    f = crash.crash_file
+
+    try:
+        otu = OnetimeUrl.objects.get(owner=request.user, file=f, is_expired=False)
+    except ObjectDoesNotExist:
+        otu = None
+
+    if not otu:
+        otu = OnetimeUrl(owner=request.user, file=f)
+        otu.save()
+
+    scheme = request.is_secure() and "https" or "http"
+    result["result"] = True
+    result["token"] = otu.token
+    result["url"] = scheme + "://" + request.META['HTTP_HOST'] + "/api/v1/share/download?token=" + otu.token
+    return JsonResponse(result)
+
+
+@require_GET
+def crash_download_by_otu(request):
+    result = {"result": False, "message": None}
+
+    param_list = ["token"]
+    if not check_param(request.GET, param_list):
+        result['message'] = get_error_msg('wrong_param')
+        return JsonResponse(result)
+
+    token = request.GET['token']
+
+    if not token:
+        result['message'] = get_error_msg('wrong_param')
+        return JsonResponse(result)
+
+    try:
+        otu = OnetimeUrl.objects.get(token=token)
+    except ObjectDoesNotExist:
+        otu = None
+
+    if not otu:
+        result['message'] = get_error_msg('wrong_param')
+        return JsonResponse(result)
+
+    if otu.is_expired:
+        result['message'] = get_error_msg('expired_token')
+        return JsonResponse(result)
+
+    f = otu.file
+    otu.is_expired = True
+    otu.save()
+
+    response = FileResponse(f.file)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(f.name)
+
+    return response
 
 
 @require_POST
@@ -245,9 +319,3 @@ def storage_download(request):
         return JsonResponse(result)
 
     return HttpResponse("Hello world Test1")
-
-
-@require_GET
-def health(request):
-    result = {"result": True}
-    return JsonResponse(result)

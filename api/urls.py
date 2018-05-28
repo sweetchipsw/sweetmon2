@@ -2,9 +2,12 @@ from django.urls import include, path
 from . import views
 
 urlpatterns = [
+    # One time url
+    path('share/download', views.crash_download_by_otu, name='Download-file-by-OTU'),
+
     # Internal API
-    path('crash/download', views.crash_download, name='crash-generate-download'),
-    path('crash/generate_url', views.crash_generate_url, name='crash-generate-OTU'),
+    path('crash/<int:idx>/download', views.crash_download, name='crash-download-directly'),
+    path('crash/<int:idx>/generate_url', views.crash_generate_url, name='crash-generate-OTU'),
 
     # API for interacting with clients.
     path('crash/upload', views.crash_upload, name='crash-upload-crash'),
@@ -14,7 +17,4 @@ urlpatterns = [
 
     path('storage/list', views.storage_list, name='storage-list'),
     path('storage/download', views.storage_download, name='storage-download'),
-
-    # ETC
-    path('health', views.health, name='health-checker'),
 ]

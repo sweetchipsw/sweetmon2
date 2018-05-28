@@ -23,7 +23,8 @@ def index(request):
     except ObjectDoesNotExist:
         raise Http404
 
-    context = {'crash': crash, 'fuzzer': fuzzer, 'storage':storage, 'crash_list': crash[:5], 'fuzzer_list': fuzzer, 'storage_list': storage, 'user': user}
+    context = {'crash': crash, 'fuzzer': fuzzer, 'storage':storage, 'crash_list': crash[:5], 'fuzzer_list': fuzzer,
+               'storage_list': storage, 'user': user}
     return render(request, 'web/index.html', context)
 
 
@@ -63,7 +64,7 @@ def fuzzer_detail(request, idx):
         fuzzer = Fuzzer.objects.get(owner=request.user, id=idx)
     except ObjectDoesNotExist:
         raise Http404
-    context = {'fuzzer':fuzzer}
+    context = {'fuzzer': fuzzer}
     return render(request, 'web/fuzzer_detail.html', context)
 
 
@@ -141,7 +142,7 @@ def storage_detail(request, idx):
         storage = Storage.objects.get(owner=request.user, id=idx)
     except ObjectDoesNotExist:
         raise Http404
-    context = {'storage':storage}
+    context = {'storage': storage}
     return render(request, 'web/storage_detail.html', context)
 
 

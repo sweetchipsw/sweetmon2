@@ -18,7 +18,7 @@ user_storage = FileSystemStorage(location=settings.USER_STORAGE_ROOT)
 
 
 def get_crash_path(instance, filename):
-    return '{0}/{1}'.format(instance.crash_file.name, filename)
+    return '{0}/{1}/{2}'.format(instance.owner.name, instance.crash_file.name, filename)
 
 
 def get_user_upload_path(instance, filename):
@@ -67,7 +67,7 @@ class Crash(models.Model):
     crash_log = models.TextField()
 
     is_dup_crash = models.BooleanField(default=False)
-    crash_file = models.FileField(storage=crash_storage, upload_to=get_crash_path)
+    crash_file = models.FileField(storage=crash_storage)# , upload_to=get_crash_path)
 
     reg_date = models.DateTimeField(default=datetime.now, blank=True)
     latest_date = models.DateTimeField(auto_now=True)
@@ -90,3 +90,14 @@ class Storage(models.Model):
 
     def __str__(obj):
         return "%s" % (obj.title)
+
+
+class OnetimeUrl(models.Model):
+    owner = models.ForeignKey(User, on_delete=None)
+    token = models.CharField(max_length=256, default=generate_api_key)
+    file = models.FileField(storage=crash_storage)
+    is_expired = models.BooleanField(default=False)
+
+
+    def __str__(obj):
+        return "%s" % (obj.file.name)

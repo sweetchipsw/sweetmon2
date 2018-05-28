@@ -1,5 +1,6 @@
+from django.db.models.signals import pre_save, post_save
 from django.core.files.storage import FileSystemStorage
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.conf import settings
 from django.db import models
 import hashlib
@@ -30,9 +31,10 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     email = models.EmailField(max_length=256, null=True, blank=True)
-    telegram_userid = models.CharField(max_length=32)
+    telegram_userid = models.CharField(max_length=32, blank=True)
 
-    use_telegram_alert = models.BooleanField(default=False, help_text="Use this feature if you want to subscribe crash.")
+    use_telegram_alert = models.BooleanField(default=False,
+                                             help_text="Use this feature if you want to subscribe crash.")
     use_email_alert = models.BooleanField(default=False)
 
     profile_image = models.FileField(storage=image_storage, null=True, blank=True, upload_to=get_image_upload_path)
@@ -40,6 +42,37 @@ class Profile(models.Model):
     def __str__(obj):
         return "%s" % (obj.owner)
 
+
+def create_profile(sender, **kwargs):
+    user = kwargs["instance"]
+    if kwargs["created"]:
+        # Create user
+        user_profile = Profile(owner=user)
+        user_profile.email = user.email
+        user_profile.last_name = user.last_name
+        user_profile.first_name = user.first_name
+        user_profile.save()
+
+        # Allow access to admin page
+        user = User.objects.get(id=user.id)
+        user.is_staff = True;
+
+        """
+        'Can add testcase', 'Can change testcase', 'Can delete testcase',
+                           'Can add email bot', 'Can change email bot', 'Can delete email bot',
+                           'Can add issue', 'Can change issue', 'Can delete issue',
+                           'Can add telegram bot', 'Can change telegram bot', 'Can delete telegram bot',
+                           'Can add testcase', 'Can change testcase', 'Can delete testcase',
+        """
+        # Add permissions for staff
+        permission_list = ['Can change profile']
+        for permission in permission_list:
+            userperm = Permission.objects.get(name=permission)
+            user.user_permissions.add(userperm)
+        user.save()
+
+
+post_save.connect(create_profile, sender=User)
 
 """
 # TODO : Impl alertbot
