@@ -7,24 +7,59 @@ from datetime import datetime, timedelta
 from django.utils.crypto import get_random_string
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 from api.models import Fuzzer, Crash, Storage
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from pprint import pprint
+from itertools import groupby
+from django.db.models.functions import TruncMonth, TruncDay
 import time
+import json
 
 
 @login_required
 def index(request):
+    startdate = datetime.today() - timedelta(days=6)
+    enddate = datetime.today()
+
+
     try:
         fuzzer = Fuzzer.objects.filter(owner=request.user)
         crash = Crash.objects.filter(owner=request.user)
+        unique_crash = Crash.objects.filter(owner=request.user, parent_idx=0)
+        total_crash = Crash.objects.all()
         storage = Storage.objects.filter(owner=request.user)
         user = User.objects.all()
+        # last_7day_crashes = Crash.objects.filter(reg_date__range=[startdate, enddate])
+        last_7day_crashes = Crash.objects.filter(reg_date__range=[startdate, enddate]).annotate(month=TruncDay('reg_date')).values('month').annotate(c=Count('id')).order_by()
     except ObjectDoesNotExist:
         raise Http404
 
-    context = {'crash': crash, 'fuzzer': fuzzer, 'storage':storage, 'crash_list': crash[:5], 'fuzzer_list': fuzzer,
-               'storage_list': storage, 'user': user}
+    last_7day_crashes_dict = dict()
+    last_7day_crashes_list = list()
+
+    for day in range(5, -2, -1):
+        date = datetime.today() - timedelta(days=day)
+        date = date.strftime('%Y-%m-%d')
+        last_7day_crashes_dict[date] = 0
+
+    for day_crash in last_7day_crashes:
+        date = day_crash['month'].strftime('%Y-%m-%d')
+        last_7day_crashes_dict[date] = day_crash['c']
+
+    for last_7day_crash in last_7day_crashes_dict:
+        print(last_7day_crash)
+        temp_dict = dict()
+        temp_dict['x'] = last_7day_crash
+        temp_dict['y'] = last_7day_crashes_dict[last_7day_crash]
+        last_7day_crashes_list.append(temp_dict)
+
+    pprint(last_7day_crashes_list)
+
+    context = {'crash': crash, 'fuzzer': fuzzer, 'storage':storage, 'crash_list': crash[:5], 'fuzzer_list': fuzzer[:5],
+               'storage_list': storage, 'user': user, "unique_crash": unique_crash, "total_crash": total_crash,
+               "last_7day_crashes_dict": json.dumps(last_7day_crashes_list)}
     return render(request, 'web/index.html', context)
 
 

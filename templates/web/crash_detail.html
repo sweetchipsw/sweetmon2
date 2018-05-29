@@ -66,9 +66,7 @@
                                             </div>
                                             <div class="col-10">
                                                 <input type="text" readonly="readonly" class="form-control boxed" value="https://sweetmon.zeroday.me/">
-                                                <a href="/api/v1/crash/{{ crash.id }}/download">
-                                                    <button type="button" class="btn btn-info-outline">Download</button>
-                                                </a>
+                                                <a href="/api/v1/crash/{{ crash.id }}/download"><button type="button" class="btn btn-info-outline">Download</button></a>
                                                 <button type="button" class="btn btn-success-outline">Share</button>
                                             </div>
                                         </div>
@@ -78,7 +76,7 @@
                                                 <label class="control-label">File Size</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">{{ crash.crash_file.size }}</p>
+                                                <p class="text-muted">{{ crash.crash_file.size|filesizeformat }}</p>
                                             </div>
                                         </div>
 
@@ -155,7 +153,7 @@
                                             <th scope="row">{{ dup_crash.id }}</th>
                                             <td>{{ dup_crash.crash_file.name }}</td>
                                             <td>{{ dup_crash.crash_hash }}</td>
-                                            <td>{{ dup_crash.crash_file.size }}</td>
+                                            <td>{{ dup_crash.crash_file.size|filesizeformat }}</td>
                                             <td>{{ dup_crash.reg_date }}</td>
                                             <td class="align-content-center">
                                                 <a href="/api/v1/crash/{{ dup_crash.id }}/download">

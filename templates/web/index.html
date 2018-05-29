@@ -1,6 +1,11 @@
                 {% extends 'web/base.html' %}
 
                 {% block content %}
+                <script>
+                {% autoescape off %}
+                var dataVisits = {{ last_7day_crashes_dict }};
+                {% endautoescape %}
+                </script>
                 <div class="sidebar-overlay" id="sidebar-overlay"></div>
                 <div class="sidebar-mobile-menu-handle" id="sidebar-mobile-menu-handle"></div>
                 <div class="mobile-menu-handle"></div>
@@ -12,7 +17,7 @@
                                     <div class="card-block">
                                         <div class="title-block">
                                             <h4 class="title"> Stats </h4>
-                                            <p class="title-description"> Check your fuzzers!</p>
+                                            <p class="title-description"> Check your statistics!</p>
                                         </div>
                                         <div class="row row-sm stats-container">
                                             <div class="col-12 col-sm-6  stat-col">
@@ -56,7 +61,7 @@
                                                     <i class="fa fa-bug"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> {{ crash.count }} </div>
+                                                    <div class="value"> {{ unique_crash.count }} </div>
                                                     <div class="name"> Unique Crashes </div>
                                                 </div>
                                                 <div class="progress stat-progress">
@@ -80,7 +85,7 @@
                                                     <i class="fa fa-dollar"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> 780,064 </div>
+                                                    <div class="value"> {{ total_crash.count }} </div>
                                                     <div class="name"> Total Crashes </div>
                                                 </div>
                                                 <div class="progress stat-progress">
@@ -109,11 +114,11 @@
                                     <div class="card-block">
                                         <div class="tab-content">
                                             <div role="tabpanel" class="tab-pane active fade show" id="visits">
-                                                <p class="title-description"> Number of unique crashes last 30 days </p>
+                                                <p class="title-description"> Number of unique crashes last 7 days </p>
                                                 <div id="dashboard-visits-chart"></div>
                                             </div>
                                             <div role="tabpanel" class="tab-pane fade" id="downloads">
-                                                <p class="title-description"> Number of testcases last 30 days </p>
+                                                <p class="title-description"> Number of testcases last 7 days </p>
                                                 <div id="dashboard-downloads-chart"></div>
                                             </div>
                                         </div>
@@ -322,7 +327,7 @@
                                                     <div> Github </div>
                                                 </div>
                                                 <div class="item-col item-col-date">
-                                                    <div> http://github.com/sweetchipsw </div>
+                                                    <div> <a href="http://github.com/sweetchipsw">http://github.com/sweetchipsw</a></div>
                                                 </div>
                                             </div>
                                         </li>
