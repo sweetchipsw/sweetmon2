@@ -12,6 +12,7 @@ from django.views.decorators.http import require_http_methods, require_GET, requ
 from django.utils.decorators import decorator_from_middleware
 from django.middleware.http import ConditionalGetMiddleware
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import ObjectDoesNotExist
 from api.models import Crash, Storage, Fuzzer, OnetimeUrl
 from datetime import datetime
@@ -109,6 +110,52 @@ def crash_generate_url(request, idx):
     result["result"] = True
     result["token"] = otu.token
     result["url"] = scheme + "://" + request.META['HTTP_HOST'] + "/api/v1/share/download?token=" + otu.token
+    return JsonResponse(result)
+
+
+@require_GET
+@login_required
+def crash_dup_crash_list(request, idx):
+    result = {"result": False, "message": None}
+    try:
+        crash = Crash.objects.filter(owner=request.user, parent_idx=idx)
+    except ObjectDoesNotExist:
+        result['message'] = get_error_msg('wrong_param')
+        return JsonResponse(result)
+
+    paginator = Paginator(crash, 30)
+    page = request.GET.get('p', 1)
+
+    try:
+        crash = paginator.page(page)
+    except PageNotAnInteger:
+        crash = paginator.page(1)
+    except EmptyPage:
+        crash = paginator.page(paginator.num_pages)
+
+    if page not in paginator.page_range:
+        paginator.page(1)
+
+    index = paginator.page_range.index(crash.number)
+    max_index = len(paginator.page_range)
+    start_index = index - 5 if index >= 5 else 0
+    end_index = index + 5 if index <= max_index - 5 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+
+    crash_list = []
+    for c in crash:
+        temp = dict()
+        crash_name = c.crash_file.name
+        if "/" in crash_name:
+            crash_name = crash_name.split("/")[-1]
+        temp['name'] = crash_name
+        temp['size'] = c.crash_file.size
+        temp['date'] = c.reg_date
+        temp['id'] = c.id
+        crash_list.append(temp)
+
+    result = {'result': True, "message": None, 'crashes': crash_list}
+
     return JsonResponse(result)
 
 

@@ -99,11 +99,37 @@ def crash(request):
 
 @login_required
 def crash_detail(request, idx):
+    # Get crash by idx
     try:
         crash = Crash.objects.get(owner=request.user, id=idx)
     except ObjectDoesNotExist:
         raise Http404
-    context = {'crash': crash}
+
+    # Get duplicated crash
+    try:
+        dup_crash = Crash.objects.filter(owner=request.user, is_dup_crash=True, parent_idx=idx)[::-1]
+    except ObjectDoesNotExist:
+        raise Http404
+
+    paginator = Paginator(dup_crash, 30)
+    page = request.GET.get('p', 1)
+    try:
+        dup_crash = paginator.page(page)
+    except PageNotAnInteger:
+        dup_crash = paginator.page(1)
+    except EmptyPage:
+        dup_crash = paginator.page(paginator.num_pages)
+
+    if page not in paginator.page_range:
+        paginator.page(1)
+
+    index = paginator.page_range.index(dup_crash.number)
+    max_index = len(paginator.page_range)
+    start_index = index - 5 if index >= 5 else 0
+    end_index = index + 5 if index <= max_index - 5 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+
+    context = {'crash': crash, 'dup_crash_list': dup_crash, 'paginator': paginator, 'page_range': page_range}
     return render(request, 'web/crash_detail.html', context)
 
 

@@ -8,6 +8,7 @@ urlpatterns = [
     # Internal API
     path('crash/<int:idx>/download', views.crash_download, name='crash-download-directly'),
     path('crash/<int:idx>/generate_url', views.crash_generate_url, name='crash-generate-OTU'),
+    path('crash/<int:idx>/duplicated_list', views.crash_dup_crash_list, name='crash-duplicated-crash'),
 
     # API for interacting with clients.
     path('crash/upload', views.crash_upload, name='crash-upload-crash'),

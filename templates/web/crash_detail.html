@@ -66,7 +66,9 @@
                                             </div>
                                             <div class="col-10">
                                                 <input type="text" readonly="readonly" class="form-control boxed" value="https://sweetmon.zeroday.me/">
-                                                <button type="button" class="btn btn-info-outline">Download</button>
+                                                <a href="/api/v1/crash/{{ crash.id }}/download">
+                                                    <button type="button" class="btn btn-info-outline">Download</button>
+                                                </a>
                                                 <button type="button" class="btn btn-success-outline">Share</button>
                                             </div>
                                         </div>
@@ -94,7 +96,7 @@
                                                 <label class="control-label">Duplicate Crash</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">{{ crash.dup_crash_cnt }}</p>
+                                                {{ crash.dup_crash_cnt }} crashes
                                             </div>
                                         </div>
 
@@ -111,7 +113,7 @@
                                             <div class="col-2">
                                             </div>
                                             <div class="col-10">
-                                                <button type="submit" class="btn btn-info-outline btn-lg btn-block"> Save </button>
+                                                <button type="submit" class="btn btn-info-outline btn-lg btn-block" data-target="#confirm-modal"> Save </button>
                                             </div>
                                         </div>
                                         <div class="row form-group">
@@ -127,6 +129,63 @@
                             </div>
                         </div>
                     </section>
+                {% if dup_crash_list %}
+                    <section class="section">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-block sameheight-item">
+                                    <div class="title-block">
+                                        <h3 class="title"> Duplicate crash list </h3>
+                                    </div>
+
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Filename</th>
+                                                <th>Hash</th>
+                                                <th>Size</th>
+                                                <th>Date</th>
+                                                <th>Download</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for dup_crash in dup_crash_list %}
+                                        <tr>
+                                            <th scope="row">{{ dup_crash.id }}</th>
+                                            <td>{{ dup_crash.crash_file.name }}</td>
+                                            <td>{{ dup_crash.crash_hash }}</td>
+                                            <td>{{ dup_crash.crash_file.size }}</td>
+                                            <td>{{ dup_crash.reg_date }}</td>
+                                            <td class="align-content-center">
+                                                <a href="/api/v1/crash/{{ dup_crash.id }}/download">
+                                                    <i class="fa fa-cloud-download icon"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div class="btn-group btn-group-lg">
+                                        {% if dup_crash_list.has_previous %}
+                                        <button type="button" class="btn btn-secondary" onclick="location.href='/crash/{{ crash.id }}?p={{ dup_crash_list.previous_page_number }}';"> < </button>
+                                        {% endif %}
+                                        {% for index in page_range %}
+                                        {% if dup_crash_list.number == index %}
+                                        <button type="button" class="btn btn-secondary active" onclick="location.href='/crash/{{ crash.id }}?p={{ index }}';"> {{ index }} </button>
+                                        {% else %}
+                                        <button type="button" class="btn btn-secondary" onclick="location.href='/crash/{{ crash.id }}?p={{ index }}';"> {{ index }} </button>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% if dup_crash_list.has_next %}
+                                        <button type="button" class="btn btn-secondary" onclick="location.href='/crash/{{ crash.id }}?p={{ dup_crash_list.next_page_number }}';"> > </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                {% endif %}
                 </article>
 
                 {% endblock %}
