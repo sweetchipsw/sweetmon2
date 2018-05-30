@@ -17,12 +17,8 @@ crash_storage = FileSystemStorage(location=settings.CRASH_STORAGE_ROOT)
 user_storage = FileSystemStorage(location=settings.USER_STORAGE_ROOT)
 
 
-def get_crash_path(instance, filename):
-    return '{0}/{1}/{2}'.format(instance.owner.name, instance.crash_file.name, filename)
-
-
-def get_user_upload_path(instance, filename):
-    return '{0}/{1}'.format(instance.file.name, filename)
+def get_upload_path(instance, filename):
+    return '{0}/{1}/{2}'.format(instance.owner.name, instance.id, filename)
 
 
 def generate_api_key():
@@ -67,7 +63,7 @@ class Crash(models.Model):
     crash_log = models.TextField()
 
     is_dup_crash = models.BooleanField(default=False)
-    crash_file = models.FileField(storage=crash_storage)# , upload_to=get_crash_path)
+    crash_file = models.FileField(storage=crash_storage, upload_to=get_upload_path)
 
     reg_date = models.DateTimeField(default=datetime.now, blank=True)
     latest_date = models.DateTimeField(auto_now=True)
@@ -82,7 +78,7 @@ class Storage(models.Model):
     owner = models.ForeignKey(User, on_delete=None)
     title = models.CharField(max_length=1024)
     hash = models.CharField(max_length=256)
-    file = models.FileField(storage=user_storage, upload_to=get_user_upload_path)
+    file = models.FileField(storage=user_storage, upload_to=get_upload_path)
     original_name = models.CharField(max_length=256)
     reg_date = models.DateTimeField(default=datetime.now, blank=True)
     download_count = models.IntegerField(default=0)
@@ -97,7 +93,7 @@ class OnetimeUrl(models.Model):
     token = models.CharField(max_length=256, default=generate_api_key)
     file = models.FileField(storage=crash_storage)
     is_expired = models.BooleanField(default=False)
-
+    type = models.CharField(max_length=256, default="")
 
     def __str__(obj):
         return "%s" % (obj.file.name)

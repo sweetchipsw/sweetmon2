@@ -72,7 +72,7 @@ class StorageAdmin(admin.ModelAdmin):
     list_display = get_all_field_names(Storage)
     # exceptfield(list_display, ["fuzzer"])
 
-    readonly_fields = ('hash', )
+    readonly_fields = ('hash', 'download_count', 'original_name', 'reg_date')
 
     def get_queryset(self, request):
         fields = super(self.__class__, self).get_queryset(request)

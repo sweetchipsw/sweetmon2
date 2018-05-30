@@ -31,7 +31,6 @@ def index(request):
         total_crash = Crash.objects.all()
         storage = Storage.objects.filter(owner=request.user)
         user = User.objects.all()
-        # last_7day_crashes = Crash.objects.filter(reg_date__range=[startdate, enddate])
         last_7day_crashes = Crash.objects.filter(reg_date__range=[startdate, enddate]).annotate(month=TruncDay('reg_date')).values('month').annotate(c=Count('id')).order_by()
     except ObjectDoesNotExist:
         raise Http404
@@ -49,13 +48,10 @@ def index(request):
         last_7day_crashes_dict[date] = day_crash['c']
 
     for last_7day_crash in last_7day_crashes_dict:
-        print(last_7day_crash)
         temp_dict = dict()
         temp_dict['x'] = last_7day_crash
         temp_dict['y'] = last_7day_crashes_dict[last_7day_crash]
         last_7day_crashes_list.append(temp_dict)
-
-    pprint(last_7day_crashes_list)
 
     context = {'crash': crash, 'fuzzer': fuzzer, 'storage':storage, 'crash_list': crash[:5], 'fuzzer_list': fuzzer[:5],
                'storage_list': storage, 'user': user, "unique_crash": unique_crash, "total_crash": total_crash,

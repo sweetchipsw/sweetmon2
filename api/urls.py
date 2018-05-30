@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     # One time url
-    path('share/download', views.crash_download_by_otu, name='Download-file-by-OTU'),
+    path('share/download', views.file_download_by_otu, name='Download-file-by-OTU'),
 
     # Internal API
     path('crash/<int:idx>/download', views.crash_download, name='crash-download-directly'),
@@ -17,5 +17,7 @@ urlpatterns = [
     path('fuzzer/ping', views.fuzzer_ping, name='fuzzer-ping'),
 
     path('storage/list', views.storage_list, name='storage-list'),
-    path('storage/download', views.storage_download, name='storage-download'),
+    path('storage/download', views.storage_download, name='storage-download'),  # API
+    path('storage/<int:idx>/download', views.storage_download_web, name='storage-download-on-web'),  # Web
+    path('storage/<int:idx>/generate_url', views.storage_generate_url, name='storage-generate-OTU'),  # Web
 ]

@@ -7,6 +7,7 @@ from calendar import timegm
 from django.http import HttpResponseNotAllowed
 from django.utils.cache import get_conditional_response
 from django.utils.http import http_date, quote_etag
+from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponseNotAllowed, FileResponse, Http404
 from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from django.utils.decorators import decorator_from_middleware
@@ -55,6 +56,7 @@ def get_apikey(request):
 def get_error_msg(key):
     error_list = {"wrong_apikey": "Invalid API Key.",
                   "wrong_param": "Invalid parameter.",
+                  "unknown": "Unknown error",
                   "expired_token": "Token expired."}
     return error_list[key]
 
@@ -103,7 +105,7 @@ def crash_generate_url(request, idx):
         otu = None
 
     if not otu:
-        otu = OnetimeUrl(owner=request.user, file=f)
+        otu = OnetimeUrl(owner=request.user, file=f, type="crash")
         otu.save()
 
     scheme = request.is_secure() and "https" or "http"
@@ -160,7 +162,7 @@ def crash_dup_crash_list(request, idx):
 
 
 @require_GET
-def crash_download_by_otu(request):
+def file_download_by_otu(request):
     result = {"result": False, "message": None}
 
     param_list = ["token"]
@@ -191,7 +193,15 @@ def crash_download_by_otu(request):
     otu.is_expired = True
     otu.save()
 
-    response = FileResponse(f.file)
+    if otu.type == "storage":
+        f.storage = FileSystemStorage(location=settings.USER_STORAGE_ROOT)
+    elif otu.type == "crash":
+        f.storage = FileSystemStorage(location=settings.CRASH_STORAGE_ROOT)
+    else:
+        result['message'] = get_error_msg('unknown')
+        return JsonResponse(result)
+
+    response = FileResponse(f)
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(f.name)
 
@@ -217,7 +227,7 @@ def crash_upload(request):
 
     param_list = ["file"]
     if not check_param(request.FILES, param_list):
-        result['message'] = get_error_msg('wrong_param1')
+        result['message'] = get_error_msg('wrong_param')
         return JsonResponse(result)
 
     # Get Parameters
@@ -349,11 +359,11 @@ def storage_download(request):
     result = {"result": False, "message": None}
     apikey = get_apikey(request)
 
-    param_list = ['filename']
+    param_list = ['idx']
     if not check_param(request.POST, param_list):
         raise Http404
 
-    filename = request.POST['filename']
+    filename = request.POST['idx']
 
     try:
         fuzzer = Fuzzer.objects.get(api_key=apikey)
@@ -362,4 +372,58 @@ def storage_download(request):
         result['message'] = get_error_msg('wrong_apikey')
         return JsonResponse(result)
 
-    return HttpResponse("Hello world Test1")
+    response = FileResponse(storage.file)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(storage.name)
+
+    return response
+
+
+@require_GET
+@login_required
+def storage_download_web(request, idx):
+    result = {"result": False, "message": None}
+
+    try:
+        storage = Storage.objects.get(owner=request.user, id=idx)
+    except ObjectDoesNotExist:
+        result['message'] = get_error_msg('wrong_param')
+        return JsonResponse(result)
+
+    response = FileResponse(storage.file)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(storage.file.name)
+
+    return response
+
+
+@require_GET
+@login_required
+def storage_generate_url(request, idx):
+    result = {"result": False, "message": None}
+
+    try:
+        storage = Storage.objects.get(owner=request.user, id=idx)
+    except ObjectDoesNotExist:
+        storage = None
+
+    if not storage:
+        result['message'] = get_error_msg('wrong_param')
+        return JsonResponse(result)
+
+    f = storage.file
+
+    try:
+        otu = OnetimeUrl.objects.get(owner=request.user, file=f, is_expired=False)
+    except ObjectDoesNotExist:
+        otu = None
+
+    if not otu:
+        otu = OnetimeUrl(owner=request.user, file=f, type="storage")
+        otu.save()
+
+    scheme = request.is_secure() and "https" or "http"
+    result["result"] = True
+    result["token"] = otu.token
+    result["url"] = scheme + "://" + request.META['HTTP_HOST'] + "/api/v1/share/download?token=" + otu.token
+    return JsonResponse(result)
