@@ -18,7 +18,7 @@ user_storage = FileSystemStorage(location=settings.USER_STORAGE_ROOT)
 
 
 def get_upload_path(instance, filename):
-    return '{0}/{1}/{2}'.format(instance.owner.name, instance.id, filename)
+    return '{0}/{1}/{2}'.format(instance.owner, instance.id, filename)
 
 
 def generate_api_key():

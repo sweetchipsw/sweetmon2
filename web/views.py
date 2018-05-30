@@ -53,9 +53,11 @@ def index(request):
         temp_dict['y'] = last_7day_crashes_dict[last_7day_crash]
         last_7day_crashes_list.append(temp_dict)
 
-    context = {'crash': crash, 'fuzzer': fuzzer, 'storage':storage, 'crash_list': crash[:5], 'fuzzer_list': fuzzer[:5],
+    active_time = datetime.now() - timedelta(minutes=5)
+
+    context = {'crash': crash, 'fuzzer': fuzzer, 'storage':storage, 'crash_list': unique_crash[:5], 'fuzzer_list': fuzzer[:5],
                'storage_list': storage, 'user': user, "unique_crash": unique_crash, "total_crash": total_crash,
-               "last_7day_crashes_dict": json.dumps(last_7day_crashes_list)}
+               "last_7day_crashes_dict": json.dumps(last_7day_crashes_list), 'active_time': active_time}
     return render(request, 'web/index.html', context)
 
 

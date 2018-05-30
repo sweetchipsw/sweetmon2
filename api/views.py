@@ -254,10 +254,10 @@ def crash_upload(request):
 
     # Create new crash
     new_crash = Crash(owner=fuzzer.owner, fuzzer=fuzzer)
+    fuzzer.crash_cnt += 1
 
     # If duplicated crash
     if is_duplicated_crash:
-        fuzzer.crash_cnt += 1
         crash.dup_crash_cnt += 1
         new_crash.parent_idx = crash.id
         new_crash.is_dup_crash = True

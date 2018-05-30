@@ -20,7 +20,7 @@ class FuzzerAdmin(admin.ModelAdmin):
     list_display = get_all_field_names(Fuzzer)
     exceptfield(list_display, ["crash"])
 
-    readonly_fields = ('reg_date', 'ping_date', 'api_key',)
+    readonly_fields = ('reg_date', 'ping_date', 'api_key', 'crash_cnt')
 
     def get_queryset(self, request):
         fields = super(self.__class__, self).get_queryset(request)
