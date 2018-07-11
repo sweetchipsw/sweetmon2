@@ -36,4 +36,4 @@ curl http://localhost/accounts/login
 
 ## API Documentation
 
-SEE [Here](https://github.com/sweetchipsw/sweetmon2/API_DOCS.md)
+SEE [Here](https://github.com/sweetchipsw/sweetmon2/blob/master/API_DOCS.md)
