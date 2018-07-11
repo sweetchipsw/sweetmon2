@@ -32,27 +32,31 @@ ENDPOINT_URL = "http://localhost:8000/api/v1"
 header = {"apikey":"6faeee3fccba970636b11c7c920e0a151d32824bc9e6a9ff3ff6d4a62343e1fd"}
 
 # Upload test
-post = {"title":"""==9901==ERROR: AddressSanitizer: heap-use-after-free on address 0x60700000dfb5 at pc 0x45917b bp 0x7fff4490c700 sp 0x7fff4490c6f8 READ of size 1 at 0x60700000dfb5 thread T0""", "crashlog":"test\ntest"}
-files = {'file': "TEST FILE\nTEST FILE IS TEST"}
-r = requests.post(ENDPOINT_URL+"/crash/upload", files=files, data=post, headers=header)
-print(r.text)
+for i in range(300, 301):
+	for j in range(0, 5):
+		post = {"title":"""=="""+str(i)+"""==ERROR: AddressSanitizer: heap-use-after-free on address 0x60700000dfb5 at pc 0x45917b bp 0x7fff4490c700 sp 0x7fff4490c6f8 READ of size 1 at 0x60700000dfb5 thread T0""",
+		"crashlog":"test\ntest"}
+		files = {'file': "TEST FILE\nTEST FILE IS TEST" + str(j)}
+		r = requests.post(ENDPOINT_URL+"/crash/upload", files=files, data=post, headers=header)
+		print(r.text)
+	print(i)
 
-# Ping
-r = requests.get(ENDPOINT_URL+"/fuzzer/ping", headers=header)
-print(r.text)
+# # Ping
+# r = requests.get(ENDPOINT_URL+"/fuzzer/ping", headers=header)
+# print(r.text)
 
 # Update fuzzer's IP informations.
 
-public_ip = requests.get("http://ipv4bot.whatismyipaddress.com").text
-private_ip = socket.gethostbyname(socket.gethostname())
+# public_ip = requests.get("http://ipv4bot.whatismyipaddress.com").text
+# private_ip = socket.gethostbyname(socket.gethostname())
 
-post = {"public_ip" : public_ip, "private_ip" : private_ip}
-r = requests.post(ENDPOINT_URL+"/fuzzer/update_info", post, headers=header)
-print(r.text)
+# post = {"public_ip" : public_ip, "private_ip" : private_ip}
+# r = requests.post(ENDPOINT_URL+"/fuzzer/update_info", post, headers=header)
+# print(r.text)
 
-# Get storage list
-r = requests.get(ENDPOINT_URL+"/storage/list", headers=header)
-print(r.text)
+# # Get storage list
+# r = requests.get(ENDPOINT_URL+"/storage/list", headers=header)
+# print(r.text)
 
 
 

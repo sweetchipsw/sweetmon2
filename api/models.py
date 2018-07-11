@@ -5,6 +5,7 @@ from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin, User
 from django.contrib.auth.models import Permission
+from django.dispatch import receiver
 from datetime import datetime
 import os
 import hashlib
@@ -18,6 +19,11 @@ user_storage = FileSystemStorage(location=settings.USER_STORAGE_ROOT)
 
 
 def get_upload_path(instance, filename):
+    print(instance.id)
+    return '{0}/{1}/{2}'.format(instance.owner, instance.id, filename)
+
+
+def get_storage_path(instance, filename):
     return '{0}/{1}/{2}'.format(instance.owner, instance.id, filename)
 
 
@@ -57,7 +63,8 @@ class Crash(models.Model):
     parent_idx = models.IntegerField(default=0)
 
     title = models.CharField(max_length=1024)
-    crash_hash = models.CharField(max_length=256)
+    title_hash = models.CharField(max_length=256)
+    file_hash = models.CharField(max_length=256)
     dup_crash_cnt = models.IntegerField(default=0)
 
     crash_log = models.TextField()
@@ -97,3 +104,9 @@ class OnetimeUrl(models.Model):
 
     def __str__(obj):
         return "%s" % (obj.file.name)
+
+
+@receiver(pre_save, sender=Storage)
+def my_callback(sender, instance, *args, **kwargs):
+    instance.original_name = ""
+    instance.hash = hashlib.sha256(instance.file.read()).hexdigest()

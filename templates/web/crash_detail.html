@@ -85,7 +85,7 @@
                                                 <label class="control-label">Crash Hash</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">{{ crash.crash_hash }}</p>
+                                                <p class="text-muted">{{ crash.title_hash }}</p>
                                             </div>
                                         </div>
 
@@ -152,7 +152,7 @@
                                         <tr>
                                             <th scope="row">{{ dup_crash.id }}</th>
                                             <td>{{ dup_crash.crash_file.name }}</td>
-                                            <td>{{ dup_crash.crash_hash }}</td>
+                                            <td>{{ dup_crash.file_hash }}</td>
                                             <td>{{ dup_crash.crash_file.size|filesizeformat }}</td>
                                             <td>{{ dup_crash.reg_date }}</td>
                                             <td class="align-content-center">

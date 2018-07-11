@@ -32,7 +32,8 @@ def index(request):
         user = User.objects.all()
         last_7day_crashes = Crash.objects.filter(reg_date__range=[startdate, enddate]).annotate(month=TruncDay('reg_date')).values('month').annotate(c=Count('id')).order_by()
     except ObjectDoesNotExist:
-        raise Http404
+        context = {}
+        return render(request, 'web/index.html', context)
 
     last_7day_crashes_dict = dict()
     last_7day_crashes_list = list()
@@ -107,7 +108,7 @@ def crash(request):
     except ObjectDoesNotExist:
         raise Http404
 
-    paginator = Paginator(crash, 100)
+    paginator = Paginator(crash, 50)
     page = request.GET.get('p', 1)
     try:
         crash = paginator.page(page)

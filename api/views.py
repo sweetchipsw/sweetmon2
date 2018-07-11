@@ -248,7 +248,7 @@ def crash_upload(request):
     # Get crash by crash_hash
     # If not exists, create new instance.
     try:
-        crash = Crash.objects.get(crash_hash=crash_hash, parent_idx=0)
+        crash = Crash.objects.get(title_hash=crash_hash, parent_idx=0)
         is_duplicated_crash = True
     except ObjectDoesNotExist:
         crash = None
@@ -266,10 +266,15 @@ def crash_upload(request):
         fuzzer.save()
 
     # Common data
-    new_crash.crash_hash = crash_hash
+    new_crash.title_hash = crash_hash
     new_crash.title = title
     new_crash.crash_log = crash_log
     new_crash.crash_file = crash_file
+    new_crash.save()
+
+    # Save again.
+    file_hash = hashlib.sha256(new_crash.crash_file.read()).hexdigest()
+    new_crash.file_hash = file_hash
     new_crash.save()
 
     # Send alert message.
