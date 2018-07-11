@@ -15,6 +15,7 @@ from django.middleware.http import ConditionalGetMiddleware
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.validators import *
 from api.models import Crash, Storage, Fuzzer, OnetimeUrl
 from datetime import datetime
 from functools import wraps
@@ -278,20 +279,45 @@ def crash_upload(request):
     return JsonResponse(result)
 
 
-@require_GET
+@require_POST
 @apikey_required
 def fuzzer_update_info(request):
     """
-    Deprecated
+    Update fuzzer's Public IP and Private IP.
 
     :param request:
     :return:
     """
+    result = {"result": False, "message": None}
+
     apikey = get_apikey(request)
-    param_list = []
+    param_list = ["public_ip", "private_ip"]
     if not check_param(request.POST, param_list):
         raise Http404
-    return HttpResponse("Hello world Test1")
+
+    public_ip = request.POST['public_ip']
+    private_ip = request.POST['private_ip']
+
+    try:
+        validate_ipv4_address(public_ip)
+        validate_ipv4_address(private_ip)
+    except ValidationError:
+        result["result"] = False
+        result["message"] = "IP address is not valid."
+        return JsonResponse(result)
+
+    try:
+        fuzzer = Fuzzer.objects.get(api_key=apikey)
+    except ObjectDoesNotExist:
+        result['message'] = get_error_msg('wrong_apikey')
+        return JsonResponse(result)
+
+    fuzzer.public_ip = public_ip
+    fuzzer.private_ip = private_ip
+    fuzzer.save()
+
+    result['result'] = True
+    return JsonResponse(result)
 
 
 @require_GET
@@ -363,11 +389,11 @@ def storage_download(request):
     if not check_param(request.POST, param_list):
         raise Http404
 
-    filename = request.POST['idx']
+    idx = request.POST['idx']
 
     try:
         fuzzer = Fuzzer.objects.get(api_key=apikey)
-        storage = Storage.objects.filter(owner=fuzzer.owner, original_name=filename)
+        storage = Storage.objects.filter(owner=fuzzer.owner, id=idx)
     except ObjectDoesNotExist:
         result['message'] = get_error_msg('wrong_apikey')
         return JsonResponse(result)
@@ -382,6 +408,13 @@ def storage_download(request):
 @require_GET
 @login_required
 def storage_download_web(request, idx):
+    """
+    Download file from storage server.
+
+    :param request:
+    :param idx:
+    :return:
+    """
     result = {"result": False, "message": None}
 
     try:
@@ -400,6 +433,13 @@ def storage_download_web(request, idx):
 @require_GET
 @login_required
 def storage_generate_url(request, idx):
+    """
+    Generate OTU for files in storage.
+
+    :param request:
+    :param idx:
+    :return:
+    """
     result = {"result": False, "message": None}
 
     try:

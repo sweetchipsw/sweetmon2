@@ -32,3 +32,8 @@ docker run -p 80:80 -d -it 1824b348c743 /bin/bash -c 'apachectl -D FOREGROUND'
 curl http://localhost/accounts/login
 ```
 
+
+
+## API Documentation
+
+SEE [Here](https://github.com/sweetchipsw/sweetmon2/API_DOCS.md)

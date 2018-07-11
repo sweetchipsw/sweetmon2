@@ -1,20 +1,20 @@
 from django.shortcuts import render,get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.http import Http404
-import hashlib
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime, timedelta
-from django.utils.crypto import get_random_string
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from api.models import Fuzzer, Crash, Storage
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models.functions import TruncMonth, TruncDay
+from django.utils.crypto import get_random_string
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.conf import settings
 from pprint import pprint
 from itertools import groupby
-from django.db.models.functions import TruncMonth, TruncDay
 import time
+import hashlib
 import json
 
 
@@ -22,7 +22,6 @@ import json
 def index(request):
     startdate = datetime.today() - timedelta(days=6)
     enddate = datetime.today()
-
 
     try:
         fuzzer = Fuzzer.objects.filter(owner=request.user)
