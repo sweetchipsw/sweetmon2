@@ -57,7 +57,7 @@ def index(request):
 
     context = {'crash': crash, 'fuzzer': fuzzer, 'storage':storage, 'crash_list': unique_crash[:5], 'fuzzer_list': fuzzer[:5],
                'storage_list': storage, 'user': user, "unique_crash": unique_crash, "total_crash": total_crash,
-               "last_7day_crashes_dict": json.dumps(last_7day_crashes_list), 'active_time': active_time}
+               "last_7day_crashes_dict": json.dumps(last_7day_crashes_list), 'active_time': active_time, 'last_crash': crash[len(crash)-1]}
     return render(request, 'web/index.html', context)
 
 

@@ -1,5 +1,5 @@
                 {% extends 'web/base.html' %}
-
+                {% load humanize %}
                 {% block content %}
                 <script>
                 {% autoescape off %}
@@ -25,11 +25,11 @@
                                                     <i class="fa fa-users"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> {{ user.count }} </div>
+                                                    <div class="value"> {{ user.count|intcomma }} </div>
                                                     <div class="name"> Total users </div>
                                                 </div>
                                                 <div class="progress stat-progress">
-                                                    <div class="progress-bar" style="width: 34%;"></div>
+                                                    <div class="progress-bar" style="width: 100%;"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-6 stat-col">
@@ -37,11 +37,11 @@
                                                     <i class="fa fa-rocket"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> {{ fuzzer.count }} </div>
+                                                    <div class="value"> {{ fuzzer.count|intcomma }} </div>
                                                     <div class="name"> Fuzzers </div>
                                                 </div>
                                                 <div class="progress stat-progress">
-                                                    <div class="progress-bar" style="width: 75%;"></div>
+                                                    <div class="progress-bar" style="width: 100%;"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-6 stat-col">
@@ -49,11 +49,11 @@
                                                     <i class="fa fa-bug"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> {{ crash.count }} </div>
+                                                    <div class="value"> {{ crash.count|intcomma }} </div>
                                                     <div class="name"> Crashes </div>
                                                 </div>
                                                 <div class="progress stat-progress">
-                                                    <div class="progress-bar" style="width: 25%;"></div>
+                                                    <div class="progress-bar" style="width: 100%;"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-6 stat-col">
@@ -61,11 +61,11 @@
                                                     <i class="fa fa-bug"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> {{ unique_crash.count }} </div>
+                                                    <div class="value"> {{ unique_crash.count|intcomma }} </div>
                                                     <div class="name"> Unique Crashes </div>
                                                 </div>
                                                 <div class="progress stat-progress">
-                                                    <div class="progress-bar" style="width: 25%;"></div>
+                                                    <div class="progress-bar" style="width: 100%;"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-6  stat-col">
@@ -73,11 +73,11 @@
                                                     <i class="fa fa-list-alt"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> 5 </div>
-                                                    <div class="name"> days ago </div>
+                                                    <div class="value"> {{ storage_list.count }} </div>
+                                                    <div class="name"> Files </div>
                                                 </div>
                                                 <div class="progress stat-progress">
-                                                    <div class="progress-bar" style="width: 49%;"></div>
+                                                    <div class="progress-bar" style="width: 100%;"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-6 stat-col">
@@ -85,11 +85,11 @@
                                                     <i class="fa fa-dollar"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> {{ total_crash.count }} </div>
-                                                    <div class="name"> Total Crashes </div>
+                                                    <div class="value"> {{ last_crash.reg_date|timesince  }} ago </div>
+                                                    <div class="name"> Last crash </div>
                                                 </div>
                                                 <div class="progress stat-progress">
-                                                    <div class="progress-bar" style="width: 15%;"></div>
+                                                    <div class="progress-bar" style="width: 100%;"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -122,7 +122,7 @@
                     </section>
                     <section class="section">
                         <div class="row sameheight-container">
-                            <div class="col-xl-8">
+                            <div class="col-xl-12">
                                 <div class="card sameheight-item items" data-exclude="xs,sm,lg">
                                     <div class="card-header bordered">
                                         <div class="header-block">
@@ -180,18 +180,6 @@
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
-                                </div>
-                            </div>
-                            <div class="col-xl-4">
-                                <div class="card sameheight-item sales-breakdown" data-exclude="xs,sm,lg">
-                                    <div class="card-header">
-                                        <div class="header-block">
-                                            <h3 class="title"> Best Fuzzer </h3>
-                                        </div>
-                                    </div>
-                                    <div class="card-block">
-                                        <div class="dashboard-sales-breakdown-chart" id="dashboard-sales-breakdown-chart"></div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -273,43 +261,43 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="card tasks sameheight-item" data-exclude="xs,sm">
-                                    <div class="card-header bordered">
-                                        <div class="header-block">
-                                            <h3 class="title"> Server Statistics </h3>
-                                        </div>
-                                    </div>
-                                    <ul class="item-list striped">
-                                        <li class="item">
-                                            <div class="item-row">
-                                                <div class="item-col item-col-date col-md-4">
-                                                    <div> Disk Space </div>
-                                                </div>
-                                                <div class="item-col item-col-date">
-                                                    <div> 10.11GB </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="item">
-                                            <div class="item-row">
-                                                <div class="item-col item-col-date col-md-4">
-                                                    <div> Memory </div>
-                                                </div>
-                                                <div class="item-col item-col-date">
-                                                    <div> 16G / 10.2G </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="item">
-                                            <div class="item-row">
-                                                <div class="item-col item-col-date col-md-4">
-                                                    <div> CPU Load </div>
-                                                </div>
-                                                <div class="item-col item-col-date">
-                                                    <div> 0% </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
+{#                                    <div class="card-header bordered">#}
+{#                                        <div class="header-block">#}
+{#                                            <h3 class="title"> Server Statistics </h3>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <ul class="item-list striped">#}
+{#                                        <li class="item">#}
+{#                                            <div class="item-row">#}
+{#                                                <div class="item-col item-col-date col-md-4">#}
+{#                                                    <div> Disk Space </div>#}
+{#                                                </div>#}
+{#                                                <div class="item-col item-col-date">#}
+{#                                                    <div> 10.11GB </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </li>#}
+{#                                        <li class="item">#}
+{#                                            <div class="item-row">#}
+{#                                                <div class="item-col item-col-date col-md-4">#}
+{#                                                    <div> Memory </div>#}
+{#                                                </div>#}
+{#                                                <div class="item-col item-col-date">#}
+{#                                                    <div> 16G / 10.2G </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </li>#}
+{#                                        <li class="item">#}
+{#                                            <div class="item-row">#}
+{#                                                <div class="item-col item-col-date col-md-4">#}
+{#                                                    <div> CPU Load </div>#}
+{#                                                </div>#}
+{#                                                <div class="item-col item-col-date">#}
+{#                                                    <div> 0% </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </li>#}
+{#                                    </ul>#}
                                     <div class="card-header bordered">
                                         <div class="header-block">
                                             <h3 class="title"> About SWEETMON2</h3>
@@ -329,6 +317,16 @@
                                         <li class="item">
                                             <div class="item-row">
                                                 <div class="item-col item-col-date col-md-4">
+                                                    <div> Blog </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div> <a href="http://blog.sweetchip.kr">http://blog.sweetchip.kr</a></div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-date col-md-4">
                                                     <div> Github </div>
                                                 </div>
                                                 <div class="item-col item-col-date">
@@ -336,6 +334,13 @@
                                                 </div>
                                             </div>
                                         </li>
+                                    </ul>
+                                    <div class="card-header bordered">
+                                        <div class="header-block">
+                                            <h3 class="title">Donation</h3>
+                                        </div>
+                                    </div>
+                                    <ul class="item-list striped">
                                         <li class="item">
                                             <div class="item-row">
                                                 <div class="item-col item-col-date col-md-4">

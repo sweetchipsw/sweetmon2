@@ -35,7 +35,7 @@
                                                         {% for storage in storage_list %}
                                                         <tr class="odd gradeX">
                                                             <td>{{ storage.id }}</td>
-                                                            <td><a href="/storage/1">{{ storage.title }}</a></td>
+                                                            <td><a href="/storage/{{ storage.id }}">{{ storage.title }}</a></td>
                                                             <td>{{ storage.original_name }}</td>
                                                             <td>{{ storage.file.size|filesizeformat }}</td>
                                                             <td>{{ storage.reg_date|timesince }} ago</td>

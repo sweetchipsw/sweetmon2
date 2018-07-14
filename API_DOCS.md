@@ -108,7 +108,6 @@ Parameter : None
 | public_ip  | string | Client's public IP address  |
 | private_ip | string | Client's private IP address |
 
-해당 API 는 파라미터가 필요 없습니다.
 
 Example
 
