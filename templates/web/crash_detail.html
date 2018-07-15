@@ -13,7 +13,7 @@
                                         <h3 class="title"> Crash Report <a href="/crash/"><button type="button" class="btn btn-info-outline pull-right">Back to list</button></a> </h3>
                                     <hr>
                                     </div>
-                                    <form role="form">
+                                    <form role="form" method="POST" action="">
                                         <div class="row form-group">
                                             <div class="col-2">
                                                 <label class="control-label">Crash Title</label>
@@ -65,7 +65,7 @@
                                                 <label class="control-label">Download Testcase</label>
                                             </div>
                                             <div class="col-10">
-                                                <input type="text" readonly="readonly" class="form-control boxed" value="https://sweetmon.zeroday.me/">
+{#                                                <input type="text" readonly="readonly" class="form-control boxed" value="https://sweetmon.zeroday.me/">#}
                                                 <a href="/api/v1/crash/{{ crash.id }}/download"><button type="button" class="btn btn-info-outline">Download</button></a>
                                                 <button type="button" class="btn btn-success-outline">Share</button>
                                             </div>
@@ -89,6 +89,16 @@
                                             </div>
                                         </div>
 
+                                        {% if crash.is_dup_crash %}
+                                        <div class="row form-group">
+                                            <div class="col-2">
+                                                <label class="control-label">First Unique crash</label>
+                                            </div>
+                                            <div class="col-10">
+                                                Go to <a href="/crash/{{ crash.parent_idx }}">Unique crash page</a>
+                                            </div>
+                                        </div>
+                                        {% else %}
                                         <div class="row form-group">
                                             <div class="col-2">
                                                 <label class="control-label">Duplicate Crash</label>
@@ -97,13 +107,13 @@
                                                 {{ crash.dup_crash_cnt }} crashes
                                             </div>
                                         </div>
-
+                                        {% endif %}
                                         <div class="row form-group">
                                             <div class="col-2">
                                                 <label class="control-label">Comment</label>
                                             </div>
                                             <div class="col-10">
-                                                <textarea rows="3" class="form-control boxed" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>{{ crash.comment }}</textarea>
+                                                <textarea name="comment" rows="3" class="form-control boxed" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>{{ crash.comment }}</textarea>
                                             </div>
                                         </div>
 
@@ -150,8 +160,8 @@
                                         <tbody>
                                         {% for dup_crash in dup_crash_list %}
                                         <tr>
-                                            <th scope="row">{{ dup_crash.id }}</th>
-                                            <td>{{ dup_crash.crash_file.name }}</td>
+                                            <th scope="row"><a href="/crash/{{ dup_crash.id }}">{{ dup_crash.id }}</a></th>
+                                            <td>{{ dup_crash.crash_file }}</td>
                                             <td>{{ dup_crash.file_hash }}</td>
                                             <td>{{ dup_crash.crash_file.size|filesizeformat }}</td>
                                             <td>{{ dup_crash.reg_date }}</td>

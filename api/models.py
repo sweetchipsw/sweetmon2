@@ -75,7 +75,7 @@ class Crash(models.Model):
     reg_date = models.DateTimeField(default=datetime.now, blank=True)
     latest_date = models.DateTimeField(auto_now=True)
 
-    comment = models.TextField(null=True, blank=True)
+    comment = models.TextField(null=True, blank=True, default="")
 
     def __str__(obj):
         return "%s" % (obj.title)

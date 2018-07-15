@@ -403,6 +403,9 @@ def storage_download(request):
         result['message'] = get_error_msg('wrong_apikey')
         return JsonResponse(result)
 
+    storage.download_count += 1
+    storage.save()
+
     response = FileResponse(storage.file)
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(storage.name)
@@ -427,6 +430,9 @@ def storage_download_web(request, idx):
     except ObjectDoesNotExist:
         result['message'] = get_error_msg('wrong_param')
         return JsonResponse(result)
+
+    storage.download_count += 1
+    storage.save()
 
     response = FileResponse(storage.file)
     response['Content-Type'] = 'application/octet-stream'

@@ -18,6 +18,13 @@ import hashlib
 import json
 
 
+def check_param(request_method, parameter):
+    for param in parameter:
+        if param not in request_method:
+            return False
+    return True
+
+
 @login_required
 def index(request):
     startdate = datetime.today() - timedelta(days=6)
@@ -25,7 +32,7 @@ def index(request):
 
     try:
         fuzzer = Fuzzer.objects.filter(owner=request.user)
-        crash = Crash.objects.filter(owner=request.user)
+        crash = Crash.objects.filter(owner=request.user)[::-1]
         unique_crash = Crash.objects.filter(owner=request.user, parent_idx=0)
         total_crash = Crash.objects.all()
         storage = Storage.objects.filter(owner=request.user)
@@ -55,9 +62,9 @@ def index(request):
 
     active_time = datetime.now() - timedelta(minutes=5)
 
-    context = {'crash': crash, 'fuzzer': fuzzer, 'storage':storage, 'crash_list': unique_crash[:5], 'fuzzer_list': fuzzer[:5],
+    context = {'crash': crash, 'fuzzer': fuzzer, 'storage':storage, 'crash_list': unique_crash[::-1][:5], 'fuzzer_list': fuzzer[:5],
                'storage_list': storage, 'user': user, "unique_crash": unique_crash, "total_crash": total_crash,
-               "last_7day_crashes_dict": json.dumps(last_7day_crashes_list), 'active_time': active_time, 'last_crash': crash[len(crash)-1]}
+               "last_7day_crashes_dict": json.dumps(last_7day_crashes_list), 'active_time': active_time, 'last_crash': crash[0]}
     return render(request, 'web/index.html', context)
 
 
@@ -104,7 +111,7 @@ def fuzzer_detail(request, idx):
 @login_required
 def crash(request):
     try:
-        crash = Crash.objects.filter(owner=request.user, is_dup_crash=False, parent_idx=0)
+        crash = Crash.objects.filter(owner=request.user, is_dup_crash=False, parent_idx=0)[::-1]
     except ObjectDoesNotExist:
         raise Http404
 
@@ -137,6 +144,15 @@ def crash_detail(request, idx):
         crash = Crash.objects.get(owner=request.user, id=idx)
     except ObjectDoesNotExist:
         raise Http404
+
+    # If post (save comment)
+
+    if request.method == "POST":
+        param_list = ['comment']
+        if check_param(request.POST, param_list):
+            comment = request.POST['comment']
+            crash.comment = comment
+            crash.save()
 
     # Get duplicated crash
     try:

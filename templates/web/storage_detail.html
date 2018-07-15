@@ -27,7 +27,7 @@
                                                 <label class="control-label">filename</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">{{ storage.original_name }}</p>
+                                                <p class="text-muted">{{ storage.file.name }}</p>
                                             </div>
                                         </div>
                                         <div class="row form-group">
@@ -53,18 +53,18 @@
                                                 <label class="control-label">Download</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">Click {{ storage. }} </p>
+                                                <a href="/api/v1/storage/{{ storage.id }}/download"><button type="button" class="btn btn-info-outline">Download</button></a>
                                             </div>
                                         </div>
 
-                                        <div class="row form-group">
-                                            <div class="col-2">
-                                                <label class="control-label">Download by Curl</label>
-                                            </div>
-                                            <div class="col-10">
-                                                <textarea rows="3" class="form-control boxed" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>curl 'http://localhost:8000/storage/1' -H 'Connection: keep-alive' -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8' -H 'Referer: http://localhost:8000/storage/' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7' -H 'Cookie: Pycharm-ea4a12e3=50376c55-86ff-4951-a2b4-fc43e404151c; _ga=GA1.1.1101676173.1526305699; csrftoken=JkY2ZcsvheVlKQHJo4JBQRIl5CK5FRtbEW4Ub0ESewgKUvjn2trPE9JPr7NlbvP0; sessionid=8cnee2es4vn10rn6irvimddcixvq3ehr; _gid=GA1.1.591779039.1526647306' --compressed</textarea>
-                                            </div>
-                                        </div>
+{#                                        <div class="row form-group">#}
+{#                                            <div class="col-2">#}
+{#                                                <label class="control-label">Download by Curl</label>#}
+{#                                            </div>#}
+{#                                            <div class="col-10">#}
+{#                                                <textarea rows="3" class="form-control boxed" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>curl 'http://localhost:8000/storage/1' -H 'Connection: keep-alive' -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8' -H 'Referer: http://localhost:8000/storage/' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7' -H 'Cookie: Pycharm-ea4a12e3=50376c55-86ff-4951-a2b4-fc43e404151c; _ga=GA1.1.1101676173.1526305699; csrftoken=JkY2ZcsvheVlKQHJo4JBQRIl5CK5FRtbEW4Ub0ESewgKUvjn2trPE9JPr7NlbvP0; sessionid=8cnee2es4vn10rn6irvimddcixvq3ehr; _gid=GA1.1.591779039.1526647306' --compressed</textarea>#}
+{#                                            </div>#}
+{#                                        </div>#}
 
                                         <div class="row form-group">
                                             <div class="col-2">
@@ -98,7 +98,7 @@
                                                 <label class="control-label">Comment</label>
                                             </div>
                                             <div class="col-10">
-                                                <textarea rows="3" class="form-control boxed" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>No dap{{ storage.comment }}</textarea>
+                                                <textarea rows="3" class="form-control boxed" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>{{ storage.comment }}</textarea>
                                             </div>
                                         </div>
 
