@@ -10,6 +10,7 @@ from django.utils.http import http_date, quote_etag
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponseNotAllowed, FileResponse, Http404
 from django.views.decorators.http import require_http_methods, require_GET, require_POST
+from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import decorator_from_middleware
 from django.middleware.http import ConditionalGetMiddleware
 from django.contrib.auth.decorators import login_required
@@ -63,106 +64,6 @@ def get_error_msg(key):
 
 
 @require_GET
-@login_required
-def crash_download(request, idx):
-    result = {"result": False, "message": None}
-    try:
-        crash = Crash.objects.get(owner=request.user, id=idx)
-    except ObjectDoesNotExist:
-        crash = None
-
-    if not crash:
-        result['message'] = get_error_msg('wrong_param')
-        return JsonResponse(result)
-
-    f = crash.crash_file
-
-    response = FileResponse(f.file)
-    response['Content-Type'] = 'application/octet-stream'
-    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(f.name)
-
-    return response
-
-
-@require_GET
-@login_required
-def crash_generate_url(request, idx):
-    result = {"result": False, "message": None}
-
-    try:
-        crash = Crash.objects.get(owner=request.user, id=idx)
-    except ObjectDoesNotExist:
-        crash = None
-
-    if not crash:
-        result['message'] = get_error_msg('wrong_param')
-        return JsonResponse(result)
-
-    f = crash.crash_file
-
-    try:
-        otu = OnetimeUrl.objects.get(owner=request.user, file=f, is_expired=False)
-    except ObjectDoesNotExist:
-        otu = None
-
-    if not otu:
-        otu = OnetimeUrl(owner=request.user, file=f, type="crash")
-        otu.save()
-
-    scheme = request.is_secure() and "https" or "http"
-    result["result"] = True
-    result["token"] = otu.token
-    result["url"] = scheme + "://" + request.META['HTTP_HOST'] + "/api/v1/share/download?token=" + otu.token
-    return JsonResponse(result)
-
-
-@require_GET
-@login_required
-def crash_dup_crash_list(request, idx):
-    result = {"result": False, "message": None}
-    try:
-        crash = Crash.objects.filter(owner=request.user, parent_idx=idx)
-    except ObjectDoesNotExist:
-        result['message'] = get_error_msg('wrong_param')
-        return JsonResponse(result)
-
-    paginator = Paginator(crash, 30)
-    page = request.GET.get('p', 1)
-
-    try:
-        crash = paginator.page(page)
-    except PageNotAnInteger:
-        crash = paginator.page(1)
-    except EmptyPage:
-        crash = paginator.page(paginator.num_pages)
-
-    if page not in paginator.page_range:
-        paginator.page(1)
-
-    index = paginator.page_range.index(crash.number)
-    max_index = len(paginator.page_range)
-    start_index = index - 5 if index >= 5 else 0
-    end_index = index + 5 if index <= max_index - 5 else max_index
-    page_range = paginator.page_range[start_index:end_index]
-
-    crash_list = []
-    for c in crash:
-        temp = dict()
-        crash_name = c.crash_file.name
-        if "/" in crash_name:
-            crash_name = crash_name.split("/")[-1]
-        temp['name'] = crash_name
-        temp['size'] = c.crash_file.size
-        temp['date'] = c.reg_date
-        temp['id'] = c.id
-        crash_list.append(temp)
-
-    result = {'result': True, "message": None, 'crashes': crash_list}
-
-    return JsonResponse(result)
-
-
-@require_GET
 def file_download_by_otu(request):
     result = {"result": False, "message": None}
 
@@ -193,22 +94,31 @@ def file_download_by_otu(request):
     f = otu.file
     otu.is_expired = True
     otu.save()
-
+    fname = ""
     if otu.type == "storage":
         f.storage = FileSystemStorage(location=settings.USER_STORAGE_ROOT)
+        fname = otu.content_object.file.name
+        otu.content_object.download_count += 1
+        otu.content_object.save()
+        if "/" in fname:
+            fname = fname.split("/")[-1]
     elif otu.type == "crash":
         f.storage = FileSystemStorage(location=settings.CRASH_STORAGE_ROOT)
+        fname = otu.content_object.file_hash
     else:
         result['message'] = get_error_msg('unknown')
         return JsonResponse(result)
 
+
+    print(fname)
     response = FileResponse(f)
     response['Content-Type'] = 'application/octet-stream'
-    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(f.name)
+    response['Content-Disposition'] = 'attachment;filename={0};filename*=UTF-8\'\'"{1}"'.format(fname, fname)
 
     return response
 
 
+@csrf_exempt
 @require_POST
 @apikey_required
 def crash_upload(request):
@@ -256,6 +166,7 @@ def crash_upload(request):
     # Create new crash
     new_crash = Crash(owner=fuzzer.owner, fuzzer=fuzzer)
     fuzzer.crash_cnt += 1
+    fuzzer.save()
 
     # If duplicated crash
     if is_duplicated_crash:
@@ -263,7 +174,6 @@ def crash_upload(request):
         new_crash.parent_idx = crash.id
         new_crash.is_dup_crash = True
         crash.save()
-        fuzzer.save()
 
     # Common data
     new_crash.title_hash = crash_hash
@@ -284,6 +194,7 @@ def crash_upload(request):
     return JsonResponse(result)
 
 
+@csrf_exempt
 @require_POST
 @apikey_required
 def fuzzer_update_info(request):
@@ -364,9 +275,6 @@ def storage_list(request):
     """
     result = {"result": False, "message": None}
     apikey = get_apikey(request)
-    param_list = []
-    if not check_param(request.POST, param_list):
-        raise Http404
 
     try:
         fuzzer = Fuzzer.objects.get(api_key=apikey)
@@ -381,9 +289,11 @@ def storage_list(request):
         temp = {'idx': f.id, 'filename': f.original_name, 'size': f.file.size, 'reg_date': f.reg_date,
                 'download_count': f.download_count, 'hash': f.hash, 'title': f.title}
         result['storage_list'].append(temp)
+    result['result'] = True
     return JsonResponse(result)
 
 
+@csrf_exempt
 @require_POST
 @apikey_required
 def storage_download(request):
@@ -413,68 +323,4 @@ def storage_download(request):
     return response
 
 
-@require_GET
-@login_required
-def storage_download_web(request, idx):
-    """
-    Download file from storage server.
 
-    :param request:
-    :param idx:
-    :return:
-    """
-    result = {"result": False, "message": None}
-
-    try:
-        storage = Storage.objects.get(owner=request.user, id=idx)
-    except ObjectDoesNotExist:
-        result['message'] = get_error_msg('wrong_param')
-        return JsonResponse(result)
-
-    storage.download_count += 1
-    storage.save()
-
-    response = FileResponse(storage.file)
-    response['Content-Type'] = 'application/octet-stream'
-    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(storage.file.name)
-
-    return response
-
-
-@require_GET
-@login_required
-def storage_generate_url(request, idx):
-    """
-    Generate OTU for files in storage.
-
-    :param request:
-    :param idx:
-    :return:
-    """
-    result = {"result": False, "message": None}
-
-    try:
-        storage = Storage.objects.get(owner=request.user, id=idx)
-    except ObjectDoesNotExist:
-        storage = None
-
-    if not storage:
-        result['message'] = get_error_msg('wrong_param')
-        return JsonResponse(result)
-
-    f = storage.file
-
-    try:
-        otu = OnetimeUrl.objects.get(owner=request.user, file=f, is_expired=False)
-    except ObjectDoesNotExist:
-        otu = None
-
-    if not otu:
-        otu = OnetimeUrl(owner=request.user, file=f, type="storage")
-        otu.save()
-
-    scheme = request.is_secure() and "https" or "http"
-    result["result"] = True
-    result["token"] = otu.token
-    result["url"] = scheme + "://" + request.META['HTTP_HOST'] + "/api/v1/share/download?token=" + otu.token
-    return JsonResponse(result)

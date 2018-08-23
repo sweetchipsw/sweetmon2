@@ -36,7 +36,7 @@
                                                         <tr class="odd gradeX">
                                                             <td>{{ storage.id }}</td>
                                                             <td><a href="/storage/{{ storage.id }}">{{ storage.title }}</a></td>
-                                                            <td>{{ storage.file.name }}</td>
+                                                            <td>{{ storage.get_filename }}</td>
                                                             <td>{{ storage.file.size|filesizeformat }}</td>
                                                             <td>{{ storage.reg_date|timesince }} ago</td>
                                                             <td>{{ storage.download_count }}</td>

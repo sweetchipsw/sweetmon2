@@ -4,6 +4,8 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin, User
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Permission
 from django.dispatch import receiver
 from datetime import datetime
@@ -19,12 +21,11 @@ user_storage = FileSystemStorage(location=settings.USER_STORAGE_ROOT)
 
 
 def get_upload_path(instance, filename):
-    print(instance.id)
-    return '{0}/{1}/{2}'.format(instance.owner, instance.id, filename)
+    return '{0}/{1}'.format(instance.owner, filename)
 
 
 def get_storage_path(instance, filename):
-    return '{0}/{1}/{2}'.format(instance.owner, instance.id, filename)
+    return '{0}/{1}'.format(instance.owner, filename)
 
 
 def generate_api_key():
@@ -91,9 +92,14 @@ class Storage(models.Model):
     download_count = models.IntegerField(default=0)
     comment = models.TextField(null=True, blank=True)
 
-    def __str__(obj):
-        return "%s" % (obj.title)
+    def __str__(self):
+        return "%s" % (self.title)
 
+    def get_filename(self):
+        if len(self.file.name.split('/')) > 0:
+            return self.file.name.split('/')[-1]
+        else:
+            return self.file.name
 
 class OnetimeUrl(models.Model):
     owner = models.ForeignKey(User, on_delete=None)
@@ -101,6 +107,9 @@ class OnetimeUrl(models.Model):
     file = models.FileField(storage=crash_storage)
     is_expired = models.BooleanField(default=False)
     type = models.CharField(max_length=256, default="")
+    object_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(ContentType, on_delete=None)
+    content_object = GenericForeignKey('content_type', 'object_id')
 
     def __str__(obj):
         return "%s" % (obj.file.name)

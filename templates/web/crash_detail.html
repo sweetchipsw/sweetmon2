@@ -1,6 +1,7 @@
                 {% extends 'web/base.html' %}
 
                 {% block content %}
+
                 <div class="sidebar-overlay" id="sidebar-overlay"></div>
                 <div class="sidebar-mobile-menu-handle" id="sidebar-mobile-menu-handle"></div>
                 <div class="mobile-menu-handle"></div>
@@ -30,7 +31,6 @@
                                             <div class="col-10">
                                                 <p class="text-muted">{{ crash.reg_date }} ago</p>
                                             </div>
-
                                         </div>
 
                                         <div class="row form-group">
@@ -65,9 +65,8 @@
                                                 <label class="control-label">Download Testcase</label>
                                             </div>
                                             <div class="col-10">
-{#                                                <input type="text" readonly="readonly" class="form-control boxed" value="https://sweetmon.zeroday.me/">#}
-                                                <a href="/api/v1/crash/{{ crash.id }}/download"><button type="button" class="btn btn-info-outline">Download</button></a>
-                                                <button type="button" class="btn btn-success-outline">Share</button>
+                                                <a href="/crash/{{ crash.id }}/download"><button type="button" class="btn btn-info-outline">Download</button></a>
+                                                <button type="button" id="generate_otu" onclick="request_url()" class="btn btn-success-outline">Share</button>
                                             </div>
                                         </div>
 
@@ -131,7 +130,7 @@
                                                 </a>
                                             </div>
                                         </div>
-
+                                    {% csrf_token %}
                                     </form>
                                 </div>
                             </div>
@@ -195,5 +194,18 @@
                     </section>
                 {% endif %}
                 </article>
+
+                <script>
+                function request_url(event) {
+                    $.ajax({
+                        url : '/crash/generate_url',
+                        type: 'POST',
+                        data : {"csrfmiddlewaretoken": "{{ csrf_token }}", "idx":{{ crash.id }} },
+                        success:function(data){
+                            prompt("Copy to clipboard: Ctrl+C, Enter", data['url']);
+                        }
+                    });
+                }
+                </script>
 
                 {% endblock %}

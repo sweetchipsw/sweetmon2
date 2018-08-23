@@ -25,8 +25,8 @@
                                                     <i class="fa fa-users"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> {{ user.count|intcomma }} </div>
-                                                    <div class="name"> Total users </div>
+                                                    <div class="item-col item-col-header item-col-stats"> {{ user.count|intcomma }} </div>
+                                                    <div class="title"> Total users </div>
                                                 </div>
                                                 <div class="progress stat-progress">
                                                     <div class="progress-bar" style="width: 100%;"></div>
@@ -37,8 +37,8 @@
                                                     <i class="fa fa-rocket"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> {{ fuzzer.count|intcomma }} </div>
-                                                    <div class="name"> Fuzzers </div>
+                                                    <div class="item-col item-col-header item-col-stats"> {{ fuzzer.count|intcomma }} </div>
+                                                    <div class="title"> Fuzzers </div>
                                                 </div>
                                                 <div class="progress stat-progress">
                                                     <div class="progress-bar" style="width: 100%;"></div>
@@ -49,8 +49,8 @@
                                                     <i class="fa fa-bug"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> {{ total_crash.count|intcomma }} </div>
-                                                    <div class="name"> Crashes </div>
+                                                    <div class="item-col item-col-header item-col-stats"> {{ total_crash.count|intcomma }} </div>
+                                                    <div class="title"> Crashes </div>
                                                 </div>
                                                 <div class="progress stat-progress">
                                                     <div class="progress-bar" style="width: 100%;"></div>
@@ -61,8 +61,8 @@
                                                     <i class="fa fa-bug"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> {{ unique_crash.count|intcomma }} </div>
-                                                    <div class="name"> Unique Crashes </div>
+                                                    <div class="item-col item-col-header item-col-stats"> {{ unique_crash.count|intcomma }} </div>
+                                                    <div class="title"> Unique Crashes </div>
                                                 </div>
                                                 <div class="progress stat-progress">
                                                     <div class="progress-bar" style="width: 100%;"></div>
@@ -73,8 +73,8 @@
                                                     <i class="fa fa-list-alt"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> {{ storage_list.count }} </div>
-                                                    <div class="name"> Files </div>
+                                                    <div class="item-col item-col-header item-col-stats"> {{ storage_list.count }} </div>
+                                                    <div class="title"> Files </div>
                                                 </div>
                                                 <div class="progress stat-progress">
                                                     <div class="progress-bar" style="width: 100%;"></div>
@@ -85,8 +85,8 @@
                                                     <i class="fa fa-dollar"></i>
                                                 </div>
                                                 <div class="stat">
-                                                    <div class="value"> {{ last_crash.reg_date|timesince  }} ago </div>
-                                                    <div class="name"> Last crash </div>
+                                                    <div class="item-col item-col-header item-col-stats"> {{ last_crash.reg_date|timesince  }} ago </div>
+                                                    <div class="title"> Last crash </div>
                                                 </div>
                                                 <div class="progress stat-progress">
                                                     <div class="progress-bar" style="width: 100%;"></div>
@@ -109,7 +109,7 @@
                                         </ul>
                                     </div>
                                     <div class="card-block">
-                                        <div class="tab-content">
+                                        <div class="tab-content  no-overflow">
                                             <div role="tabpanel" class="tab-pane active fade show" id="visits">
                                                 <p class="title-description"> Number of unique crashes last 7 days </p>
                                                 <div id="dashboard-visits-chart"></div>
