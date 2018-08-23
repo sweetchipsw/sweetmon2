@@ -55,7 +55,7 @@ def index(request):
         unique_crash = []
 
     try:
-        total_crash = Crash.objects.all()
+        total_crash = Crash.objects.filter(owner=request.user)
     except ObjectDoesNotExist:
         total_crash = []
 
@@ -65,7 +65,7 @@ def index(request):
         storage = []
 
     try:
-        last_7day_crashes = Crash.objects.filter(reg_date__range=[startdate, enddate]).annotate(
+        last_7day_crashes = Crash.objects.filter(owner=request.user, reg_date__range=[startdate, enddate]).annotate(
             month=TruncDay('reg_date')).values('month').annotate(c=Count('id')).order_by()
     except ObjectDoesNotExist:
         last_7day_crashes = []
@@ -143,7 +143,9 @@ def fuzzer_detail(request, idx):
         fuzzer = Fuzzer.objects.get(owner=request.user, id=idx)
     except ObjectDoesNotExist:
         raise Http404
-    context = {'fuzzer': fuzzer}
+    active_time = datetime.now() - timedelta(minutes=5)
+
+    context = {'fuzzer': fuzzer, 'active_time': active_time}
     return render(request, 'web/fuzzer_detail.html', context)
 
 

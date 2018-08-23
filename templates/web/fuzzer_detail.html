@@ -35,7 +35,12 @@
                                                 <label class="control-label">Status</label>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-muted">{{ fuzzer.reg_date }}</p>
+                                                {% if fuzzer.ping_date|date:"U" > active_time|date:"U" %}
+                                                <p class="text-muted">Active</p>
+                                                {% else %}
+                                                <p class="text-muted">Inactive</p>
+                                                {% endif %}
+
                                             </div>
                                         </div>
 

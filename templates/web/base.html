@@ -9,15 +9,7 @@
         <!-- Place favicon.ico in the root directory -->
         <link rel="shortcut icon" type="image/png" href="/static/assets/favicon.ico"/>
         <link rel="stylesheet" href="/static/css/vendor.css">
-        <!-- Theme initialization -->
-        <script>
-            var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
-            {};
-            var themeName = themeSettings.themeName || 'blue';
-            {
-                document.write('<link rel="stylesheet" id="theme-style" href="/static/css/app-blue.css">');
-            }
-        </script>
+        <link rel="stylesheet" id="theme-style" href="/static/css/app-blue.css">
     </head>
     <body>
         <div class="main-wrapper">
@@ -32,7 +24,7 @@
                         <ul class="nav-profile">
                             <li class="profile dropdown">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <span class="name"> sweetchip </span>
+                                    <span class="name"> {{ request.user }} </span>
                                 </a>
                                 <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="/admin/">

@@ -31,13 +31,11 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     email = models.EmailField(max_length=256, null=True, blank=True)
-    telegram_userid = models.CharField(max_length=32, blank=True)
-
-    use_telegram_alert = models.BooleanField(default=False,
-                                             help_text="Use this feature if you want to subscribe crash.")
-    use_email_alert = models.BooleanField(default=False)
-
-    profile_image = models.FileField(storage=image_storage, null=True, blank=True, upload_to=get_image_upload_path)
+    # telegram_userid = models.CharField(max_length=32, blank=True)
+    # use_telegram_alert = models.BooleanField(default=False,
+    #                                          help_text="Use this feature if you want to subscribe crash.")
+    # use_email_alert = models.BooleanField(default=False)
+    # profile_image = models.FileField(storage=image_storage, null=True, blank=True, upload_to=get_image_upload_path)
 
     def __str__(obj):
         return "%s" % (obj.owner)
@@ -58,21 +56,30 @@ def create_profile(sender, **kwargs):
         user.is_staff = True;
 
         """
-        'Can add testcase', 'Can change testcase', 'Can delete testcase',
-                           'Can add email bot', 'Can change email bot', 'Can delete email bot',
-                           'Can add issue', 'Can change issue', 'Can delete issue',
-                           'Can add telegram bot', 'Can change telegram bot', 'Can delete telegram bot',
-                           'Can add testcase', 'Can change testcase', 'Can delete testcase',
+        'Can add fuzzer', 'Can change fuzzer', 'Can delete fuzzer',
+       'Can add storage', 'Can change storage', 'Can delete storage',
         """
         # Add permissions for staff
-        permission_list = ['Can change profile']
+        permission_list = ['Can add fuzzer', 'Can change fuzzer', 'Can delete fuzzer', 'Can add storage',
+                           'Can change storage', 'Can delete storage', 'Can change profile']
         for permission in permission_list:
             userperm = Permission.objects.get(name=permission)
             user.user_permissions.add(userperm)
         user.save()
 
+def SyncUserProfile(sender, **kwargs):
+	# Gen userkey
+	profile = kwargs["instance"]
+	if not kwargs["created"]:
+		user_profile = User.objects.get(id=profile.owner.id)
+		user_profile.email = profile.email
+		user_profile.last_name = profile.last_name
+		user_profile.first_name = profile.first_name
+		user_profile.save()
+
 
 post_save.connect(create_profile, sender=User)
+post_save.connect(SyncUserProfile, sender=Profile)
 
 """
 # TODO : Impl alertbot
