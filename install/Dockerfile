@@ -1,6 +1,8 @@
 FROM ubuntu:16.04
 MAINTAINER sweetchip <sweetchip@sweetchip.kr>
 
+volume ["/data/"]
+
 ENV VENV=sweetmon_venv
 ENV LOCATION=/app
 ENV ADMIN_ID=admin
