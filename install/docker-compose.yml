@@ -24,6 +24,8 @@ services:
       MYSQL_DATABASE: "sweetmon2"
       MYSQL_USER: "sweetmon"
       MYSQL_PASSWORD: "sweetmon"
+      LANG: "en_US.UTF-8"
+      LC_ALL: "en_US.UTF-8"
     volumes:
       - "./data/:/data/"
     ports:
