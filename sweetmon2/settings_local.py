@@ -23,8 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'vugf#x=7v(k#lbte%u1dc5+lebyb7y-9m!aa3oyro6nxc71=%='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False #
 
 
 ALLOWED_HOSTS = []
@@ -81,12 +81,8 @@ WSGI_APPLICATION = 'sweetmon2.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ['MYSQL_DATABASE'],
-        'USER': os.environ['MYSQL_USER'],
-        'PASSWORD': os.environ['MYSQL_PASSWORD'],
-        'HOST': 'sweetmon2-db',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -135,9 +131,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, '/')
 LOGIN_URL = "/accounts/login"
 LOGIN_REDIRECT_URL = "/"
 
-CRASH_STORAGE_ROOT = '/data/file/crash/'
-USER_STORAGE_ROOT = '/data/file/users/'
-IMAGE_STORAGE_ROOT = '/data/file/users/'
+# CRASH_STORAGE_ROOT = '/data/file/crash/'
+# USER_STORAGE_ROOT = '/data/file/users/'
+# IMAGE_STORAGE_ROOT = '/data/file/users/'
+
+# Normal env
+CRASH_STORAGE_ROOT = os.path.join(BASE_DIR, 'file/crash/')
+USER_STORAGE_ROOT = os.path.join(BASE_DIR, 'file/users/')
+IMAGE_STORAGE_ROOT = os.path.join(BASE_DIR, 'file/image/')
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', "*"]
 
