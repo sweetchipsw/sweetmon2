@@ -1,17 +1,22 @@
 FROM ubuntu:16.04
 MAINTAINER sweetchip <sweetchip@sweetchip.kr>
 
-#volume ["/data/"]
-
-#ENV VENV=sweetmon_venv
 ENV LOCATION=/app
-#ENV ADMIN_ID=admin
-#ENV ADMIN_PW=adm1npasswd
+ARG MYSQL_DATABASE
+ARG MYSQL_USER
+ARG MYSQL_PASSWORD
+ARG LANG
+ARG LC_ALL
+ENV MYSQL_DATABASE $MYSQL_DATABASE
+ENV MYSQL_USER $MYSQL_USER
+ENV MYSQL_PASSWORD $MYSQL_PASSWORD
+ENV LANG $LANG
+ENV LC_ALL $LC_ALL
 
 # Update system
 RUN apt update
 #RUN apt upgrade -y
-RUN apt install -y python3 python3-pip apache2 virtualenv libapache2-mod-wsgi-py3 git
+RUN apt install -y python3 python3-pip apache2 virtualenv libapache2-mod-wsgi-py3 git python3-pymysql
 RUN apt install -y gettext-base
 # Make working directory and go to /app
 RUN mkdir -p /app
@@ -43,9 +48,6 @@ WORKDIR /app/sweetmon2
 RUN pip3 install -r requirements.txt
 RUN python3 manage.py makemigrations
 RUN python3 manage.py migrate
-
-# Create Superuser (CHANGE PASSWORD IMMEDIATELY AFTER INSTALL FINISHED)
-#RUN $PYTHON3 manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('$ADMIN_ID', 'admin@example.com', '$ADMIN_PW')"
 
 # Create upload directories
 RUN mkdir -p /data/file/crash/
