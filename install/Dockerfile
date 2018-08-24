@@ -1,12 +1,12 @@
 FROM ubuntu:16.04
 MAINTAINER sweetchip <sweetchip@sweetchip.kr>
 
-volume ["/data/"]
+#volume ["/data/"]
 
-ENV VENV=sweetmon_venv
+#ENV VENV=sweetmon_venv
 ENV LOCATION=/app
-ENV ADMIN_ID=admin
-ENV ADMIN_PW=adm1npasswd
+#ENV ADMIN_ID=admin
+#ENV ADMIN_PW=adm1npasswd
 
 # Update system
 RUN apt update
@@ -21,9 +21,9 @@ WORKDIR /app
 RUN git clone https://github.com/sweetchipsw/sweetmon2.git
 
 # Set virtual environment
-RUN virtualenv -p python3 $VENV
-ENV PIP3=$LOCATION/$VENV/bin/pip3
-ENV PYTHON3=$LOCATION/$VENV/bin/python3
+#RUN virtualenv -p python3 $VENV
+#ENV PIP3=$LOCATION/$VENV/bin/pip3
+#ENV PYTHON3=$LOCATION/$VENV/bin/python3
 
 # Copy files into Docker.
 ADD ./ /app
@@ -40,17 +40,17 @@ RUN rm /tmp/sweetmon.conf
 
 # Initialize sweetmon
 WORKDIR /app/sweetmon2
-RUN $PIP3 install -r requirements.txt
-RUN $PYTHON3 manage.py makemigrations
-RUN $PYTHON3 manage.py migrate
+RUN pip3 install -r requirements.txt
+RUN python3 manage.py makemigrations
+RUN python3 manage.py migrate
 
 # Create Superuser (CHANGE PASSWORD IMMEDIATELY AFTER INSTALL FINISHED)
-RUN $PYTHON3 manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('$ADMIN_ID', 'admin@example.com', '$ADMIN_PW')"
+#RUN $PYTHON3 manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('$ADMIN_ID', 'admin@example.com', '$ADMIN_PW')"
 
 # Create upload directories
-RUN mkdir -p file/crash/
-RUN mkdir -p file/users/
-RUN mkdir -p file/image/
+RUN mkdir -p /data/file/crash/
+RUN mkdir -p /data/file/users/
+RUN mkdir -p /data/file/image/
 
 EXPOSE 80
 EXPOSE 443

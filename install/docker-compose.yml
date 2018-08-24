@@ -1,0 +1,41 @@
+version '3'
+
+services:
+  sweetmon2-db:
+    container_name: sweetmon2-mysql
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: "sweetmon"
+      MYSQL_DATABASE: "sweetmon2"
+      MYSQL_USER: "sweetmon"
+      MYSQL_PASSWORD: "sweetmon"
+    volumes:
+      - "./conf/mysql:/var/lib/mysql"
+      - "./conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf"
+    build:
+      context: .
+    networks:
+      - sweetmon2
+
+  sweetmon2-web:
+    container_name: sweetmon2-web
+    build:
+      context:
+      dockerfile: Dockerfile
+    command: echo "test";
+    environment:
+      DJANGO_SETTINGS_MODULE: website.settings.production
+      MYSQL_DATABASE: "sweetmon2"
+      MYSQL_USER: "sweetmon"
+      MYSQL_PASSWORD: "sweetmon"
+    volumes:
+      - "./data/:/data/"
+    ports:
+      - "80:80"
+    depends_on:
+      - sweetmon2-db
+    networks:
+      - sweetmon2
+
+networks:
+  sweetmon2:
