@@ -60,4 +60,4 @@ WORKDIR /app
 RUN echo "[*] Initialize file permissions."
 RUN chown www-data:www-data ./ -R
 
-CMD apachectl -DFOREGROUND
+CMD ["apachectl", "-D", "FOREGROUND"]
