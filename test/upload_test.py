@@ -6,7 +6,7 @@ import json
 
 # Define common headers
 ENDPOINT_URL = "http://172.16.101.130/api/v1"
-header = {"apikey":"5d69b264e8ec7aa05fd08b708545c2ed3d51ab6237f30df3f91a7ad7cdc336a3"}
+header = {"apikey":"79cfd24a8908e73c163dc42ee0a0848c630e440b2fcab2c8e1d0a7b88bf2e7ec"}
 
 print("[*] SIMPLE TEST")
 random.seed(time.time())

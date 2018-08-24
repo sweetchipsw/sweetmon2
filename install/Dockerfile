@@ -24,11 +24,6 @@ WORKDIR /app
 # Download sweetmon from git repository
 RUN git clone https://github.com/sweetchipsw/sweetmon2.git
 
-# Set virtual environment
-#RUN virtualenv -p python3 $VENV
-#ENV PIP3=$LOCATION/$VENV/bin/pip3
-#ENV PYTHON3=$LOCATION/$VENV/bin/python3
-
 # Copy files into Docker.
 ADD ./ /app
 RUN envsubst < sweetmon.conf > /tmp/sweetmon.conf
@@ -45,8 +40,8 @@ RUN rm /tmp/sweetmon.conf
 # Initialize sweetmon
 WORKDIR /app/sweetmon2
 RUN pip3 install -r requirements.txt
-RUN python3 manage.py makemigrations
-RUN python3 manage.py migrate
+#RUN python3 manage.py makemigrations
+#RUN python3 manage.py migrate
 
 # Create upload directories
 RUN mkdir -p /data/file/crash/

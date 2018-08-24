@@ -1,8 +1,8 @@
-version: '3'
+version: "3"
 
 services:
   sweetmon2-db:
-    container_name: sweetmon2-mysql
+    container_name: sweetmon2-db
     image: mariadb:latest
     environment:
       MYSQL_ROOT_PASSWORD: "sweetmon"
