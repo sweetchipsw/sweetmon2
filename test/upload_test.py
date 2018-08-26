@@ -5,8 +5,8 @@ import time
 import json
 
 # Define common headers
-ENDPOINT_URL = "http://172.16.101.130/api/v1"
-header = {"apikey":"79cfd24a8908e73c163dc42ee0a0848c630e440b2fcab2c8e1d0a7b88bf2e7ec"}
+ENDPOINT_URL = "http://fuzz.sweetchip.kr:12070/api/v1"
+header = {"apikey":"a44087ec8cf60d7a9962babfde55be8284d1a966e4cb53c8b60978f427ae7c85"}
 
 print("[*] SIMPLE TEST")
 random.seed(time.time())
