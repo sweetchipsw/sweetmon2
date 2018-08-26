@@ -6,7 +6,53 @@ I will update readme for this project soon!
 
 ## What is this?
 
+![2018-08-26 5 02 19](https://user-images.githubusercontent.com/14085555/44626103-fdc82e80-a951-11e8-98c7-8bd5f426c5b1.png)
+
 Sweetmon2 is a fuzzer monitoring framework based Python3 + Django2. User can check their fuzzers and crashes on the web. It can reduce repetitive work for fuzz testers.
+
+## Screenshots
+
+### Fuzzer configuration
+
+![2018-08-26 5 05 11](https://user-images.githubusercontent.com/14085555/44626127-69120080-a952-11e8-854b-78ac7a44fd5a.png)
+
+
+
+### Fuzzer list
+
+![2018-08-26 5 05 26](https://user-images.githubusercontent.com/14085555/44626128-69aa9700-a952-11e8-8a9c-49f5903a3317.png)
+
+
+
+### Crash list
+
+![2018-08-26 5 09 02](https://user-images.githubusercontent.com/14085555/44626172-f81f1880-a952-11e8-9043-6c17abaca62b.png)
+
+
+
+### Crash detail
+
+![2018-08-26 5 09 33](https://user-images.githubusercontent.com/14085555/44626170-f35a6480-a952-11e8-9acc-46f154eeb63d.png)
+
+
+
+### Duplicate crashes
+
+![2018-08-26 5 09 41](https://user-images.githubusercontent.com/14085555/44626182-200e7c00-a953-11e8-80b0-df662d9ed205.png)
+
+
+
+### Storage list
+
+![2018-08-26 5 06 12](https://user-images.githubusercontent.com/14085555/44626171-f6edeb80-a952-11e8-8aaa-09d4b4835be7.png)
+
+
+
+### Storage Details
+
+![2018-08-26 5 12 08](https://user-images.githubusercontent.com/14085555/44626188-39172d00-a953-11e8-9566-678ded58ddb6.png)
+
+
 
 ## Notice
 

@@ -6,7 +6,7 @@ import json
 
 # Define common headers
 ENDPOINT_URL = "http://fuzz.sweetchip.kr:12070/api/v1"
-header = {"apikey":"a44087ec8cf60d7a9962babfde55be8284d1a966e4cb53c8b60978f427ae7c85"}
+header = {"apikey":"3486787be8374769b8f0380ef915d36a5fe48428a0666243a83dd6f9ab81a70a"}
 
 print("[*] SIMPLE TEST")
 random.seed(time.time())
