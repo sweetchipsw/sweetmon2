@@ -56,5 +56,6 @@ EXPOSE 443
 WORKDIR /app
 RUN echo "[*] Initialize file permissions."
 RUN chown www-data:www-data ./ -R
+VOLUME /etc/apache2/sites-available
 
 CMD ["apachectl", "-D", "FOREGROUND"]

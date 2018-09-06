@@ -27,8 +27,8 @@ services:
       LC_ALL: "en_US.UTF-8"
     volumes:
       - "./data/:/data/"
-      - "./apache:/etc/apache2/sites-available"
-      - "./cert:/cert"
+      - "./cert:/cert/"
+      - "./sites-available:/etc/apache2/sites-available"
     ports:
       - "80:80"
     depends_on:
