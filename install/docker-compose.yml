@@ -11,8 +11,8 @@ services:
       MYSQL_PASSWORD: "sweetmon"
     volumes:
       - "./conf/mysql:/var/lib/mysql"
-      - "./apache/:/etc/apache2/sites-available"
-      - "./cert/:/cert/"
+      - "./apache:/etc/apache2/sites-available"
+      - "./cert:/cert"
     networks:
       - sweetmon2
 
