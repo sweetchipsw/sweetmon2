@@ -109,8 +109,6 @@ def file_download_by_otu(request):
         result['message'] = get_error_msg('unknown')
         return JsonResponse(result)
 
-
-    print(fname)
     response = FileResponse(f)
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename={0};filename*=UTF-8\'\'"{1}"'.format(fname, fname)
