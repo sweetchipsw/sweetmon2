@@ -9,6 +9,6 @@ urlpatterns = [
     path('crash/upload', views.crash_upload, name='crash-upload-crash'),
     path('fuzzer/update_info', views.fuzzer_update_info, name='fuzzer-update-client'),
     path('fuzzer/ping', views.fuzzer_ping, name='fuzzer-ping'),
-    path('storage/list', views.storage_list, name='storage-list'),  # API
-    path('storage/download', views.storage_download, name='storage-download'),  # WEB API
+    path('storage/list', views.storage_list, name='storage-list'),
+    path('storage/download', views.storage_download, name='storage-download'),
 ]

@@ -47,6 +47,7 @@ RUN pip3 install -r requirements.txt
 RUN mkdir -p /data/file/crash/
 RUN mkdir -p /data/file/users/
 RUN mkdir -p /data/file/image/
+RUN mkdir /https/
 
 EXPOSE 80
 EXPOSE 443

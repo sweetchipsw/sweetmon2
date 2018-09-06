@@ -20,6 +20,7 @@ There are three external APIs to get fuzzing data from your fuzzer client. and y
 path('crash/upload', views.crash_upload, name='crash-upload-crash'),
 path('fuzzer/update_info', views.fuzzer_update_info, name='fuzzer-update-client'),
 path('fuzzer/ping', views.fuzzer_ping, name='fuzzer-ping'),
+path('storage/list', views.storage_list, name='storage-list'),
 ```
 
 ## APIS
@@ -48,8 +49,8 @@ ENDPOINT_URL = "http://localhost:8000/api/v1"
 header = {"apikey":"6faeee3fccba970636b11c7c920e0a151d32824bc9e6a9ff3ff6d4a62343e1fd"}
 
 # Upload test
-post = {"title":"""==9901==ERROR: AddressSanitizer: heap-use-after-free on address 0x60700000dfb5 at pc 0x45917b bp 0x7fff4490c700 sp 0x7fff4490c6f8 READ of size 1 at 0x60700000dfb5 thread T0""", "crashlog":"test\ntest"}
-files = {'file': "TEST FILE\nTEST FILE IS TEST"}
+post = {"title":"""==9901==ERROR: AddressSanitizer: heap-use-after-free on address 0x60700000dfb5 at pc 0x45917b bp 0x7fff4490c700 sp 0x7fff4490c6f8 READ of size 1 at 0x60700000dfb5 thread T0""", "crashlog":"THIS IS CRASH LOG"}
+files = {'file': "THIS IS CRASH FILE"}
 r = requests.post(ENDPOINT_URL+"/crash/upload", files=files, data=post, headers=header)
 print(r.text)
 ```
