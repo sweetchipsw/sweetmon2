@@ -27,10 +27,11 @@ services:
       LC_ALL: "en_US.UTF-8"
     volumes:
       - "./data/:/data/"
-      - "./cert:/cert/"
-      - "./sites-available:/etc/apache2/sites-available"
+      - "./cert/:/cert/"
+      - "./conf/apache2:/etc/apache2/"
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - sweetmon2-db
     networks:

@@ -17,7 +17,6 @@ ENV LC_ALL $LC_ALL
 RUN apt update
 #RUN apt upgrade -y
 RUN apt install -y python3 python3-pip apache2 virtualenv libapache2-mod-wsgi-py3 git python3-pymysql gettext-base libmysqlclient-dev
-VOLUME /etc/apache2/sites-available
 
 # Make working directory and go to /app
 RUN mkdir -p /app
