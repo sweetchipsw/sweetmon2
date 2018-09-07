@@ -40,7 +40,7 @@ def index(request):
     enddate = datetime.today()
 
     try:
-        fuzzer = Fuzzer.objects.filter(owner=request.user)
+        fuzzer = Fuzzer.objects.order_by('report_date').filter(owner=request.user)
     except ObjectDoesNotExist:
         fuzzer = []
 
@@ -110,7 +110,7 @@ def index(request):
 @login_required
 def fuzzer(request):
     try:
-        fuzzer = Fuzzer.objects.filter(owner=request.user)
+        fuzzer = Fuzzer.objects.filter(owner=request.user)[::-1]
     except ObjectDoesNotExist:
         raise Http404
 

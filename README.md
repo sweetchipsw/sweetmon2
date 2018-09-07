@@ -77,7 +77,7 @@ Sweetmon2 supports docker to make install this project easier. It creates docker
 
 ## Installation
 
-### Dependencies
+### Install dependencies
 
 You should install some of dependencies to create sweetmon2 container by docker.
 
@@ -94,21 +94,72 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 ### Create sweetmon2 container 
 
-After you install the dependencies, move your working directory to ```/sweetmon2/install/``` and type under commands.
+After you install the dependencies, move your working directory to `/sweetmon2/install/`.
+
+There are two options for creating webserver.
+
+- HTTP Webserver
+- HTTP**S** Webserver (Recommended)
+
+Before you start the installation, please make some directories to persist data which will be created on sweetmon2 container.
+
+```bash
+# Make ./data/ directory to persistent sweetmon2 data (crashes, files, etc)
+sudo mkdir -p ./data/file/crash
+sudo mkdir -p ./data/file/users
+sudo chmod 777 ./data/ -R
+```
+
+
+
+#### Create HTTP web server
+
+Creating normal(not HTTPS one) container is really simple.
 
 ```bash
 # Create docker container by using docker-compose
 sudo docker-compose up -d
-
-# Make ./data/ directory to persistent sweetmon2 data (crashes, files, etc)
-sudo mkdir -p ./data/file/crash
-sudo mkdir -p ./data/file/users
-
-# 
-sudo chmod 777 ./data/ -R
 ```
 
-When the docker-compose job completed, you will see two containers
+Almost done! Go to `Common` section.
+
+
+
+#### Create HTTPS web server
+
+You can issue SSL certificate easily by using `Letsencrypt`. It can be installed by `apt` on Ubuntu server.
+
+To install letsencrypt, try `apt install letsencrypt` command. and issue certificate for your server, try under command. **(Note that Letsencrypt uses 80 and 443 port to check request validation. So you must stop your application which uses 80 or 443 port.)**
+
+`sudo letsencrypt certonly -a standalone -d domain.com` (Replace domain.com with your domain!)
+
+```bash
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at
+   /etc/letsencrypt/live/domain.com/fullchain.pem. Your
+   cert will expire on 2017-mm-dd. To obtain a new version of the
+   certificate in the future, simply run Let's Encrypt again.
+ - If you like Let's Encrypt, please consider supporting our work by:
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+```
+
+When the certificate issued, you can get above message! And check your certificate on ` /etc/letsencrypt/live/domain/`.
+
+```bash
+$ sudo ls /etc/letsencrypt/live/domain/
+cert.pem  chain.pem  fullchain.pem  privkey.pem
+```
+
+Copy all of these files to `/sweetmon2/install/ssl/cert/` directory.
+
+Almost done! Go to `Common` section.
+
+ 
+
+#### Common
+
+When the docker-compose job completed, you will see two containers.
 
 ```bash
 # Check container ID of 'sweetmon2-web' container.
@@ -133,7 +184,7 @@ sudo docker exec -it [CONTAINER ID] python3 /app/sweetmon2/manage.py createsuper
 
 All done!
 
-Open your web browser, and go to ```http://SERVER-IP-ADDRESS/```.
+Open your web browser, and go to ```http(s)://SERVER-IP-ADDRESS/```. (Also, make sure your port-forwarding setting is valid.)
 
 ## Example
 

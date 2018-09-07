@@ -22,40 +22,36 @@ RUN apt install -y python3 python3-pip apache2 virtualenv libapache2-mod-wsgi-py
 RUN mkdir -p /app
 WORKDIR /app
 
-# Download sweetmon from git repository
-RUN git clone https://github.com/sweetchipsw/sweetmon2.git
+# Copy sweetmon into image
+COPY ../ /app/
 
 # Copy files into Docker.
 ADD ./ /app
-RUN envsubst < sweetmon.conf > /tmp/sweetmon.conf
-RUN cp /tmp/sweetmon.conf /etc/apache2/sites-available/sweetmon2.conf
+COPY ./sweetmon2.conf /etc/apache2/sites-available/sweetmon2.conf
+COPY ./cert/* /cert/
+
+# Apache2 setting
 RUN a2dissite 000-default
-
-# Setting Apache2
 RUN a2ensite sweetmon2
+RUN a2enmod ssl
 RUN service apache2 restart
-
-# Cleaning
-RUN rm /tmp/sweetmon.conf
 
 # Initialize sweetmon
 WORKDIR /app/sweetmon2
 RUN pip3 install -r requirements.txt
-#RUN python3 manage.py makemigrations
-#RUN python3 manage.py migrate
 
 # Create upload directories
 RUN mkdir -p /data/file/crash/
 RUN mkdir -p /data/file/users/
 RUN mkdir -p /data/file/image/
-RUN mkdir /https/
-
-EXPOSE 80
-EXPOSE 443
 
 # Set Permission
 WORKDIR /app
 RUN echo "[*] Initialize file permissions."
 RUN chown www-data:www-data ./ -R
 
+EXPOSE 80
+EXPOSE 443
+
+# Run apache
 CMD ["apachectl", "-D", "FOREGROUND"]

@@ -48,6 +48,7 @@ class Fuzzer(models.Model):
 
     reg_date = models.DateTimeField(default=datetime.now, blank=True)
     ping_date = models.DateTimeField(default=datetime.now, blank=True)
+    report_date = models.DateTimeField(default=datetime.now, blank=True)
 
     api_key = models.CharField(max_length=256, default=generate_api_key, help_text="", null=True, blank=True)
 
