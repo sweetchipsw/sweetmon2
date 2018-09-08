@@ -66,14 +66,67 @@ First of all, Please clone this project into your server.
 
 ```git clone https://github.com/sweetchipsw/sweetmon2.git```
 
+### Change sensitive informations
+
 Sweetmon2 supports docker to make install this project easier. It creates docker container that contains Web and Database on your server automatically. But, some of sensitive information(secret key, default ID and password) are included in installer which needs to access DB server or create server. So you must CHANGE these before you run the installer.
 
+####  /sweetmon2/sweetmon2/settings.py
+
+```python
+SECRET_KEY = 'vugf#x=7v(k#lbte%u1dc5+lebyb7y-9m!aa3oyro6nxc71=%='
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', "*"]
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
 ```
-# List of sensitive informations
+
+Please change `SECRET_KEY` and `ALLOWED_HOSTS`(Optional) and make sure that `DEBUG` flag shuold be `False` to prevent disco
+
+#### /sweetmon2/install/docker-compose.yml
 
 ```
+version: "3"
 
+services:
+  sweetmon2-db:
+    container_name: sweetmon2-db
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: "sweetmon"
+      MYSQL_DATABASE: "sweetmon2"
+      MYSQL_USER: "sweetmon"
+      MYSQL_PASSWORD: "sweetmon"
+    volumes:
+      - "./conf/mysql:/var/lib/mysql"
+    networks:
+      - sweetmon2
 
+  sweetmon2-web:
+    container_name: sweetmon2-web
+    build:
+      context: "./"
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_DATABASE: "sweetmon2"
+      MYSQL_USER: "sweetmon"
+      MYSQL_PASSWORD: "sweetmon"
+      LANG: "en_US.UTF-8"
+      LC_ALL: "en_US.UTF-8"
+    volumes:
+      - "./data/:/data/"
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - sweetmon2-db
+    networks:
+      - sweetmon2
+
+networks:
+  sweetmon2:
+```
+
+Please change `MYSQL_ROOT_PASSWORD`, `MYSQL_USER`, `MYSQL_PASSWORD before you create database container.
 
 ## Installation
 
@@ -92,15 +145,6 @@ sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-c
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-### Create sweetmon2 container 
-
-After you install the dependencies, move your working directory to `/sweetmon2/install/`.
-
-There are two options for creating webserver.
-
-- HTTP Webserver
-- HTTP**S** Webserver (Recommended)
-
 Before you start the installation, please make some directories to persist data which will be created on sweetmon2 container.
 
 ```bash
@@ -111,6 +155,15 @@ sudo chmod 777 ./data/ -R
 ```
 
 
+
+### Create sweetmon2 container 
+
+After you install the dependencies, move your working directory to `/sweetmon2/install/`.
+
+There are two options for creating webserver.
+
+- HTTP Webserver
+- HTTP**S** Webserver (Recommended)
 
 #### Create HTTP web server
 
@@ -127,9 +180,9 @@ Almost done! Go to `Common` section.
 
 #### Create HTTPS web server
 
-You can issue SSL certificate easily by using `Letsencrypt`. It can be installed by `apt` on Ubuntu server.
+You can issue SSL certificate easily by using `Letsencrypt`. It can be  installed by `apt` on Ubuntu server.
 
-To install letsencrypt, try `apt install letsencrypt` command. and issue certificate for your server, try under command. **(Note that Letsencrypt uses 80 and 443 port to check request validation. So you must stop your application which uses 80 or 443 port.)**
+To install letsencrypt, try `apt install letsencrypt` command. and to issue certificate for your server, try under command. **(Note that Letsencrypt uses 80 and 443 port to check request validation. So you must stop your application which uses 80 or 443 port before execute the letsencrypt.)**
 
 `sudo letsencrypt certonly -a standalone -d domain.com` (Replace domain.com with your domain!)
 
@@ -144,7 +197,7 @@ IMPORTANT NOTES:
    Donating to EFF:                    https://eff.org/donate-le
 ```
 
-When the certificate issued, you can get above message! And check your certificate on ` /etc/letsencrypt/live/domain/`.
+When the certificate issued successfully , you will get above message! And check your certificate on ` /etc/letsencrypt/live/domain/`.
 
 ```bash
 $ sudo ls /etc/letsencrypt/live/domain/
