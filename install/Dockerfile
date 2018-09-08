@@ -23,7 +23,7 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # Copy sweetmon into image
-COPY ../ /app/
+COPY ../../sweetmon2 /app/
 
 # Copy files into Docker.
 ADD ./ /app
