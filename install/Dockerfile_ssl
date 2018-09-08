@@ -28,10 +28,12 @@ COPY ../ /app/
 # Copy files into Docker.
 ADD ./ /app
 COPY ./sweetmon2.conf /etc/apache2/sites-available/sweetmon2.conf
+COPY ./cert/* /cert/
 
 # Apache2 setting
 RUN a2dissite 000-default
 RUN a2ensite sweetmon2
+RUN a2enmod ssl
 RUN service apache2 restart
 
 # Initialize sweetmon
