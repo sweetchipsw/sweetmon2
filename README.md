@@ -1,8 +1,8 @@
 # sweetmon2
 
-Developement in still progress!
+Developement in still progress! I will update readme for this project soon!
 
-I will update readme for this project soon!
+
 
 ## What is this?
 
@@ -68,19 +68,23 @@ First of all, Please clone this project into your server.
 
 ### Change sensitive informations
 
-Sweetmon2 supports docker to make install this project easier. It creates docker container that contains Web and Database on your server automatically. But, some of sensitive information(secret key, default ID and password) are included in installer which needs to access DB server or create server. So you must CHANGE these before you run the installer.
+Sweetmon2 supports docker to make install this project easier. It creates docker container that contains Web and Database on your server automatically. But, some of sensitive information(secret key, default ID and password) are included in installer script which needs to access DB server or create server. So you must CHANGE these before you run the installer script.
 
 ####  /sweetmon2/sweetmon2/settings.py
 
 ```python
+# ...
 SECRET_KEY = 'vugf#x=7v(k#lbte%u1dc5+lebyb7y-9m!aa3oyro6nxc71=%='
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', "*"]
-
+# ...
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+# ...
 ```
 
-Please change `SECRET_KEY` and `ALLOWED_HOSTS`(Optional) and make sure that `DEBUG` flag shuold be `False` to prevent disco
+Please change `SECRET_KEY` and `ALLOWED_HOSTS`(Optional, add your domain and remove "*") and make sure that `DEBUG` flag shuold be `False` to prevent disclosing sensitive debugging information.
+
+
 
 #### /sweetmon2/install/docker-compose.yml
 
@@ -126,13 +130,13 @@ networks:
   sweetmon2:
 ```
 
-Please change `MYSQL_ROOT_PASSWORD`, `MYSQL_USER`, `MYSQL_PASSWORD before you create database container.
+Please change `MYSQL_ROOT_PASSWORD`, `MYSQL_USER`, `MYSQL_PASSWORD` before you create database container. Note that you should change both of services's(sweetmon2-web, sweetmon2-db) credential.
 
 ## Installation
 
 ### Install dependencies
 
-You should install some of dependencies to create sweetmon2 container by docker.
+You should install some of dependencies to create sweetmon2 container by docker and docker-compose.
 
 ```bash
 # Download docker
@@ -145,7 +149,7 @@ sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-c
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-Before you start the installation, please make some directories to persist data which will be created on sweetmon2 container.
+Before you start the installation, please make directories to persist data which will be created on sweetmon2 container.
 
 ```bash
 # Make ./data/ directory to persistent sweetmon2 data (crashes, files, etc)
@@ -158,7 +162,7 @@ sudo chmod 777 ./data/ -R
 
 ### Create sweetmon2 container 
 
-After you install the dependencies, move your working directory to `/sweetmon2/install/`.
+After you install the dependencies, move your working directory to `/sweetmon2/install/`. 
 
 There are two options for creating webserver.
 
@@ -172,6 +176,8 @@ Creating normal(not HTTPS one) container is really simple.
 ```bash
 # Create docker container by using docker-compose
 sudo docker-compose up -d
+# TODO
+# sudo docker-compose -f sweetmon.yml
 ```
 
 Almost done! Go to `Common` section.
@@ -197,22 +203,27 @@ IMPORTANT NOTES:
    Donating to EFF:                    https://eff.org/donate-le
 ```
 
-When the certificate issued successfully , you will get above message! And check your certificate on ` /etc/letsencrypt/live/domain/`.
+When the certificate issued successfully, you will receive above message! And you can check your certificate on ` /etc/letsencrypt/live/domain/` directory.
 
 ```bash
 $ sudo ls /etc/letsencrypt/live/domain/
 cert.pem  chain.pem  fullchain.pem  privkey.pem
 ```
 
-Copy all of these files to `/sweetmon2/install/ssl/cert/` directory.
+Copy all of these files to `/sweetmon2/install/ssl/cert/` directory. Finally, execute docker-compose 
 
-Almost done! Go to `Common` section.
+```bash
+# Create docker container by using docker-compose
+sudo docker-compose -f install/sweetmon_ssl.yml up -d
+# TODO
+# sudo docker-compose -f sweetmon.conf
+```
 
- 
+Almost done! Go to `Common` section. 
 
 #### Common
 
-When the docker-compose job completed, you will see two containers.
+When the docker-compose job completed, you will see two containers. One is web container, and the other one is database container.
 
 ```bash
 # Check container ID of 'sweetmon2-web' container.
@@ -235,9 +246,7 @@ sudo docker exec -it [CONTAINER ID] python3 /app/sweetmon2/manage.py migrate
 sudo docker exec -it [CONTAINER ID] python3 /app/sweetmon2/manage.py createsuperuser
 ```
 
-All done!
-
-Open your web browser, and go to ```http(s)://SERVER-IP-ADDRESS/```. (Also, make sure your port-forwarding setting is valid.)
+All done! Open your web browser, and go to ```http(s)://SERVER-IP-ADDRESS/```. (Also, make sure your port-forwarding setting is valid.)
 
 ## Example
 
@@ -268,7 +277,7 @@ else:
     print("[*] Upload : Fail")
 ```
 
-For more API informations, Check this [API Documentations](https://github.com/sweetchipsw/sweetmon2/blob/master/API_DOCS.md).
+This is a example of script to upload crash. For more API informations, Check this [API Documentations](https://github.com/sweetchipsw/sweetmon2/blob/master/API_DOCS.md).
 
 ## API
 

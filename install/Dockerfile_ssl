@@ -23,12 +23,11 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # Copy sweetmon into image
-COPY ../../sweetmon2 /app/
+ADD ./ /app/sweetmon2
 
 # Copy files into Docker.
-ADD ./ /app
-COPY ./sweetmon2.conf /etc/apache2/sites-available/sweetmon2.conf
-COPY ./cert/* /cert/
+COPY ./install/sweetmon2_ssl.conf /etc/apache2/sites-available/sweetmon2.conf
+COPY ./install/cert/* /cert/
 
 # Apache2 setting
 RUN a2dissite 000-default
@@ -41,16 +40,15 @@ WORKDIR /app/sweetmon2
 RUN pip3 install -r requirements.txt
 
 # Create upload directories
-RUN mkdir -p /data/file/crash/
-RUN mkdir -p /data/file/users/
-RUN mkdir -p /data/file/image/
+#RUN mkdir -p /data/file/crash/
+#RUN mkdir -p /data/file/users/
+#RUN mkdir -p /data/file/image/
 
 # Set Permission
 WORKDIR /app
 RUN echo "[*] Initialize file permissions."
 RUN chown www-data:www-data ./ -R
 
-EXPOSE 80
 EXPOSE 443
 
 # Run apache

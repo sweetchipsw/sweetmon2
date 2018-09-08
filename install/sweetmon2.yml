@@ -17,8 +17,8 @@ services:
   sweetmon2-web:
     container_name: sweetmon2-web
     build:
-      context: "./"
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./install/Dockerfile_ssl
     environment:
       MYSQL_DATABASE: "sweetmon2"
       MYSQL_USER: "sweetmon"
@@ -28,7 +28,7 @@ services:
     volumes:
       - "./data/:/data/"
     ports:
-      - "80:80"
+      - "443:443"
     depends_on:
       - sweetmon2-db
     networks:
