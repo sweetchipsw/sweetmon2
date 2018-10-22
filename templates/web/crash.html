@@ -27,19 +27,23 @@
                                                             <th>Fuzzer</th>
                                                             <th>Target</th>
                                                             <th>Latest report</th>
+                                                            {% if mode != "1" %}
                                                             <th>Duplicated crashes</th>
+                                                            {% endif %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {% if crash_list %}
+                                                        {% if crash_list%}
                                                         {% for crash in crash_list %}
                                                         <tr class="odd gradeX">
                                                             <td>{{ crash.id }}</td>
-                                                            <td><a href="/crash/{{ crash.id }}">{{ crash.title|truncatechars:30 }}</a></td>
+                                                            <td><a href="/crash/{{ crash.id }}">{{ crash.title|truncatechars:50 }}</a></td>
                                                             <td><a href="/fuzzer/{{ crash.fuzzer.id }}">{{ crash.fuzzer.name }}</a></td>
                                                             <td>{{ crash.fuzzer.target }}</td>
                                                             <td>{{ crash.reg_date|timesince }} ago</td>
+                                                            {% if mode != "1" %}
                                                             <td>{{ crash.dup_crash_cnt }}</td>
+                                                            {% endif %}
                                                         </tr>
                                                         {% endfor %}
                                                         {% endif %}

@@ -320,5 +320,54 @@ def storage_download(request):
 
     return response
 
+# NEW FEATURE
+@require_GET
+@apikey_required
+def get_fuzzer_list(request):
+    """
+    Get all of fuzzers.
+
+    :param request:
+    :return:
+    """
+    result = {"result": False, "message": None}
+    apikey = get_apikey(request)
+
+    result['result'] = True
+    return JsonResponse(result)
+
+
+# NEW FEATURE
+@require_GET
+@apikey_required
+def get_status_all(request):
+    """
+    Get statistics of sweetmon2.
+
+    :param request:
+    :return:
+    """
+    result = {"result": False, "message": None}
+    apikey = get_apikey(request)
+
+    result['result'] = True
+    return JsonResponse(result)
+
+
+# NEW FEATURE
+@require_POST
+@apikey_required
+def create_fuzzer(request):
+    """
+    Create new fuzzer on sweetmon2.
+
+    :param request:
+    :return:
+    """
+    result = {"result": False, "message": None}
+    apikey = get_apikey(request)
+
+    result['result'] = True
+    return JsonResponse(result)
 
 

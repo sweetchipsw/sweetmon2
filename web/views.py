@@ -151,30 +151,37 @@ def fuzzer_detail(request, idx):
 
 @login_required
 def crash(request):
+    mode = request.GET.get('m', 0)
     try:
-        crash = Crash.objects.filter(owner=request.user, is_dup_crash=False, parent_idx=0)[::-1]
+        # Mode 1 : Show all of new crashes.
+        if mode == "1":
+            crash_items = Crash.objects.filter(owner=request.user)[::-1]
+        else:
+            # Mode 0 : Default, Show crashes without duplicated one.
+            crash_items = Crash.objects.filter(owner=request.user, is_dup_crash=False, parent_idx=0)[::-1]
+
     except ObjectDoesNotExist:
         raise Http404
 
-    paginator = Paginator(crash, 50)
+    paginator = Paginator(crash_items, 50)
     page = request.GET.get('p', 1)
     try:
-        crash = paginator.page(page)
+        crash_items = paginator.page(page)
     except PageNotAnInteger:
-        crash = paginator.page(1)
+        crash_items = paginator.page(1)
     except EmptyPage:
-        crash = paginator.page(paginator.num_pages)
+        crash_items = paginator.page(paginator.num_pages)
 
     if page not in paginator.page_range:
         paginator.page(1)
 
-    index = paginator.page_range.index(crash.number)
+    idx = paginator.page_range.index(crash_items.number)
     max_index = len(paginator.page_range)
-    start_index = index - 5 if index >= 5 else 0
-    end_index = index + 5 if index <= max_index - 5 else max_index
+    start_index = idx - 5 if idx >= 5 else 0
+    end_index = idx + 5 if idx <= max_index - 5 else max_index
     page_range = paginator.page_range[start_index:end_index]
 
-    context = {'crash_list': crash, 'paginator': paginator, 'page_range': page_range}
+    context = {'crash_list': crash_items, 'paginator': paginator, 'page_range': page_range, 'mode': mode}
     return render(request, 'web/crash.html', context)
 
 
@@ -197,7 +204,10 @@ def crash_detail(request, idx):
 
     # Get duplicated crash
     try:
-        dup_crash = Crash.objects.filter(owner=request.user, is_dup_crash=True, parent_idx=idx)[::-1]
+        if crash.is_dup_crash:
+            dup_crash = Crash.objects.filter(owner=request.user, parent_idx=crash.parent_idx)[::-1]
+        else:
+            dup_crash = Crash.objects.filter(owner=request.user, is_dup_crash=True, parent_idx=idx)[::-1]
     except ObjectDoesNotExist:
         raise Http404
 

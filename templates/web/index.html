@@ -126,7 +126,7 @@
                                 <div class="card sameheight-item items" data-exclude="xs,sm,lg">
                                     <div class="card-header bordered">
                                         <div class="header-block">
-                                            <h3 class="title"> Recent Crash Logs </h3>
+                                            <h3 class="title"> Crash Logs </h3>
                                             <a href="/crash/" class="btn btn-primary btn-sm"> Go to list </a>
                                         </div>
                                     </div>
@@ -156,6 +156,70 @@
                                             </div>
                                         </li>
                                         {% for crash in crash_list %}
+                                        {% if forloop.counter <= 5 %}
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-title no-overflow">
+                                                    <div>
+                                                        <a href="/crash/{{ crash.id }}" class="">
+                                                            <h4 class="item-title no-wrap"> {{ crash.title|truncatechars:30 }} </h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-sales">
+                                                    <div> {{ crash.fuzzer.name }} </div>
+                                                </div>
+                                                <div class="item-col item-col-stats">
+                                                    <div> {{ crash.dup_crash_cnt }} </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div> {{ crash.reg_date|timesince }} ago </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="row sameheight-container">
+                            <div class="col-xl-12">
+                                <div class="card sameheight-item items" data-exclude="xs,sm,lg">
+                                    <div class="card-header bordered">
+                                        <div class="header-block">
+                                            <h3 class="title"> Recent Crash Logs </h3>
+                                            <a href="/crash/?m=1" class="btn btn-primary btn-sm"> Go to list </a>
+                                        </div>
+                                    </div>
+                                    <ul class="item-list striped">
+                                        <li class="item item-list-header">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-header item-col-title">
+                                                    <div>
+                                                        <span>Title</span>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-header item-col-sales">
+                                                    <div>
+                                                        <span>Fuzzer</span>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-header item-col-stats">
+                                                    <div class="no-overflow">
+                                                        <span>Duplicate Crash Count</span>
+                                                    </div>
+                                                </div>
+                                                <div class="item-col item-col-header item-col-date">
+                                                    <div>
+                                                        <span>Report date</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% for crash in total_crash %}
                                         {% if forloop.counter <= 5 %}
                                         <li class="item">
                                             <div class="item-row">
@@ -321,6 +385,16 @@
                                                 </div>
                                                 <div class="item-col item-col-date">
                                                     <div> 0x93357b84488DDC8D52e2C6E51dF745B026F95B71 </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="item">
+                                            <div class="item-row">
+                                                <div class="item-col item-col-date col-md-4">
+                                                    <div> Ripple </div>
+                                                </div>
+                                                <div class="item-col item-col-date">
+                                                    <div> XRPADDR </div>
                                                 </div>
                                             </div>
                                         </li>

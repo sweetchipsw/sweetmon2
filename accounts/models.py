@@ -28,9 +28,14 @@ def get_image_upload_path(instance, filename):
 class Profile(models.Model):
     owner = models.ForeignKey(User, on_delete=None)
 
-    first_name = models.CharField(max_length=32)
-    last_name = models.CharField(max_length=32)
-    email = models.EmailField(max_length=256, null=True, blank=True)
+    first_name = models.CharField(max_length=32, default="")
+    last_name = models.CharField(max_length=32, default="")
+    email = models.EmailField(max_length=256, default="")
+
+    use_user_api = models.BooleanField(default=False, help_text="Enable to use user api.")
+    api_key = models.CharField(max_length=64, default="", help_text="This key will required to use user api."
+                                                                    "DO NOT SHARE THIS KEY.")
+
     # telegram_userid = models.CharField(max_length=32, blank=True)
     # use_telegram_alert = models.BooleanField(default=False,
     #                                          help_text="Use this feature if you want to subscribe crash.")
@@ -49,6 +54,7 @@ def create_profile(sender, **kwargs):
         user_profile.email = user.email
         user_profile.last_name = user.last_name
         user_profile.first_name = user.first_name
+        user_profile.api_key = get_sha256_string(str(os.urandom(32)).encode('utf-8'))
         user_profile.save()
 
         # Allow access to admin page
@@ -57,7 +63,7 @@ def create_profile(sender, **kwargs):
 
         """
         'Can add fuzzer', 'Can change fuzzer', 'Can delete fuzzer',
-       'Can add storage', 'Can change storage', 'Can delete storage',
+        'Can add storage', 'Can change storage', 'Can delete storage',
         """
         # Add permissions for staff
         permission_list = ['Can add fuzzer', 'Can change fuzzer', 'Can delete fuzzer', 'Can add storage',
@@ -67,15 +73,20 @@ def create_profile(sender, **kwargs):
             user.user_permissions.add(userperm)
         user.save()
 
+
 def SyncUserProfile(sender, **kwargs):
-	# Gen userkey
-	profile = kwargs["instance"]
-	if not kwargs["created"]:
-		user_profile = User.objects.get(id=profile.owner.id)
-		user_profile.email = profile.email
-		user_profile.last_name = profile.last_name
-		user_profile.first_name = profile.first_name
-		user_profile.save()
+    # Gen userkey
+    # BUG :  NOT NULL constraint failed: accounts_profile.first_name
+    profile = kwargs["instance"]
+    if not kwargs["created"]:
+        user_profile = User.objects.get(id=profile.owner.id)
+        if profile.email != "":
+            user_profile.email = profile.email
+        if profile.last_name != "":
+            user_profile.last_name = profile.last_name
+        if profile.first_name != "":
+            user_profile.first_name = profile.first_name
+        user_profile.save()
 
 
 post_save.connect(create_profile, sender=User)

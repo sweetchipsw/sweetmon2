@@ -2,8 +2,6 @@
 
 Developement in still progress! I will update readme for this project soon!
 
-
-
 ## What is this?
 
 ![2018-08-26 5 02 19](https://user-images.githubusercontent.com/14085555/44626103-fdc82e80-a951-11e8-98c7-8bd5f426c5b1.png)
@@ -82,7 +80,7 @@ DEBUG = False
 # ...
 ```
 
-Please change `SECRET_KEY` and `ALLOWED_HOSTS`(Optional, add your domain and remove "*") and make sure that `DEBUG` flag shuold be `False` to prevent disclosing sensitive debugging information.
+Please change `SECRET_KEY` and `ALLOWED_HOSTS`(Optional, **add your domain and remove "*"**) and make sure that `DEBUG` flag shuold be `False` **to prevent disclosing sensitive debugging information**.
 
 
 
@@ -130,7 +128,7 @@ networks:
   sweetmon2:
 ```
 
-Please change `MYSQL_ROOT_PASSWORD`, `MYSQL_USER`, `MYSQL_PASSWORD` before you create database container. Note that you should change both of services's(sweetmon2-web, sweetmon2-db) credential.
+Please change `MYSQL_ROOT_PASSWORD`, `MYSQL_USER`, `MYSQL_PASSWORD` before you create database container. Note that **you should change both of services's(sweetmon2-web, sweetmon2-db) credential**.
 
 ## Installation
 
@@ -152,7 +150,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 Before you start the installation, please make directories to persist data which will be created on sweetmon2 container.
 
 ```bash
-# Make ./data/ directory to persistent sweetmon2 data (crashes, files, etc)
+# Make ./data/ directory to persist sweetmon2 data (crashes, files, etc)
 sudo mkdir -p ./data/file/crash
 sudo mkdir -p ./data/file/users
 sudo chmod 777 ./data/ -R

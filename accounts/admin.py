@@ -18,9 +18,9 @@ def exceptfield(list_display, fields=[]):
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = get_all_field_names(Profile)
-    # exceptfield(list_display, ["owner"])
+    exceptfield(list_display, ["api_key"])
 
-    # readonly_fields = ('first_name', 'last_name', 'email')
+    readonly_fields = ('api_key',)
 
     def get_queryset(self, request):
         fields = super(self.__class__, self).get_queryset(request)
