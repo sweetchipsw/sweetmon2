@@ -156,6 +156,8 @@ def crash(request):
         # Mode 1 : Show all of new crashes.
         if mode == "1":
             crash_items = Crash.objects.filter(owner=request.user)[::-1]
+        elif mode == "2":
+            crash_items = Crash.objects.filter(owner=request.user, favorite=True)[::-1]
         else:
             # Mode 0 : Default, Show crashes without duplicated one.
             crash_items = Crash.objects.filter(owner=request.user, is_dup_crash=False, parent_idx=0)[::-1]

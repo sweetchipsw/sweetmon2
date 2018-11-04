@@ -65,6 +65,7 @@ class Crash(models.Model):
     parent_idx = models.IntegerField(default=0)
 
     title = models.CharField(max_length=1024)
+    favorite = models.BooleanField(default=False)
     title_hash = models.CharField(max_length=256)
     file_hash = models.CharField(max_length=256)
     dup_crash_cnt = models.IntegerField(default=0)
@@ -81,7 +82,6 @@ class Crash(models.Model):
 
     def __str__(obj):
         return "%s" % (obj.title)
-
 
 class Storage(models.Model):
     owner = models.ForeignKey(User, on_delete=None)

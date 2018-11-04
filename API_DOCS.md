@@ -1,8 +1,24 @@
 # API Documenation for Sweetmon2
 
-This documenation provides API informations of `Sweetmon2`. To use `Sweetmon2`, You should interact with your fuzzer and `Sweetmon2`. All of example codes are written in Python3. Please install requests module to use under examples codes.
+This documenation provides API information of `Sweetmon2`. To use `Sweetmon2`, You should interact with your fuzzer and `Sweetmon2`. All of example codes are written in Python3. Please install requests module to use under examples codes.
 
-### API Endpoint
+There are two types of APIs in Sweetmon project. One is **user API** feature which is uploading crash or sending ping to sweetmon to let sweetmon know clinet is alive at the time by interacting with Sweetmon2. And the other one is server API which provides  feature for getting list of bots or information of sweetmon2.
+
+## Creating API Keys
+
+You should create API Keys to use above features.
+
+### Creating Server API Key
+
+Please check your `profile` page on Sweetmon2.
+
+### Creating Client API Key
+
+You can get client's API key by creating new instance on Sweetmon2. Go to client page and click the `Add new bot` button. Then, fill out the information and finally you can get client's API key.
+
+
+
+## API Endpoint
 
 - https://YOURSERVERDOMAIN/api/v1/
 
@@ -23,7 +39,7 @@ path('fuzzer/ping', views.fuzzer_ping, name='fuzzer-ping'),
 path('storage/list', views.storage_list, name='storage-list'),
 ```
 
-## APIS
+## User APIs
 
 ### Upload crashes
 
@@ -136,4 +152,26 @@ Response
 // If success,
 {"result": true, "message": null}
 ```
+
+
+
+## Server APIs
+
+Sweetmon2 supports Server API to use sweetmon's feature. If you want to get list of instances or configuration of your instance which is you've created on your account.
+
+You should get API key from your profile page.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
