@@ -279,6 +279,6 @@ This is a example of script to upload crash. For more API informations, Check th
 
 ## API
 
-Sweetmon2 supports APIs to interact with your fuzzer.
+Sweetmon2 supports APIs to interact with your fuzzer and Sweetmon2. There are two type of APIs one is user API which is way to interact with your fuzzer and Sweetmon. It supports saving fuzzer or uploading crashes and logs to server. The other one is server API which can getting the information of your fuzzer status or creating new fuzzer instance on your Sweetmon2. 
 
 To get more informations, check this [API Documentations](https://github.com/sweetchipsw/sweetmon2/blob/master/API_DOCS.md).

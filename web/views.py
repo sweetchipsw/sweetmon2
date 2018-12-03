@@ -477,3 +477,35 @@ def crash_dup_crash_list(request, idx):
 
     return JsonResponse(result)
 
+
+@require_POST
+@login_required
+def crash_favorite(request):
+    result = {"result": False, "message": None}
+
+    param_list = ["idx"]
+    if not check_param(request.POST, param_list):
+        result['message'] = get_error_msg('wrong_param')
+        return JsonResponse(result)
+
+    idx = request.POST['idx']
+
+    try:
+        crash = Crash.objects.get(owner=request.user, id=idx)
+    except ObjectDoesNotExist:
+        crash = None
+
+    if not crash:
+        result['message'] = get_error_msg('wrong_param')
+        return JsonResponse(result)
+
+    if crash.favorite:
+        crash.favorite = False
+        result['favorite'] = False
+    else:
+        crash.favorite = True
+        result['favorite'] = True
+    crash.save()
+
+    result["result"] = True
+    return JsonResponse(result)

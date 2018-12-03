@@ -17,8 +17,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import *
+from django.db.models.functions import TruncMonth, TruncDay
 from api.models import Crash, Storage, Fuzzer, OnetimeUrl
-from datetime import datetime
+from accounts.models import Profile
+from django.db.models import Count
+from datetime import datetime, timedelta
 from functools import wraps
 import hashlib
 
@@ -320,7 +323,7 @@ def storage_download(request):
 
     return response
 
-# NEW FEATURE
+
 @require_GET
 @apikey_required
 def get_fuzzer_list(request):
@@ -331,15 +334,50 @@ def get_fuzzer_list(request):
     :return:
     """
     result = {"result": False, "message": None}
-    apikey = get_apikey(request)
+    #apikey = get_apikey(request)
+
+    apikey = "817033960af85e4f9ac18cc1be4e88aeb399d23b27a852d321692e127c142425"
+
+    try:
+        profile = Profile.objects.get(api_key=apikey)
+        user = profile.owner
+    except ObjectDoesNotExist:
+        result['message'] = get_error_msg("wrong_apikey")
+        return JsonResponse(result)
+
+    if not profile.use_user_api:
+        result['message'] = "You do not have permission to use 'user api'." \
+                            "Please turn on your user api setting on admin page."
+        return JsonResponse(result)
+    try:
+        fuzzers = Fuzzer.objects.filter(owner=profile.owner)
+    except:
+        fuzzers = []
+        result['data'] = []
+        return JsonResponse(result)
+
+    result_fuzzers = []
+    for fuzzer in fuzzers:
+        tmp_fuzzer = dict()
+        tmp_fuzzer['id'] = fuzzer.id
+        tmp_fuzzer['name'] = fuzzer.name
+        tmp_fuzzer['description'] = fuzzer.description
+        tmp_fuzzer['crash_count'] = fuzzer.crash_cnt
+        tmp_fuzzer['public_ip'] = fuzzer.public_ip
+        tmp_fuzzer['private_ip'] = fuzzer.private_ip
+        tmp_fuzzer['reg_date'] = fuzzer.reg_date
+        tmp_fuzzer['last_ping_date'] = fuzzer.ping_date
+        tmp_fuzzer['last_report_date'] = fuzzer.report_date
+        tmp_fuzzer['api_key'] = fuzzer.api_key
+        result_fuzzers.append(tmp_fuzzer)
 
     result['result'] = True
+    result['data'] = result_fuzzers
     return JsonResponse(result)
 
 
-# NEW FEATURE
 @require_GET
-@apikey_required
+#@apikey_required
 def get_status_all(request):
     """
     Get statistics of sweetmon2.
@@ -348,13 +386,57 @@ def get_status_all(request):
     :return:
     """
     result = {"result": False, "message": None}
-    apikey = get_apikey(request)
+    #apikey = get_apikey(request)
+    apikey = "817033960af85e4f9ac18cc1be4e88aeb399d23b27a852d321692e127c142425"
 
+    try:
+        profile = Profile.objects.get(api_key=apikey)
+        user = profile.owner
+    except ObjectDoesNotExist:
+        result['message'] = get_error_msg("wrong_apikey")
+        return JsonResponse(result)
+
+    if not profile.use_user_api:
+        result['message'] = "You do not have permission to use 'user api'." \
+                            "Please turn on your user api setting on admin page."
+        return JsonResponse(result)
+
+    try:
+        fuzzer = Fuzzer.objects.filter(owner=user)
+    except ObjectDoesNotExist:
+        fuzzer = []
+
+    try:
+        crash = Crash.objects.filter(owner=user)[::-1]
+    except ObjectDoesNotExist:
+        crash = []
+
+    try:
+        unique_crash = Crash.objects.filter(owner=user, parent_idx=0)
+    except ObjectDoesNotExist:
+        unique_crash = []
+
+    try:
+        storage = Storage.objects.filter(owner=user)
+    except ObjectDoesNotExist:
+        storage = []
+
+    # for dbg
+    apikey = "817033960af85e4f9ac18cc1be4e88aeb399d23b27a852d321692e127c142425"
+
+    info = dict()
+    info['username'] = user.username
+    info['fuzzer_count'] = len(fuzzer)
+    info['crash_count'] = len(crash)
+    info['unique_crash_count'] = len(unique_crash)
+    info['storage_files_count'] = len(storage)
+
+    result['data'] = info
     result['result'] = True
     return JsonResponse(result)
 
 
-# NEW FEATURE
+@csrf_exempt
 @require_POST
 @apikey_required
 def create_fuzzer(request):
@@ -367,7 +449,53 @@ def create_fuzzer(request):
     result = {"result": False, "message": None}
     apikey = get_apikey(request)
 
+    try:
+        profile = Profile.objects.get(api_key=apikey)
+        user = profile.owner
+    except ObjectDoesNotExist:
+        result['message'] = get_error_msg("wrong_apikey")
+        return JsonResponse(result)
+
+    if not profile.use_user_api:
+        result['message'] = "You do not have permission to use 'user api'." \
+                            "Please turn on your user api setting on admin page."
+        return JsonResponse(result)
+
+    param_list = ["name", "target", "description"]
+    if not check_param(request.POST, param_list):
+        raise Http404
+
+    name = request.POST['name']
+    target = request.POST['target']
+    description = request.POST['description']
+
+    fuzzer = Fuzzer(owner=user, name=name, target=target, description=description)
+    fuzzer.save()
+
+    tmp_fuzzer = dict()
+    tmp_fuzzer['id'] = fuzzer.id
+    tmp_fuzzer['name'] = fuzzer.name
+    tmp_fuzzer['description'] = fuzzer.description
+    tmp_fuzzer['crash_count'] = fuzzer.crash_cnt
+    tmp_fuzzer['public_ip'] = fuzzer.public_ip
+    tmp_fuzzer['private_ip'] = fuzzer.private_ip
+    tmp_fuzzer['reg_date'] = fuzzer.reg_date
+    tmp_fuzzer['last_ping_date'] = fuzzer.ping_date
+    tmp_fuzzer['last_report_date'] = fuzzer.report_date
+    tmp_fuzzer['api_key'] = fuzzer.api_key
+
+    result['data'] = tmp_fuzzer
     result['result'] = True
     return JsonResponse(result)
+
+
+
+
+
+
+
+
+
+
 
 

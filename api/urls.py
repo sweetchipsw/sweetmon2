@@ -11,4 +11,10 @@ urlpatterns = [
     path('fuzzer/ping', views.fuzzer_ping, name='fuzzer-ping'),
     path('storage/list', views.storage_list, name='storage-list'),
     path('storage/download', views.storage_download, name='storage-download'),
+
+    # APIs for getting account's information
+    path('fuzzer/list', views.get_fuzzer_list, name='get-fuzzer-list'),
+    path('statistics', views.get_status_all, name='get-status-all'),
+    path('fuzzer/create', views.create_fuzzer, name='create-fuzzer'),
+
 ]

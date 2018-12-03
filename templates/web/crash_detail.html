@@ -75,6 +75,11 @@
                                             <div class="col-10">
                                                 <a href="/crash/{{ crash.id }}/download"><button type="button" class="btn btn-info-outline">Download</button></a>
                                                 <button type="button" id="generate_otu" onclick="request_url()" class="btn btn-success-outline">Share</button>
+                                                {% if crash.favorite %}
+                                                <button type="button" id="favorite_btn" onclick="favorite()" class="btn btn-warning">Favorite</button>
+                                                {% else %}
+                                                <button type="button" id="favorite_btn" onclick="favorite()" class="btn btn-warning-outline">Favorite</button>
+                                                {% endif %}
                                             </div>
                                         </div>
 
@@ -211,6 +216,25 @@
                         data : {"csrfmiddlewaretoken": "{{ csrf_token }}", "idx":{{ crash.id }} },
                         success:function(data){
                             prompt("Copy to clipboard: Ctrl+C, Enter", data['url']);
+                        }
+                    });
+                }
+
+                function favorite() {
+                    $.ajax({
+                        url : '/crash/favorite',
+                        type: 'POST',
+                        data : {"csrfmiddlewaretoken": "{{ csrf_token }}", "idx":{{ crash.id }} },
+                        success:function(data){
+                            var btn = document.getElementById("favorite_btn");
+                            if(data['favorite'])
+                            {
+                                btn.className = "btn btn-warning"
+                            }
+                            else
+                            {
+                                btn.className = "btn btn-warning-outline"
+                            }
                         }
                     });
                 }

@@ -10,21 +10,19 @@ You should create API Keys to use above features.
 
 ### Creating Server API Key
 
-Please check your `profile` page on Sweetmon2.
+Please check your `profile` page on Admin page. Sweetmon2 creates API key automatically when you create your ID.
 
 ### Creating Client API Key
 
-You can get client's API key by creating new instance on Sweetmon2. Go to client page and click the `Add new bot` button. Then, fill out the information and finally you can get client's API key.
-
-
+You can get client's API key by creating new instance of fuzzer on Sweetmon2. Go to client page and click the `Add new Instance` button. Then, fill out the information and finally you can get client's API key.
 
 ## API Endpoint
 
-- https://YOURSERVERDOMAIN/api/v1/
+- http(s)://YOURSERVERDOMAIN/api/v1/
 
 ## Notice
 
-You should send data to server with **API KEY** in HTTP headers.
+You should send data to server with **API KEY** in HTTP headers. For details, please check example of codes.
 
 ## URL routers in sweetmon2
 
@@ -161,9 +159,15 @@ Sweetmon2 supports Server API to use sweetmon's feature. If you want to get list
 
 You should get API key from your profile page.
 
+### Getting fuzzer instance information
 
 
 
+###  Creating fuzzer instance
+
+
+
+### Getting statistics information
 
 
 

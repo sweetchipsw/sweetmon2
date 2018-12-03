@@ -83,6 +83,7 @@ class Crash(models.Model):
     def __str__(obj):
         return "%s" % (obj.title)
 
+
 class Storage(models.Model):
     owner = models.ForeignKey(User, on_delete=None)
     title = models.CharField(max_length=1024)
@@ -101,6 +102,7 @@ class Storage(models.Model):
             return self.file.name.split('/')[-1]
         else:
             return self.file.name
+
 
 class OnetimeUrl(models.Model):
     owner = models.ForeignKey(User, on_delete=None)
