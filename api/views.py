@@ -334,9 +334,7 @@ def get_fuzzer_list(request):
     :return:
     """
     result = {"result": False, "message": None}
-    #apikey = get_apikey(request)
-
-    apikey = "817033960af85e4f9ac18cc1be4e88aeb399d23b27a852d321692e127c142425"
+    apikey = get_apikey(request)
 
     try:
         profile = Profile.objects.get(api_key=apikey)
@@ -386,8 +384,7 @@ def get_status_all(request):
     :return:
     """
     result = {"result": False, "message": None}
-    #apikey = get_apikey(request)
-    apikey = "817033960af85e4f9ac18cc1be4e88aeb399d23b27a852d321692e127c142425"
+    apikey = get_apikey(request)
 
     try:
         profile = Profile.objects.get(api_key=apikey)
@@ -420,9 +417,6 @@ def get_status_all(request):
         storage = Storage.objects.filter(owner=user)
     except ObjectDoesNotExist:
         storage = []
-
-    # for dbg
-    apikey = "817033960af85e4f9ac18cc1be4e88aeb399d23b27a852d321692e127c142425"
 
     info = dict()
     info['username'] = user.username
