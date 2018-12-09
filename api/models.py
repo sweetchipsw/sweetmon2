@@ -9,6 +9,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Permission
 from django.dispatch import receiver
 from datetime import datetime
+from django.utils.timezone import now
 import os
 import hashlib
 import base64
@@ -46,9 +47,9 @@ class Fuzzer(models.Model):
     public_ip = models.CharField(max_length=16, blank=True)
     private_ip = models.CharField(max_length=16, blank=True)
 
-    reg_date = models.DateTimeField(default=datetime.now, blank=True)
-    ping_date = models.DateTimeField(default=datetime.now, blank=True)
-    report_date = models.DateTimeField(default=datetime.now, blank=True)
+    reg_date = models.DateTimeField(default=now, blank=True)
+    ping_date = models.DateTimeField(default=now, blank=True)
+    report_date = models.DateTimeField(default=now, blank=True)
 
     api_key = models.CharField(max_length=256, default=generate_api_key, help_text="", null=True, blank=True)
 
@@ -75,7 +76,7 @@ class Crash(models.Model):
     is_dup_crash = models.BooleanField(default=False)
     crash_file = models.FileField(storage=crash_storage, upload_to=get_upload_path)
 
-    reg_date = models.DateTimeField(default=datetime.now, blank=True)
+    reg_date = models.DateTimeField(default=now, blank=True)
     latest_date = models.DateTimeField(auto_now=True)
 
     comment = models.TextField(null=True, blank=True, default="")
@@ -90,7 +91,7 @@ class Storage(models.Model):
     hash = models.CharField(max_length=256)
     file = models.FileField(storage=user_storage, upload_to=get_upload_path)
     original_name = models.CharField(max_length=256)
-    reg_date = models.DateTimeField(default=datetime.now, blank=True)
+    reg_date = models.DateTimeField(default=now, blank=True)
     download_count = models.IntegerField(default=0)
     comment = models.TextField(null=True, blank=True)
 

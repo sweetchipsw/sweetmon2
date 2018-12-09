@@ -155,7 +155,7 @@ Response
 
 ## Server APIs
 
-Sweetmon2 supports Server API to use sweetmon's feature. If you want to get list of instances or configuration of your instance which is you've created on your account.
+Sweetmon2 supports Server  API to provid users information. To fet. If you want to get list of instances or configuration of your instance which is you've created on your account.
 
 You should get API key from your profile page.
 

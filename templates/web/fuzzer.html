@@ -15,7 +15,7 @@
                                 <div class="card">
                                     <div class="card-block">
                                         <div class="card-title-block">
-                                            <h3 class="title"> Fuzzer List <a href="/admin/api/fuzzer/add/"><button type="button" class="btn btn-info-outline pull-right">Add New Fuzzer</button></a></h3>
+                                            <h3 class="title"> Fuzzer List <a href="/admin/api/fuzzer/add/"><button type="button" class="btn btn-info-outline pull-right"><i class="fa fa-plus"></i> Add New Fuzzer</button></a></h3>
                                         </div>
                                         <section class="example">
                                             <div class="table-flip-scroll">
@@ -27,7 +27,8 @@
                                                             <th>Running</th>
                                                             <th>Target</th>
                                                             <th>Crashes</th>
-                                                            <th>Last ping</th>
+                                                            <th>Last Ping</th>
+                                                            <th>Last Report</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -37,13 +38,14 @@
                                                             <td>{{ fuzzer.id }}</td>
                                                             <td><a href="/fuzzer/{{ fuzzer.id }}">{{ fuzzer.name }}</a></td>
                                                             {% if fuzzer.ping_date|date:"U" > active_time|date:"U" %}
-                                                            <td>Active</td>
+                                                            <td>Running</td>
                                                             {% else %}
-                                                            <td>Inactive</td>
+                                                            <td>Stopped</td>
                                                             {% endif %}
                                                             <td>{{ fuzzer.target|truncatechars:30 }}</td>
                                                             <td>{{ fuzzer.crash_cnt }}</td>
                                                             <td>{{ fuzzer.ping_date|timesince }} ago</td>
+                                                            <td>{{ fuzzer.report_date |timesince }} ago</td>
                                                         </tr>
                                                         {% endfor %}
                                                         {% endif %}

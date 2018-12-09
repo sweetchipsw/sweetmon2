@@ -15,10 +15,6 @@
                                             <a href="/crash/">
                                                 <button type="button" class="btn btn-info-outline pull-right"><i class="fa fa-arrow-left"></i> Back to list</button>
                                             </a>
-
-                                            <a href="/crash/">
-                                                <button style="margin-right: 5px" type="button" class="btn btn-warning-outline pull-right"> <i class="fa fa-star"></i> Favorite</button>
-                                            </a>
                                         </h3>
                                     <hr>
                                     </div>
@@ -73,12 +69,12 @@
                                                 <label class="control-label">Download Testcase</label>
                                             </div>
                                             <div class="col-10">
-                                                <a href="/crash/{{ crash.id }}/download"><button type="button" class="btn btn-info-outline">Download</button></a>
-                                                <button type="button" id="generate_otu" onclick="request_url()" class="btn btn-success-outline">Share</button>
+                                                <a href="/crash/{{ crash.id }}/download"><button type="button" class="btn btn-info-outline"><i class="fa fa-cloud-download"></i> Download</button></a>
+                                                <button type="button" id="generate_otu" onclick="request_url()" class="btn btn-success-outline"><i class="fa fa-share"></i> Share</button>
                                                 {% if crash.favorite %}
-                                                <button type="button" id="favorite_btn" onclick="favorite()" class="btn btn-warning">Favorite</button>
+                                                <button type="button" id="favorite_btn" onclick="favorite()" class="btn btn-warning"><i class="fa fa-star"></i> Favorite</button>
                                                 {% else %}
-                                                <button type="button" id="favorite_btn" onclick="favorite()" class="btn btn-warning-outline">Favorite</button>
+                                                <button type="button" id="favorite_btn" onclick="favorite()" class="btn btn-warning-outline"><i class="fa fa-star"></i> Favorite</button>
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -133,13 +129,13 @@
                                             <div class="col-2">
                                             </div>
                                             <div class="col-10">
-                                                <button type="submit" class="btn btn-info-outline btn-lg btn-block" data-target="#confirm-modal"> Save </button>
+                                                <button type="submit" class="btn btn-info-outline btn-lg btn-block" data-target="#confirm-modal"><i class="fa fa-save"></i> Save </button>
                                             </div>
                                         </div>
                                         <div class="row form-group">
                                             <div class="col-12">
                                                 <a href="/crash/" style="text-decoration:none">
-                                                    <button type="button" class="btn btn-warning-outline btn-lg btn-block"> Back to list </button>
+                                                    <button type="button" class="btn btn-warning-outline btn-lg btn-block"><i class="fa fa-arrow-left"></i> Back to list </button>
                                                 </a>
                                             </div>
                                         </div>

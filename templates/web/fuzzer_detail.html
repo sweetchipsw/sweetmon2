@@ -36,9 +36,9 @@
                                             </div>
                                             <div class="col-10">
                                                 {% if fuzzer.ping_date|date:"U" > active_time|date:"U" %}
-                                                <p class="text-muted">Active</p>
+                                                <p class="text-muted">Running</p>
                                                 {% else %}
-                                                <p class="text-muted">Inactive</p>
+                                                <p class="text-muted">Stopped</p>
                                                 {% endif %}
 
                                             </div>
@@ -91,17 +91,27 @@
 
                                         <div class="row form-group">
                                             <div class="col-2">
+                                                <label class="control-label">Last Report</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="text-muted"> {{ fuzzer.report_date|timesince }} ago</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-2">
                                                 <label class="control-label">API KEY</label>
                                             </div>
                                             <div class="col-10">
                                                 <p class="text-muted">{{ fuzzer.api_key }}</p>
                                             </div>
                                         </div>
+                                    <hr>
 
                                         <div class="row form-group">
                                             <div class="col-12 ">
                                                 <a href="/fuzzer/" style="text-decoration:none">
-                                                    <button type="button" class="btn btn-warning-outline btn-lg btn-block"> Back to list </button>
+                                                    <button type="button" class="btn btn-warning-outline btn-lg btn-block"><i class="fa fa-arrow-left"></i> Back to list </button>
                                                 </a>
                                             </div>
                                         </div>

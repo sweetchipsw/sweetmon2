@@ -10,7 +10,7 @@
                             <div class="col-md-12">
                                 <div class="card card-block sameheight-item">
                                     <div class="title-block">
-                                        <h3 class="title"> Storage  <a href="/storage/"><button type="button" class="btn btn-info-outline pull-right">Back to list</button></a> </h3>
+                                        <h3 class="title"> Storage  <a href="/storage/"><button type="button" class="btn btn-warning-outline pull-right"><i class="fa fa-arrow-left"></i> Back to list</button></a> </h3>
                                     <hr>
                                     </div>
                                     <form role="form">
@@ -53,8 +53,8 @@
                                                 <label class="control-label">Download</label>
                                             </div>
                                             <div class="col-10">
-                                                <a href="/storage/{{ storage.id }}/download"><button type="button" class="btn btn-info-outline">Download</button></a>
-                                                <button type="button" id="generate_otu" onclick="request_url()" class="btn btn-success-outline">Share</button>
+                                                <a href="/storage/{{ storage.id }}/download"><button type="button" class="btn btn-info-outline"><i class="fa fa-cloud-download"></i> Download</button></a>
+                                                <button type="button" id="generate_otu" onclick="request_url()" class="btn btn-success-outline"><i class="fa fa-share"></i> Share</button>
 
                                             </div>
                                         </div>
@@ -88,7 +88,7 @@
                                         <div class="row form-group">
                                             <div class="col-12">
                                                 <a href="/admin/api/storage/{{ storage.id }}" style="text-decoration:none">
-                                                    <button type="button" class="btn btn-info-outline btn-lg btn-block"> Go to preference </button>
+                                                    <button type="button" class="btn btn-info-outline btn-lg btn-block"><i class="fa fa-arrow-right"></i> Go to preference </button>
                                                 </a>
                                             </div>
                                         </div>
@@ -96,7 +96,7 @@
                                         <div class="row form-group">
                                             <div class="col-12">
                                                 <a href="/storage/" style="text-decoration:none">
-                                                    <button type="button" class="btn btn-warning-outline btn-lg btn-block"> Back to list </button>
+                                                    <button type="button" class="btn btn-warning-outline btn-lg btn-block"><i class="fa fa-arrow-left"></i> Back to list </button>
                                                 </a>
                                             </div>
                                         </div>

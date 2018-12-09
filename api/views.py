@@ -21,6 +21,7 @@ from django.db.models.functions import TruncMonth, TruncDay
 from api.models import Crash, Storage, Fuzzer, OnetimeUrl
 from accounts.models import Profile
 from django.db.models import Count
+from django.utils.timezone import now
 from datetime import datetime, timedelta
 from functools import wraps
 import hashlib
@@ -166,6 +167,7 @@ def crash_upload(request):
 
     # Create new crash
     new_crash = Crash(owner=fuzzer.owner, fuzzer=fuzzer)
+    fuzzer.report_date = now()
     fuzzer.crash_cnt += 1
     fuzzer.save()
 
@@ -258,7 +260,7 @@ def fuzzer_ping(request):
         result['message'] = get_error_msg('wrong_apikey')
         return JsonResponse(result)
 
-    fuzzer.ping_date = datetime.now()
+    fuzzer.ping_date = now()
     fuzzer.save()
 
     result['result'] = True
